@@ -1,0 +1,43 @@
+8.7.1
+Algorithms 3 and 4 use subtle code that is easy to get wrong. Use the program verification techniques of Column 4 to argue the correctness of the code; specify the loop invariants carefully.
+--
+Algorithm 3:
+float maxsum3(l, u)
+	if (l > u)
+		return 0
+	if (l == u)
+		return max(0, x[l])
+	/* assert: l < u */
+	m = (l+u)/2
+	lmax = sum = 0
+	for (i = m; i >= l; i--)
+		/* invariant: sum = sum(x, i+1, m) AND lmax >= sum(x, i+1, m) */
+		sum += x[i]
+		lmax = max(lmax, sum)
+	/* assert:
+		i = l-1 && sum = sum(x, l, m) && lmax >= sum(x, l, m)
+		lmax holds the maximum sum in x[l..m]
+	*/
+	rmax = sum = 0
+	for i = (m, u]
+		sum += x[i]
+		rmax = max(rmax, sum)
+	return max(lmax+rmax, maxsum3(l, m), maxsum3(m+1, u))
+The code for algorithm 3 can be seen above, with some convenient comments. We begin by noting that the code path that makes recursive calls is reached only when l < u. The recursion stops when l >= u, and because m is the
+middle element, we are shrinking the size of the range inside each recursive call, so the program terminates.
+There are two loops inside maxsum3(), the code analysis is almost the same in both cases. For the first loop, the invariant is that the variable "sum" holds the sum of the elements of the subarray x[i+1..m]. We will assume
+that sum(x, i+1, m) is defined to be 0 when i+1 > m; this is required for the correct initialization of the invariant (because i is initialized to m, so i+1 > m). At each step in the loop, lmax holds the maximum sum ever seen
+so far. Because the loop terminates when i == l-1, the invariant tells us that "sum" holds the sum of the subarray x[l..m], and lmax holds the maximum sum ever seen. The whole left range was checked, so lmax always holds a
+correct value.
+
+Algorithm 4:
+maxsofar = 0
+maxendinghere = 0
+for i = [0, n)
+	/* invariant: maxendinghere = maxsum(x, j, i-1) AND maxsofar holds maximum sum */
+	maxendinghere = max(maxendinghere + x[i], 0)
+	maxsofar = max(maxsofar, maxendinghere)
+/* assert: i = n-1 && maxendinghere = maxsum(x, j, n-1) && ,axsofar holds maximum global sum */
+The loop invariant for this algorithm tells us that maxendinghere = maxsum(x, j, i-1), where j denotes the last reset point, i.e., the last known i for which maxendinghere+x[i] < 0. maxsofar keeps track of the current global
+maximum ever calculated. By the end of the loop, the invariant assures us that maxsofar is the maximum value in the set of all maxendinghere values considering every reset points j.
+

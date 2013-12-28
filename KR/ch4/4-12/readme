@@ -1,0 +1,13 @@
+Exercise 4-12
+Adapt the ideas of printd to write a recursive version of itoa; that is, convert an integer into a string by calling a 
+recursive routine.
+
+Brief explanation:
+--
+The logic is the same. If there are still any leftmost digits, recursively call itoa with n/10.
+If there are no leftmost digits, store n in the target string (this is where the recursion stops).
+Our recursive itoa function will return the next element in the array where the previous caller can write.
+As a consequence, the user will get the total number of chars printed.
+
+GCC command:
+gcc -o solution solution.c -Wall

@@ -1,0 +1,17 @@
+3.7.3
+Write a "banner" function that is given a capital letter as input and produces as output an array of characters that graphically depicts that letter.
+--
+The best approach to solve this problem is to store each letter's encoding in an array that is indexed by letter number (assuming there are 26 upper case letters).
+So, for example, "A" is letter 0, so the array must hold, in position 0, the representation of A. A can be graphically depicted like this:
+                  
+				  X
+				X   X
+               X     X
+			  X       X
+			 X         X
+			XXXXXXXXXXXXX
+		   X             X
+		  X               X
+		 X                 X
+		 
+We will store a multi-line character string with each letter's representation for each position of the array.

@@ -1,0 +1,39 @@
+8.7.9
+We defined the maximum subvector of an array of negative numbers to be zero, the sum of the empty subvector. Suppose that we had instead defined the maximum subvector to be the value of the largest element; how
+would you change the various programs?
+--
+The proposed solution is to set maxsofar to negative infinity, or to x[0] if negative infinity bothers you. I understand that the reasoning behind this is that if the maximum subvector of an array of negative numbers
+is the largest element, then maxsofar must be initialized to something that is actually less than any number, and that can only be negative infinity.
+
+This solution is plain wrong. Setting maxsofar to negative infinity has no effect in the overall algorithm, and I'll show you why using program verification techniques:
+
+maxsofar = -infinity
+maxendinghere = 0
+for i = [0, n)
+	maxendinghere = max(maxendinghere + x[i], 0)
+	/* assert: maxendinghere >= 0 */
+	maxsofar = max(maxsofar, maxendinghere)
+	/* assert: maxsofar >= 0 */
+
+Look carefully at the assertions. Because we compute max(maxendinghere + x[i], 0), then the new value for maxendinghere must be at least 0. This new value is later used for maxsofar, so this property is propagated to maxsofar.
+The impact of initializinig maxsofar to -infinity has no effect at all (well, it does: when n = 0, the algorithm returns -infinity, so we're basically saying that the maximum subvetor sum for an empty vector is -infinity).
+
+Instead, we could initialize maxsofar to -infinity and assign maxendinghere like this:
+	maxendinghere = max(maxendinghere + x[i], x[i])
+While this ensures that, after the loop, maxsofar will hold the largest value in an array of negative numbers, it will break all the cases where the array is not solely comprised of negative numbers and the maximum
+subvector sum starts in a position j > 0. You see, the former assignment maxendinghere = max(maxendinghere + x[i], 0) makes sure that the sum is reset to 0 whenever a negative sum is reached. Resetting it to 0 is the same
+as trying out a new, alternative sum beginning at position i, that is, when max(maxendinghere + x[i], 0) == 0, or, in other words, maxendinghere + x[i] < 0, then we start computing a NEW, fresh sum beginning at position i.
+That's exactly what's happening. So, if we change that to max(maxendinghere + x[i], x[i]), instead of starting a new sum at position i with initial value 0 (the neutral element for a sum), it kind of starts a biased sum, 
+because it will initialize it to x[i] instead of 0, and if x[i] is negative, the sum will not "look" as good as it is in reality, and we end up with wrong results.
+
+The problem is that we don't know if the whole vector holds negative numbers only, so we can't decide whether we want max(maxendinghere + x[i], 0) or max(maxendinghere + x[i], x[i]). How do we solve this?
+
+Well, I solved it by leaving the algorithm as is, and using 2 additional variables, maxneg and neg. maxneg will hold the greatest number lower than 0 ever read (that is, the negative number closest to 0), and neg will count
+how many negative integers were read. In the end of the loop, if "neg" is the same as n, the array size, then every position holds a negative number, so we return maxneg. Otherwise, we return maxsofar, just as we did before.
+This algorithm is still O(n), and it is perfectly valid for every situation where the original one was. The only difference is that the maximum subvector sum of a vector of negative numbers is equal to the largest element,
+just as we wanted.
+An alternative approach would be to iterate through the whole vector once to figure whether everything is less than 0 or not, storing the maximum negative value ever read. If it turns out that every number is negative, we
+return the maximum negative value stored, otherwise we run the normal algorithm. However, this approach has a slight performance issue, because it turns the algorithm into a O(2n) algorithm instead of O(n). There's no need
+to iterate twice.
+
+You can read more about this and the next exercise in my blog at http://codinghighway.com/?p=876

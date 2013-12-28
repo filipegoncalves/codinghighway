@@ -1,0 +1,29 @@
+Exercise 2-9
+In a two's complement number system, x &= (x-1) deletes the rightmost 1-bit in x. Explain why. Use this observation to write a faster version of bitcount.
+
+Brief explanation:
+--
+We have to consider two possibilities here:
+a) x ends with a 1
+b) x ends with a 0
+In case a), it is easy to see that x-1 is just x with the rightmost bit set to 0. So, x & (x-1) will just be x-1 and we get the rightmost bit set to 0.
+In case b), it might be slightly harder to understand, but if the rightmost bit of x is a 0, then x-1 will be x
+with every 0 bit switched to a 1 bit, starting on the least significant bits, untill a 1 is found, which is turned into a 0.
+For example, 11101011000 - 1 is 11101010111. Why is that? Because the previous number of a binary number ending with a 0 is a
+binary number filled with one or more 1 bits in the rightmost positions. When we increment it, like 10101111101111 + 1, we have
+to increment the next "free" position, i.e., the next 0 position, to turn it into a 1, and then all of the 1-bits to the right of that position
+are turned into 0. This is the way ANY base-n counting works, the only difference is that for base-2 you only have 0's and 1's.
+Now, because all the rightmost 0's are now 1's and the first 1 is now 0, the only part of x that remains the same is that on the left of the 1 that
+was turned into a 0. So, x & (x-1) will be the same as x untill the position where the first rightmost 1 bit was.
+So now we can see that in both cases, x & (x-1) will in fact delete the rightmost 1 bit of x.
+For the faster version of bitcount, we can use this result to write the following procedure:
+start a counter at 0
+while x is not 0
+	delete the rightmost 1 bit of x
+	increment the counter
+return the counter value
+Deleting the rightmost 1 bit of x corresponds to executing x &= x-1;
+If you have difficulties thinking in bases other than decimal, give a look at my article about it - http://codinghighway.com/?p=60 - or searching for "Formatting your mind for base b" in my blog.
+
+GCC command:
+gcc -o solution solution.c -Wall

@@ -1,0 +1,150 @@
+Filipe@Filipe-PC ~
+$ ./dclparser
+> int
+int
+
+> const int
+read-only int
+
+> int x
+x: int
+
+> unsigned int x
+x: unsigned int
+
+> unsigned long long *const*xpto
+xpto: pointer to read-only pointer to unsigned long long
+
+> void (*(*(*(*(*(*(*(*(*(*(*(*)())())())())())())())())())())(int (*(*)[])(char (*)(double [], int *const b))))
+pointer to function returning pointer to function returning pointer to function returning pointer to function returning pointer to function retur  ning pointer to function returning pointer to function returning pointer to function returning pointer to function returning pointer to function   returning pointer to function receiving:
+  pointer to array of  pointer to function receiving:
+    pointer to function receiving:
+      array of  double
+      b: read-only pointer to int
+    and returning char
+  and returning int
+and returning pointer to void
+
+> void (*(*(*(*(*(*(*(*(*(*(*(*())())())())())())())())())())(int (*(*)[])(char (*)(double [], int * const volatile)))))
+function returning pointer to function returning pointer to function returning pointer to function returning pointer to function returning pointe  r to function returning pointer to function returning pointer to function returning pointer to function returning pointer to function returning p  ointer to function receiving:
+  pointer to array of  pointer to function receiving:
+    pointer to function receiving:
+      array of  double
+      volatile read-only pointer to int
+    and returning char
+  and returning int
+and returning pointer to pointer to void
+
+> char **a
+a: pointer to pointer to char
+
+> char **(*(*(*x)[100])(int))[50]
+x: pointer to array of 100 pointer to function receiving:
+  int
+and returning pointer to array of 50 pointer to pointer to char
+
+> char **(*(*(*x)[100])(int, char *, double *const**, void (*)(int **, char [])))[50]
+x: pointer to array of 100 pointer to function receiving:
+  int
+  pointer to char
+  pointer to pointer to read-only pointer to double
+  pointer to function receiving:
+    pointer to pointer to int
+    array of  char
+  and returning void
+and returning pointer to array of 50 pointer to pointer to char
+
+> char **(*(*(*)[100])(int, char *, double *const**, void (*)(int **, char [])))[50]
+pointer to array of 100 pointer to function receiving:
+  int
+  pointer to char
+  pointer to pointer to read-only pointer to double
+  pointer to function receiving:
+    pointer to pointer to int
+    array of  char
+  and returning void
+and returning pointer to array of 50 pointer to pointer to char
+
+> void (*signal(int, void (*)(int)))(int)
+signal: function receiving:
+  int
+  pointer to function receiving:
+    int
+  and returning void
+and returning pointer to function receiving:
+  int
+and returning void
+
+> unsigned const * const x
+x: read-only pointer to unsigned read-only
+
+> const int a
+a: read-only int
+
+> int volatile * const x[100][200]
+x: array of 100 array of 200 read-only pointer to int volatile
+
+> int volatile * const [100][200]
+array of 100 array of 200 read-only pointer to int volatile
+
+> char (*(*x())[])()
+x: function returning pointer to array of  pointer to function returning char
+
+> char (*(*())[])()
+function returning pointer to array of  pointer to function returning char
+
+> int (*daytab)[13]
+daytab: pointer to array of 13 int
+
+> int *daytab[13]
+daytab: array of 13 pointer to int
+
+> void *comp()
+comp: function returning pointer to void
+
+> void (*comp)()
+comp: pointer to function returning void
+
+> char (*(*x[3])())[5]
+x: array of 3 pointer to function returning pointer to array of 5 char
+
+> char (*(*(*a)(int (*)(char, int, float), char **))[12])(int)
+a: pointer to function receiving:
+  pointer to function receiving:
+    char
+    int
+    float
+  and returning int
+  pointer to pointer to char
+and returning pointer to array of 12 pointer to function receiving:
+  int
+and returning char
+
+> int *(**const*a)[50][100][200]
+a: pointer to read-only pointer to pointer to array of 50 array of 100 array of 200 pointer to int
+
+> unsigned const char volatile (*const(*volatile(*volatile const a)(unsigned int (*const)(const char, int, float), char *const*))[12])(int (**)[50])
+a: read-only volatile pointer to function receiving:
+  read-only pointer to function receiving:
+    read-only char
+    int
+    float
+  and returning unsigned int
+  pointer to read-only pointer to char
+and returning volatile pointer to array of 12 read-only pointer to function receiving:
+  pointer to pointer to array of 50 int
+and returning unsigned read-only char volatile
+
+> unsigned const char volatile (*const(*volatile(*volatile const)(unsigned int (*const)(const char, int, float), char *const*))[12])(int (**)[50])
+read-only volatile pointer to function receiving:
+  read-only pointer to function receiving:
+    read-only char
+    int
+    float
+  and returning unsigned int
+  pointer to read-only pointer to char
+and returning volatile pointer to array of 12 read-only pointer to function receiving:
+  pointer to pointer to array of 50 int
+and returning unsigned read-only char volatile
+
+>

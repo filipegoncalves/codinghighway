@@ -1,0 +1,14 @@
+Exercise 7-1
+Write a program that converts upper case to lower or lower case to upper, depending on the name it is invoked with, as found in argv[0].
+
+Brief explanation:
+--
+This is easy. We just have to call the right functions according to the program name. Let's make the convention that if the program is named
+"lower", we will output lower case chars, otherwise we will output upper case.
+To turn this exercise into something a little more interesting, we will make use of pointers to functions. This allows us to test for the program name
+once (in the beginning), to set the pointer to the right function, instead of having an IF inside the while loop.
+We have to be careful with argv[0], because it will include the whole path used to call the program. We start scanning argv[0] from the end, untill either
+we find a /, or the beginning of the string is reached (in which case there's no absolute path; meaning the current directory is probably in $PATH).
+
+GCC command:
+gcc -o solution solution.c -Wall

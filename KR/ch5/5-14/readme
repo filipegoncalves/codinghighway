@@ -1,0 +1,32 @@
+Exercise 5-14
+Modify the sort program to handle a -r flag, which indicates sorting in reverse (decreasing) order.
+Be sure that -r works with -n.
+
+Brief explanation:
+--
+First, a generic explanation:
+The exercises 5-14 to 5-17 mainly consist of building new compare functions. The only change made on qsort is that the comparison function
+has now some optional arguments, so "comp" type is now int (*)(void *, void *, ...).
+The general solution works like this:
+Qsort only knows about comparison functions. Comparison functions now take optional arguments that will be treated as initializers.
+This means that a comparison function can have internal state (by using static variables). Comparison functions must be initialized
+before passing them to qsort, and to do so, the first 2 arguments are NULL, and the optional arguments are whatever is needed to
+initialize that function. If this seems too generic, don't worry, it will be crystal clear when I talk specifically about how I implemented
+each exercise.
+For example, the reverse order function is really just a "handler" function that returns the negative of the original function that was to be used. 
+It remembers the original function because it's part of its internal state.
+The drawback of this solution is that we need wrappers for standard functions like strcmp and strcasecmp. We cannot pass pointers to those because
+their pointer is of type int (*)(const char*, const char*). We wouldn't be able to do it anyway, because they declare their arguments as const, so it's really
+not a big deal.
+Note that this solution scales well. Tomorrow, if you add a new comparison function, it is very easy to use this new function together with "modifiers" like
+reverse_order. It is not an obvious solution (and it was not the way I implemented it initially), but it surely is one of the best you can find.
+
+Now, for this specific exercise:
+We will create a function reverse_order that shall be initialized with the original function, and returns the negative of what the original function returns.
+For example, if we were using numeric order (-n), then the original comp function would be numcmp. Therefore, before calling qsort, we call reverse_order
+and pass it (NULL, NULL, numcmp). This initializes reverse_order: inside reverse_order, there's a static variable to hold the internal state of the function.
+reverse_order will "remember" what the original ordering was, and so it will induce the opposite ordering by returning the negative of the original function.
+qsort calls reverse_order, which in turn will call the original function stored in its internal state (numcmp in the example), and return the negative of that.
+
+GCC command:
+gcc -o solution solution.c -Wall

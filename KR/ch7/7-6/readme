@@ -1,0 +1,14 @@
+Exercise 7-6
+Write a program to compare two files, printing the first line where they differ.
+
+Brief explanation:
+--
+Our program will open both files, whose name will be passed inside argv, and keep looping through every
+pair of lines in the two files untill either one of the file reaches the end or a different line is found.
+To capture the lines, we will use fgets function.
+Note that this program doesn't care about blanks; if the first different line is an empty line in one file
+(that is, a line consisting of the newline character only), the printed result will be difficult to understand
+because the program will print an empty line.
+
+GCC command:
+gcc -o solution solution.c -Wall

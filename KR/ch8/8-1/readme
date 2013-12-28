@@ -1,0 +1,15 @@
+Exercise 8-1
+Rewrite the program cat from Chapter 7 using read, write, open and close instead of their standard library equivalents. Perform experiments to determine the relative
+speeds of the two versions.
+
+Brief explanation:
+--
+This is pretty much the same cat program as defined previously in Chapter 7, except that filecopy now receives integers for the file descriptors, and the system calls
+open, read, write and close are used instead of the equivalent standard library ones.
+To use system calls, you have to make sure to include unistd.h, which defines the API of the operating system, if it is POSIX compliant. fcntl.h inclues the files manipulation
+functions.
+This version of cat is faster than the other that uses the standard library functions. You can read a detailed explanation about this in my blog at http://codinghighway.com/?p=620
+(or search for "when stdio's getc() is slower than the corresponding syscall read()" in codinghighway.com).
+
+GCC command:
+gcc -o solution solution.c -Wall

@@ -1,0 +1,24 @@
+Filipe Gonçalves
+Oeiras, Portugal
+Last reviewed: August 2013
+
+These are my K&R exercise resolutions. I have carefully tested and reviewed all of them. I went through all the exercises twice.
+I've released this code with educational purposes. You are free to use it for whatever you want.
+
+The directories structure is self-explanatory. For each exercise, there's a dedicated readme file with the exercise description, a brief explanation on how I solved it,
+and the command to compile it.
+
+My code is not error free, everyone makes mistakes. If you think you detected a bug in my code, feel free to e-mail me to 010010.bin@gmail.com - I will be glad to hear why you think my code is wrong,
+and how it should be fixed. It will be a pleasure to hear feedback from other dedicated programmers and learn from them.
+
+Some of the exercises have a set of tests to validate the program. This is useful if you want to test your solutions against mine, or to test the impact of a change in my code.
+Every exercise for which I included automatic tests has got a folder named "tests". To run the tests, you should place the script "runtests", from the main root folder, inside the "tests" folder of the
+specific exercise you want to test. Then you must compile the program in "tests" parent folder and call it "solution". All you have to do now is enter the tests folder and run the script. The script
+will go through every input file, run the program with it, and compare its output to the expected output. It uses diff to do that. The script was coded in Perl, so you must have perl installed in your system
+before running this.
+Tests have been provided mostly for chapter 1, for exercises that I found a little bit harder.
+
+Finally, there's a file, misc.c, where I placed some misc code. It's just a bunch of functions that I made for testing purposes, or because I need them or needed them in previous versions of my solutions.
+Some of these functions are not used anywhere, but I decided to let it stay because they are so beautiful :)
+
+Please remember to visit my blog at http://www.codinghighway.com

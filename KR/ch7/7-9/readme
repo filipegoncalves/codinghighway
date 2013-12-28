@@ -1,0 +1,22 @@
+Exercise 7-9
+Functions like isupper can be implemented to save space or to save time. Explore both possibilities.
+
+Brief explanation:
+--
+There is not much to say in this exercise. We can implement isupper either using a macro definition, or as a normal
+function.
+The macro definition is something like
+#define isupper(a) ((a) >= 'A' && (a) <= 'Z')
+And the function is:
+int isupper(char c) {
+	return c >= 'A' && c <= 'Z';
+}
+The macro saves time because there is no function call overhead, the macro expression is replaced inline in compile time. The disadvantage is that
+the argument is evaluated more than once, so you have to be carefull with things like isupper(*c++).
+The function saves space because the code for isupper is not copied into the final program everytime an isupper() call is found; instead, control will
+enter our function, and there are no problems with arguments being evaluated more than once. Also, the compiler is able to do parameter type checking.
+In practice, isupper is defined as a macro in ctype.h, and it is implemented using a table lookup method: an array of bit fields for each valid character
+known to the machine. The array is indexed by the char code, and each bit stored in that array position has a different meaning (for example, the first bit says
+whether it's a digit, the second says whether it's an upper case letter, etc). Note that things like c >= 'A' && c <= 'Z' work in a very limited scope of charsets
+(it works on ASCII encoding), other encodings like EBCDIC have upper case letters for which c >= 'A' && c <= 'Z' is false. ctype.h defines portable versions of this
+kind of constructs, so you can safely use them without portability issues.

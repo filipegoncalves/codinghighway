@@ -1,0 +1,12 @@
+Exercise 3-6
+Write a version of itoa that accepts three arguments instead of two. The third argument is a minimum field width; the converted number must be padded with blanks on the left
+if necessary to make it wide enough.
+
+Brief explanation:
+--
+This is very similar to our first itoa version. The only difference is that we will keep record of how many digits were converted inside the loop, so that when we get out of the loop,
+we know whether or not we need to pad the number on the right before calling revert.
+Again, we will assume that s holds enough space for everything.
+
+GCC command:
+gcc -o solution solution.c -Wall

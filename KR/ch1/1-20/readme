@@ -1,0 +1,17 @@
+Exercise 1-20
+Write a program detab that replaces tabs in the input with the proper number of blanks to space to the next tab stop. Assume a fixed set of tab stops, say every n
+columns. Should n be a variable or a symbolic parameter?
+
+Brief explanation:
+--
+n should be a constant, because it makes sense that n is immutable throughout the program's life.
+We need to keep track of the current text position that we're reading. This position will vary between 0 and NDETAB-1, that is, we will be working on modulus NDETAB arithmetic.
+We will assume that column count begins at 1, and NDETAB >=1.
+So, in this example text:
+abaabab
+The first 'a' is column 1, the 'b' afterwards is column 2, etc. Having a tab stop value of 2, for example, means that every 2 column is a possible position to stop
+a tab expansion. So, position 2, 4, 6, etc, are all the places where a tab stop is present.
+All we have to do is to read chars, updating our current position untill we read a tab. When that happens, we write NDETAB-position tabs before continuing reading the input.
+
+GCC command:
+gcc -o solution solution.c -Wall

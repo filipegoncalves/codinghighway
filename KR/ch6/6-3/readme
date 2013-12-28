@@ -1,0 +1,23 @@
+Exercise 6-3
+Write a cross-referencer that prints a list of all words in a document, and, for each word, a list of the line numbers on which it occurs. Remove noise
+words like "the," "and," and so on.
+
+Brief explanation:
+--
+Our procedure will work like this:
+- read a line, and increment line counter
+- process that line, adding every word in that line to a binary tree (or if it's already there, adding the current line number)
+To keep line numbers, we have to change our tree node structure. A node will be a word with a linked list of line numbers where it occurs.
+The linked list consists of a structure with a line number and a pointer to the next element on the list (self-referential structure).
+To read a line, we will use getline(), and the line processing function will ignore non-alphanumeric characters.
+A word is assumed to be a set of alphanumeric characters or ' surrounded by something not alphanumeric (if we didn't consider ', things like "don't" would be 2 words). 
+This means that things like 2013-04-20 is 3 words, and it also means that we don't have to worry about noise words because punctuation is not alphanumeric. Words like "the," will be parsed as "the".
+Words are compared using strcasecmp, so "ThE" and "the" are considered the same word.
+Note that when inserting a line in a list, we insert it in the beginning; this ensures O(1) insertion time, rather than O(n) if it was inserted in the end. However, by doing that, we don't know whether the
+line we're inserting is already there, so line X might be printed more than once if a word shows up more than once in that line.
+Thus, we will print lines in decreasing order, but it's OK, nothing in the exercise says we can't.
+Note that when we create a new leaf on our tree, we have to initialize the line_list field.
+
+
+GCC command:
+gcc -o solution solution.c -Wall

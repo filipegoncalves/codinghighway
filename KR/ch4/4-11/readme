@@ -1,0 +1,11 @@
+Exercise 4-11
+Modify getop so that it doesn't need to use ungetch. Hint: use an internal static variable.
+
+Brief explanation:
+--
+The hint is good enough. We will use a static char variable to hold the last character that was accidentally read.
+With this approach, getop's initial structure must be changed a little bit: we can't have s[0] = c = getch() in the initial loop.
+Also, in the end, instead of ungetch(c), we will instead assign c to our buffer variable.
+
+GCC command:
+gcc -o solution getop.c main.c stack.c -Wall

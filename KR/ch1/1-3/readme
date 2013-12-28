@@ -1,0 +1,9 @@
+Exercise 1-3
+Modify the temperature conversion program to print a heading above the table.
+
+Brief explanation:
+--
+We just need to call printf with our header before entering the main loop that prints the table.
+
+GCC command:
+gcc -o solution solution.c -Wall

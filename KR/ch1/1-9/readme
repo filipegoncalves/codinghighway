@@ -1,0 +1,16 @@
+Exercise 1-9
+Write a program to copy its input to its output, replacing each string of one or more blanks by a single blank.
+
+Brief explanation:
+--
+The function is simple: while the character read is a blank, just keep getting more chars. When the char returned from getchar()
+is not a blank, we have to know if we saw a blank before. We will store that decision inside a variable. If we read blanks before, we print
+a blank and the character returned. Otherwise, we just print the character.
+
+GCC command:
+gcc -o solution solution.c -Wall
+
+How to test:
+cd tests
+./runtests
+If there's no output, every test was successfull.

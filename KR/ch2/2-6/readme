@@ -1,0 +1,17 @@
+Exercise 2-6
+Write a function setbits(x,p,n,y) that returns x with the n bits that begin at position p set to the rightmost n bits of y, leaving the other bits unchanged.
+
+Brief explanation:
+--
+We will assume n > 0, and p >= 0, i.e., p = 0 is the rightmost position. The rightmost n bits of y will be copied to positions p down to p-n+1, so n must be >= p+1.
+The first step is to clear bits from p to p-n+1 on x. To do this, we use a mask to clear the bits we will change. The right mask for this is ~(~(~0 << n) << p-n+1).
+Where does that come from? Well, ~(~0 << n) creates a number that is composed of n trailing bits set to 1, and all the others set to 0. So, the leftmost "1" bit is in position
+n-1 (because we have n bits, and counting starts at 0 in the right), but it should be in position p. So, it has to be moved p-(n-1) = p-n+1 bits to the left, hence the final left shift.
+Now, we have to negate everything to turn these 1's into 0's and all the other 0's into 1's. This makes the necessary mask to clear the bits that will be changed in x.
+A similar approach is taken to deal with y: to obtain the rightmost n bits of y, we merely use the mask ~(~0 << n) and then shift everything by p-n+1 positions, for the same reason.
+This is given by (y & ~(~0 << n)) << p-n+1
+Finally, we OR 2 quantities and return the result.
+Note that because we're dealing with left shifts only, there's no need to use unsigned casts.
+
+GCC command:
+gcc -o solution solution.c -Wall

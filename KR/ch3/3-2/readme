@@ -1,0 +1,16 @@
+Exercise 3-2
+Write a function escape(s,t) that converts characters like newline and tab into visible escape sequences like \n and \t as it
+copies the string t to s. Use a switch. Write a function for the other direction as well, converting escape sequences into the
+real characters.
+
+Brief explanation:
+--
+We will assume s has enough memory space to hold the longer resulting string with the escape sequences expanded.
+The escape function will work as follows: we have two index values, i and j, initialized to 0. i is the index for string t,
+and j is the index for string s. We loop through t, copying its content to s, and if we read something that needs to be escaped,
+like \t or \n, we copy 2 characters to s.
+The function that escapes back is very similar, it will work the same way, but instead, when a \ is read, we need to take a look at the next
+character and write its escaped version into the target string.
+
+GCC command:
+gcc -o solution solution.c -Wall

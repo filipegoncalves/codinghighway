@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+/* This is a sample comment. It does not span lines. */
+
+size_t size_t_unit() {
+	/* sizeof(char) is always 1 */
+	size_t res = 0;
+	unsigned char c = ~0;
+	for (; c; res++, c >>= 1);
+	return res;
+}
+
+void printbinary(int n) {
+	int i;
+	size_t bits = sizeof(int)*size_t_unit();
+	unsigned int j = 1 << (bits-1);
+	for (i = 0; i < bits; i++, j >>= 1) {
+		printf("%d", (j&n ? 1 : 0));
+	}
+	printf("\n");
+}
+
+int main() {
+	printbinary(~0);
+	return 0;
+}

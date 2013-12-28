@@ -1,0 +1,18 @@
+4.6.8
+Binary search is fundamentally faster than sequential search: to search an n-element table, it makes roughly log(n) comparisons while sequential search makes roughly n/2. While it is often fast enough,
+in a few cases binary search must be made faster yet. Although you can't reduce the logarithmic number of comparisons made by the algorithm, can you rewrite the binary search code to be faster? For definiteness,
+assume that you are to search a sorted table of n = 1000 integers.
+--
+This problem is described and analysed in Section 9.3. We exploit the fact that n = 1000 to build a hardcoded binary search where the range size is always a power of two.
+
+Note that this is an extreme case where we don't care about code readability, simplicity and maintainability. You should never have code like this in real world programs. There is often a trade off to decide between
+readability and efficiency; they usually are opposite goals, and it is your job to find an average point in the middle.
+
+For more information on this exercise, please refer to Section 9.3.
+
+NOTE: There's a small bug in the binary search code on Section 9.3. Every 3 versions of the binary search algorithm presented in pages 94 and 95 have this final if clause:
+	if p > 1000 || x[p] != t
+This should be:
+	if p >= 1000 || x[p] != t
+Since p = 1000 would yield an out-of-bounds array access (and, in fact, it doesn't even have to be >=, it could be ==). I tried reporting this error, and although I found the errata online, no contact information
+was provided anywhere (I even search for the author's name on google and found several pages about him, but no e-mail!), so, sadly, I can't do anything about it.

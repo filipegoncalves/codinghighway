@@ -1,0 +1,11 @@
+Exercise 5-6
+Rewrite appropriate programs from earlier chapters and exercises with pointers instead of array indexing. Good possibilities include getline (Chapters 1 and 4),
+atoi, itoa, and their variants (Chapters 2, 3, and 4), reverse (Chapter 3), and strindex and getop (Chapter 4).
+
+Brief explanation:
+--
+Using pointers instead of arrays is very straight forward in these examples, it's a matter of notation. There's nothing new to cover here.
+The code should be self-explanatory for you at this point; if it isn't, you need to read again the pages about pointers.
+
+GCC command:
+gcc -o solution solution.c getch.c -Wall

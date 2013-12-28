@@ -1,0 +1,17 @@
+Exercise 1-12
+Write a program that prints its input one word per line
+
+Brief explanation:
+--
+The behaviour is very similar to the previous program. However, this time we will not need any additional variables. We just have to decide what to print after reading
+the input.
+If you're not used to escaping sequences, you might find them a little confusing in the beginning. Just remember that special characters are escaped with \, including \ itself, so if we want
+to print a literal \, we have to pass \\ to printf. Therefore, if we want to print \\, we must pass \\\\ to printf.
+
+GCC command:
+gcc -o solution solution.c -Wall
+
+How to test:
+cd tests
+./runtests
+If there's no output, every test was successfull.

@@ -1,0 +1,21 @@
+Exercise 7-7
+Modify the pattern finding program of Chapter 5 to takes its input from a set of named files or, if no files are named as arguments, from the
+standard input. Should the file name be printed when a matching line is found?
+
+Brief explanation:
+--
+When reading from files provided as arguments, we definitely must print the file name (and line number) when a match is found; otherwise, the user would
+have no clue whatsover where a match was found.
+Our approach is similar to the one used in this chapter: if there are arguments, we use them to open the files. If there aren't, we just default to use the
+input file stdin.
+The progam is basically the same as the one presented in chapter 5, except that we need to use fgets instead of getline.
+We will assume that the first argument is always the pattern to search for, optionally followed by the set of files to search.
+For example, this:
+find hello
+Will print every line containing "hello" that is read from stdin.
+This:
+find hello temp.x program.c
+Will find and print every line with "hello" in temp.x and program.c
+
+GCC command:
+gcc -o solution solution.c -Wall

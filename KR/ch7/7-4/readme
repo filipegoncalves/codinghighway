@@ -1,0 +1,12 @@
+Exercise 7-4
+Write a private version of scanf analogous to minprintf from the previous section.
+
+Brief explanation:
+--
+The code is similar to our minprintf version. We will only allow for modifiers %d, %f, %s and %c.
+Note that the real scanf behaviour (as well as this minimal scanf behaviour) may seem a little tricky for those
+who are new to using it. The book is not very clear on how scanf works. If you don't understand my implementation,
+please refer to my article about scanf at http://codinghighway.com/?p=422 (or search for "scanf survival guide" in codinghighway.com). It's worth reading it!
+
+GCC command:
+gcc -o solution solution.c getch.c -Wall

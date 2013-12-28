@@ -1,0 +1,23 @@
+Exercise 2-4
+Write an alternate version of squeeze(s1,s2) that deletes each character in s1 that matches any character in the string s2.
+
+Brief explanation:
+--
+Cool exercise! First, we will parse the string s2 and store it into a char array that will serve as a buffer. This way, we can avoid traversing the whole string
+on each iteration when we're reading s1.
+After storing s2 chars, we will go through the string s1, reading the buffer we created before. If the char in the current position of s1 is in the buffer, we don't
+insert it. If it isn't, we can keep it.
+For the buffer part, there's a slight little issue we have to think about if we want this code to be really platform independent.
+Because some machines use signed chars to represent characters and others don't, we must be carefull because if for some reason the machine where this code will execute
+uses signed chars, we can end up trying to index a negative array position. How can we solve this? Using the limits.h header, we explicitly declare an unsigned char array of
+size UCHAR_MAX+1, and then we can index the array like this: array[(unsigned char) s2[i]]. That is, we grab the char on position i from s2, we convert it to unsigned, and then
+we access the array in that position. Why is this legal? Because the cast does nothing to the internal representation of s2[i]. It merely tells the compiler to stop interpreting it
+as a signed char, and to interpret it as an unsigned. This means that the leftmost bit is not interpreted as being the sign bit - it's just another bit that is part of the char value.
+This works because positive signed chars representation does not overlap with negative signed chars representation: positive chars always have the leftmost bit set to 0, and negative ones
+always have the leftmost bit set to 1. Also, UCHAR_MAX will be the same as |SCHAR_MIN|+SCHAR_MAX; in particular, this implies that you will never index a position off the array limits.
+So, voila, the code magically works and is highly portable!
+
+If you want to read more about this and learn great stuff, read my article at http://codinghighway.com/?p=307, or simply search for "<ctype.h>, gcc warnings, and other char issues" in the search box on the main page.
+
+GCC command:
+gcc -o solution solution.c -Wall

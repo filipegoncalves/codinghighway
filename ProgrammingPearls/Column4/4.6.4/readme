@@ -1,0 +1,11 @@
+4.6.4
+Add fictitious "timing variables" to your binary search program to count the number of comparisons it makes, and use program verification techniques to prove that its run time is indeed logarithmic.
+--
+The runtime is logarithmic because each recursive call computes the middle value of a given range, m = (l+u)/2, and it calls itself with that value either as a new upper or lower range bound. In a range with n elements,
+how many times can we split it into two halves? Well, we can split it i times, where i is the number that makes the integer division n/2^i equal to 0. Solving for this, we have:
+
+log(n/2^i) = 1 <=> log(n) - i = 1 <=> i = log(n) - 1
+
+And, thus, we have O(log(n)) comparisons, because for each value of m we make O(1) comparisons.
+
+This can be checked empirically by using a variable that is incremented for each comparison made. My solution does so with the help of a global variable called comps.

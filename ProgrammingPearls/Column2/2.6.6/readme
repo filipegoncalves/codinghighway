@@ -1,0 +1,12 @@
+2.6.6
+In the late 1970's, Bell Labs deployed a "user-operated directory assistance" program that allowed employees to look up a number in a company telephone directory using a standard push-button telephone.
+To find the number of the designer of the system, Mike Lesk, one pressed "LESK*M*" (that is, "5375*6*") and the system spoke his number. Such services are now ubiquitous. One problem that arises in such systems
+is that different names may have the same push-button encoding; when this happens in Lesk's system, it asks the user for more information. Given a large file of names, such as a standard metropolitan telephone
+directory, how would you locate these "false matches"? (When Lesk did this experiment on such telephone directories, he found that the incidence of false matches was just 0.2 percent.) How would you implement the
+function that is given a push-button encoding of a name and returns the set of possible matching names?
+--
+This is similar to the anagram problem described in this column. Each name will have a signature that corresponds to its telephone buttons combination. So, for example, "LESK*M*" has the signature 5375*6*.
+For every name we read, we can compute its signature, and store that name, along with its phone number, in a hash table that indexes a list of pairs (name, phone) by signature. Thus, every name with the same signature is
+inside the list stored in a known hash table entry.
+Locating false matches is very easy: given the user input, such as 5375*6*, we use the hash table to find every name that has that signature. If there's only one name in the list, there are no false matches. Otherwise,
+the list itself contains every false match, and we can ask the user which name it wants to select.

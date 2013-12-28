@@ -1,0 +1,16 @@
+Exercise 1-12
+Write a program that prints its input one word per line
+
+Brief explanation:
+--
+We can use the word count program with a few changes. When we are in state IN and read a blank, then we print a newline before setting state to OUT,
+because it means we just finished reading a word, so it's time to prepare for the next word by placing the cursor in the next line (we just want one word per line).
+On the other hand, if what we just read is not a blank, then we're going to want to print it, because it means we're somewhere inside a word.
+
+GCC command:
+gcc -o solution solution.c -Wall
+
+How to test:
+cd tests
+./runtests
+If there's no output, every test was successfull.

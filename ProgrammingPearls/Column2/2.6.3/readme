@@ -1,0 +1,20 @@
+2.6.3
+We skimmed two vector rotation algorithms that require subtle code; implement each as a program. How does the greatest common divisor of i and n appear in each program?
+--
+The program has been implemented using the reverse algorithm and the partitioning algorithm (the one that breaks b into b_l and b_r). To compile using the reverse algorithm, you must pass
+-DUSE_REVERSE to gcc. If you don't do it, it will compile using the partitioning technique by default.
+
+The reverse() approach is very easy to implement. The function reverse does most of the job. It receives two parameters, i and j, that correspond to the lower and upper bound positions where we want to reverse the array.
+So, for example, reverse(2,5) will reverse the array from positions 2 to 5 (2 and 5 included). Assuming our array is "ab", and the final result expected is "ba", we start by reversing a. To do so, we just have to call
+reverse(0, i-1). Now, our array is "a_rb". Next, we reverse b. b is stored in positions i to n-1, so we call reverse(i, n-1), and we get "a_rb_r". Finally, we reverse the whole array, which goes from 0 to n-1, to get
+"ba".
+
+The other approach is a little more complex. An auxiliary swap function, swap(), was defined, and it receives 3 parameters: p1, p2 and l. p1 and p2 are index positions of the beginning of each block to be swapped, and l is the
+length of the blocks. The 2 blocks must be the same length.
+First of all, it is important to mention that the base case that will stop recursion is when "a" and "b" have exactly the same length. When that happens, we just need to swap these 2 blocks and we're done. 
+The case in which length(a) < length(b) corresponds to i < n-i. In this case, we know that we have to split b into b_l and b_r. b_r must be the same length as a, so its first character is in position n-i. Because the
+length of a is i, we swap the "a" block with the "b_r" block, starting on position n-i, and indicate to our swap() function that the blocks length is i. The resulting array is "b_rb_la", so now we have to recursively rotate
+"b_rb_l" using the same method. If b_r is i characters long (the same as a), then we want to rotate "b_rb_l" i positions, and the new size is n-i.
+The case in which length(a) > length(b) is similar, but now we have to partition "a". The array becomes "a_la_rb", and the first step is to bring it to "a_lba_r", so that a_r stays in its final position, that is, we want to
+swap a_r with b. b is n-i characters long and "a" is i, so a_r starts at position i-(n-i) = i-n+i, and b starts at i, so we swap(i-n+i, i, n-i). Now, we have "a_lba_r". a_l is what remains from the original i characters;
+we took n-i characters for a_r, so now we have i-n+i characters in a_l. a_l starts on position 0, meaning, we want to rotate "a_lb" by i-n+i positions, and the array length is i-n+i+n-i = i.

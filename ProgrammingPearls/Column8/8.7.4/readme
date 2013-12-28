@@ -1,0 +1,4 @@
+8.7.4
+If the elements in the input array are random real numbers chosen uniformly from [-1, 1], what is the expected value of the maximum subvector?
+--
+0, because the expected value of a uniform distribution is equal to its average point.

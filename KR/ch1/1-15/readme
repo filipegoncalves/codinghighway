@@ -1,0 +1,9 @@
+Exercise 1-15
+Rewrite the temperature conversion program of Section 1.2 to use a function for conversion.
+
+Brief explanation:
+--
+This is plain easy. We just have to define the conversion function and use it in the original function.
+
+GCC command:
+gcc -o solution solution.c -Wall

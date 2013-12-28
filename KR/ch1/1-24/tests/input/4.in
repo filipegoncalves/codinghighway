@@ -1,0 +1,10 @@
+#include <stdio.h>
+
+/* Pointers party! */
+
+char (*(*a[15])(char (*)(float, float), char **, double))(float, float);
+
+int main(int argc, char *argv[])/*let's include some valid code now*/{
+	printf("%zu\n", sizeof((((((((((((**a)((*a[4])(NULL, NULL, 0), NULL, 0)))))))))))));
+	return 0;
+}

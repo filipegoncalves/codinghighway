@@ -1,0 +1,46 @@
+Exercise 5-20
+Modify undcl so that it does not add redundant parentheses to declarations.
+
+Brief explanation:
+--
+Expand dcl to handle declarations with function argument types, qualifiers like const, and so on.
+--
+As mentioned in page 122, the full declarators grammar is available in Appendix A, Section 8.5 (bottom of page 215).
+The grammar is much more richer than the one we've been using. We will not be implementing this whole new grammar.
+To allow for function parameters, we must modify the original grammar. The new grammar is the same as the original one,
+except for the function declaration, which takes an optional arguments list:
+dirdcl: dirdcl(p-list_opt)
+		...
+p-list: p-dcl
+		p-list, p-dcl
+p-dcl: t-qual_opt type dcl
+t-qual: const
+		volatile
+type: void
+	  char
+	  int
+	  ...
+
+This is a simplified version of the grammar presented in Appendix A that we can use to allow for functions with arguments.
+Note that the official grammar allows for type qualifiers mixed inside pointer declarations, as in char **const* x. Our grammar
+doesn't allow this, we only allow things like const char ***x, which is different.
+Also, note that type qualifiers are only allowed inside function parameters declarations. Our parser will be confused if you try
+something like const char *x.
+We will only allow abstract declarations inside functions parameters, that is, without mentioning the object's name, like int *, instead of int *x.
+For this, we must add an empty production in dcl's definition. This was done by adding an "else return;" instruction in dirdcl when a '(' nor a NAME
+is read. This has got some advantages: it eliminates error checking, and it forces us to assume that when we read something that is not a name nor a '(',
+we have finished processing one of the parameters inside a function declaration. If the input is mal-formed, this basically messes it all up.
+To allow for function parameters, all we have to do is parse the argument list in the same place where we parse BRACKETS and PARENS.
+There will be a new function, plist(), to do this. plist() calls tq_chkl to see if there are optional type qualifiers (const or volatile), and then
+proceeds to processing the rest of the declaration as a dcl. It keeps doing that while the next token is ',', meaning, it loops through all parameters.
+Note that this is a very rudimentary program, it doesn't do any kind of error checking and recovering, and it makes heavy use of functions like
+strcat, which can have huge efficiency penalties if the input is really big (you can read my post about Shlemiel the Painter's Algorithm: http://codinghighway.com/?p=137)
+Also, note that this version of dcl can make things even more confusing. I'd rather read this:
+int *x(const char*, volatile int, const char *(*)(int, int (*)(int, int)))
+Than this:
+x:  function receiving pointer to const char and volatile int and pointer to function receiving int and pointer to function receiving int and int and returning int 
+and returning pointer to const char and returning pointer to int
+But nevertheless, it's a cool exercise and it uses very important concepts like recursion and grammars.
+
+GCC command:
+gcc -o solution main.c getch.c -Wall

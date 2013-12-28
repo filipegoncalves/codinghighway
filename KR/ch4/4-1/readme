@@ -1,0 +1,11 @@
+Exercise 4-1
+Write the function strrindex(s,t), which returns the position of the rightmost ocurrence of t in s, or -1 if there is none.
+
+Brief explanation:
+--
+This is pretty similar to the original strindex function shown before. However, instead of returning immediatly inside the outermost
+for loop when we find a match, we simply keep looking for more matches untill the end of the string.
+So, we will only be returning our result when the outter for loop is ended.
+
+GCC command:
+gcc -o solution solution.c -Wall

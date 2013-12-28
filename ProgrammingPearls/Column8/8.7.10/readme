@@ -1,0 +1,17 @@
+8.7.10
+Suppose that we wished to find the subvector with the sum closest to zero rather than that with maximum sum. What is the most efficient algorithm you can design for this task? What algorithm design techniques are applicable?
+What if we wished to find the subvector with the sum closest to a given real number t?
+--
+The best known algorithm for this task runs in O(n log(n)) time. A cumulative array, cum, is used, such that cum[i] = x[0] + x[1] + ... + x[i]
+The sum in a given subvector x[l..u] is given by cum[u] - cum[l-1]. If we want to find x[l..u] with a sum equal to zero, then we want cum[u] - cum[l-1] = 0, which is the same as saying that cum[u] = cum[l-1].
+This is the optimal case, but it may not always be the case that there are u and l such that cum[u] = cum[l-1]. Either way, we're looking for elements in the array cum that are very close to each other. The closest they
+are, the closest cum[u] - cum[l-1] is to 0. How can we find close elements? We sort the array cum. Sorting takes O(n log(n)) time using quicksort or mergesort. After sorting, we just have to pick the pair of adjacent elements
+that are closest to each other.
+
+What if we want the sum closest to a given real number t? Theoretically, it works the same way, except that we want cum[u] - cum[l-1] = t, or, equivalently, cum[u] - cum[l-1] - t = 0 
+(the case described above is just what happens with t = 0). The problem is that we can't just sort our cumulative array anymore to find out equal elements quickly. We're not looking for equal elements, we're looking for a
+pair of elements i and j such that abs(cum[j]-cum[i]-t) is minimal (sorting was just a quick way to find equal elements). However, I was able to develop an O(n log(n)) algorithm to solve this problem. Generally speaking,
+it sorts the cumulative array and then, for each position i, it uses binary search to find a position j that makes i-j approach t. Since we're doing this for every position, we will be performing n binary searches, so
+the algorithm runs in O(n log(n)) time.
+
+You can read more about this exercise in my blog at http://codinghighway.com/?p=876

@@ -1,0 +1,23 @@
+1.6.2
+How would you implement bit vectors using bitwise logical operations (such as and, or and shift)?
+--
+Following the bit vector discussion in this column, we know that we can store a set of N (N = 10,000,000) numbers using N bits (one bit per number).
+Our bit vector can be represented as a char array. Assuming there are n bits in a char, we need an array of (N-1)/n+1 chars, to ensure we have enough positions in case N is not
+a multiple of n (this expression is a conventional standard way to round up an integer division. If you don't get it, read my article about malloc at http://codinghighway.com/?p=468 - 
+or search for "The magic of wrappers" in codinghighway.com - and read the part where I talk about nunits).
+
+We will use this array to implement our bit vector. 
+Intuitively, it would make sense that the most significant bit in array[0] denotes 0, the next bit denotes the number 1, the next denotes number 2, etc. However, we will use a different representation.
+The most significant bit in array[0] will denote 7, the next one will denote 6, and the next 5, and so forth, until 0. Thus, each array position will hold exactly the same numbers that it would if we used
+the intuitive representation, but it is now easier to enable a bit. Say we want to enable the bit that corresponds to the number x. We know it is in position x/n, and inside that position, it's represented by
+bit number x%n; we count right to left, and the first bit (the least significant) is bit number 0. The procedure is similar for testing whether a given number x has been inserted, we just have to see
+if (1 << (x%n)) & array[x/n] is true.
+Had we used the former representation, the expression to find a bit for x would be n-(x%n)-1 for the array position and n-(x%n)-1 for the bit inside that array position (where bit 0 is the most significant one). 
+This is an intuitive representation, but it adds up unnecessary complexity and doesn't bring advantages.
+
+Because we can only use bitwise logical operations, the division and modulus operator will have to be replaced by a shift right and an AND, respectively. Right shifting one unit is the same as diving by 2,
+and right shifting n units is the same as dividing by 2^n. If a char is b bits wide, then dividing by b is the same as right shifting by log_2(b).
+The modulus operator can be replaced by a bitwise AND to get the log_2(b) rightmost bits. As a general rule, the mask for this AND is given by ~(~0 << log_2(b)). So, x%b is the same as x & ~(~0 << log_2(b)).
+Thus, for this to work properly, the number of bits in a char (CHAR_BIT) must be a power of 2, so that the logarithm evaluates to an integer number. 
+It is often the case that CHAR_BIT is 8; that means that x/8 is the same as x >> 3. For the modulus operator, x%8 is the same as x & ~(~0 << log_2(8)) = x & 0x7
+Implementing this as a macro allows us to develop code that is pretty similar to the pseudo-code version of the algorithm and still avoid the overhead of a function call.

@@ -1,0 +1,13 @@
+1.6.10
+Before the days of low-cost overnight deliveries, a store allowed customers to order items over the telephone, which they picked up a few days later. The store's database used the customer's telephone number as the primary
+key for retrieval (customers know their phone numbers and the keys are close to unique). How would you organize the store's database to allow orders to be inserted and retrieved efficiently?
+--
+There is not an absolute, specific solution to this problem. A possible approach is to use a binary search tree, where each node is a structure with the customer's phone number and the order data. Binary search trees
+have O(log(n)) insertion and lookup time in average, and O(n) in worst case. In particular, if we used an AVL tree instead, the tree would be guaranteed to always be balanced, so the amortized retrieval and insertion times
+are O(log(n)). 
+
+Another good solution is using a hash table that associates each phone number to an order. When using hash tables with numbers serving as key, good hashing functions normally grab the least significant digits, because
+these are the ones that change more often. Nevertheless, collisions will definitely occur, these can be solved by placing a list of orders inside each bucket of our hash table, but other methods that use array search
+are also plausible.
+
+For problems like this, the hash table approach is usually preferred.

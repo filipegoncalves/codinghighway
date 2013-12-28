@@ -1,0 +1,14 @@
+3.7.2
+A k-th order linear recurrence with constant coefficients defines a series as
+	a_n = c_1*a_(n-1) + c_2*a_(n-2) + ... + c_k*a_(n-k) + c_(k+1),
+where c_1, ..., c_(k+1) are real numbers. Write a program that with input k, a_1, ..., a_k, c_1, ..., c_(k+1), and m produces the output a_1 through a_m. How difficult is that program compared to a program
+that evaluates one particular fifth-order recurrence, but does so without using arrays?
+--
+As stated in this column, it is sometimes easier to make a program to solve the problem for n, and then apply it with n=5. My solution receives the input as arguments, and it works for any value of k and m. It stores
+the terms a_1 .. a_k in an array, as well as the constants c_1, ..., c_k.
+A program that evaluates one particular fifth-order recurrence would be ugly because it's tempting to hardcode it in such a way that it only works for fifth-order recurrences. I am imagining something like having
+6 variables to hold constants, and 5 variables to hold the terms a_1 .. a_k. That would be a total of 11 variables, and the resulting program would be hard to read, hard to maintain, and really ugly, not to mention
+more buggy.
+
+Note that this is not, by far, the most efficient approach, but it's the easiest, and it's the one that goes with the definition. A more intelligent program would use memoization to avoid a massive number of recursive calls
+to calculate values that were already calculated in the past.

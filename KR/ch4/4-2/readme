@@ -1,0 +1,12 @@
+Exercise 4-1
+Extend atof to handle scientific notation of the form 123.45e-6 where a floating-point number may be followed by e or E and an optionally signed exponent
+
+Brief explanation:
+--
+This is a simple extension. When processing the float part of the number, if we read e or E, we will look for an optional sign (+ or -), store it, and then start
+looking for the exponent value. We will use atoi logic to get our exponent value, and store it in a new variable. When we get to the end of the string,
+if the exponent sign is negative, we execute power *= 10^(|exponent|). Otherwise, we do the same operation on val. This will ensure that if the exponent is negative, we will be
+adding more decimal places by increasing the value of power, because we will be dividing by power in the end. The opposite happens for val.
+
+GCC command:
+gcc -o solution solution.c -Wall

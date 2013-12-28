@@ -1,0 +1,24 @@
+8.7.12
+After the array x[0..n-1] is initialized so that every element is zero, n of the following operations are performed
+for i = [l, u]
+	x[i] += v
+where l, u and v are parameters of each operation (l and u are integers satisfying 0 <= l <= u < n, and v is a real number). After the n operations, the values of x[0..n-1] are reported in order. The method just sketched
+requires O(n^2) time. Can you find a faster algorithm?
+--
+First of all, let's translate this into English. Basically, the above code will be summing a value v to some subvector x[l..u]. Because it is executed n times, this means that the algorithm sums a value v to n subvectors.
+Nothing is said about v or the subvectors, so we will assume that v is not constant and that the different subarrays can overlap, can be the same, or can be disjoint among the different iterations.
+
+Let x denote the original array. We can use an auxiliary array, aux, where aux[i] == y means that y must be summed to every position j <= i in x. Thus, adding a value v in a subvector x[l..u] is the same as saying
+"add v to every position up to u, and then subtract v in every position up to l-1". The loop then becomes
+
+aux[u] += v
+aux[l-1] -= v
+
+x must be built right to left, so that we can accumulate the values properly. To build x, note that x[i] is just the same as x[i+1] plus any value needed to make x[i] correct, stored in aux[i]. The procedure to build x is
+given by:
+
+x[n-1] = aux[n-1]
+for (i = n-2; i >= 0; i--)
+	x[i] = x[i+1] + aux[i]
+	
+The algorithm uses O(n) time.

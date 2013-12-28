@@ -1,0 +1,49 @@
+1.6.1
+If memory were not scarce, how would you implement a sort in a language with libraries for representing and sorting sets?
+--
+If there are no memory issues, then we can take the simplest approach: read and store every integer in the file in a big array, and when
+we're done reading, we simply sort it with stdlib's qsort.
+There's an implementation detail to keep in mind though: the array must either be declared as a global variable, so that it's allocated in BSS segment,
+or allocated dynamically with malloc(). If this 10-million long array of integers is declared as a local variable inside main(), it will eat up 10000000*sizeof(int)
+bytes of stack. If sizeof(int) is 4, we would need about 40 MB of stack. Typically, the stack can't afford that, so the program would just segfault.
+
+An example input file is provided in numbers.in in this column's root directory. This file contains every number from 0 to 9999999 in random order.
+
+A few tests with the sample input file can show us the relative speed of this implementation:
+
+$ time ./solution <numbers.in
+real    0m5.477s
+user    0m5.350s
+sys     0m0.078s
+
+$ time ./solution <numbers.in
+real    0m5.429s
+user    0m5.382s
+sys     0m0.046s
+
+$ time ./solution <numbers.in
+real    0m5.438s
+user    0m5.382s
+sys     0m0.061s
+
+These tests were executed with the code for printing the output commented, therefore, this only counts the time to read the whole input and sort it. Here's the same text
+with output printed to a file:
+
+$ time ./solution <numbers.in >result.out
+real    0m9.543s
+user    0m9.375s
+sys     0m0.155s
+
+$ time ./solution <numbers.in >result.out
+real    0m9.556s
+user    0m9.391s
+sys     0m0.155s
+
+$ time ./solution <numbers.in >result.out
+real    0m9.462s
+user    0m9.313s
+sys     0m0.155s
+
+As you can see, I/O plays a very important role in here. This implementation would suffice for the programmer's requirement that the program must run in 10 seconds, but it uses way more
+memory than it needs. Reducing memory usage can have a good impact in runtime because more memory means that the operating system is forced to swap in and out memory pages more often. Also,
+reducing memory usage usually makes the programmer come up with a different algorithm that is faster to execute overall.

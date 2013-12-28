@@ -1,0 +1,12 @@
+Exercise 4-13
+Write a recursive version of the function reverse(s), which reverses the string s in place.
+
+Brief explanation:
+--
+This is very easy. We can define two argument parameters, left and right, that define the index of the 2 positions
+that the current call should change. The idea is that to reverse a string with positions 0 .. n-1, we basically exchange
+position 0 and n-1, and then ask the same function to reverse the string between positions 1 and n-2, and so forth, untill
+the left limit is greater than or equal to the right limit.
+
+GCC command:
+gcc -o solution solution.c -Wall

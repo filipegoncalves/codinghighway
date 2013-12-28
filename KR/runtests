@@ -1,0 +1,20 @@
+#!/usr/bin/perl
+use strict;
+use warnings;
+my $in_directory = 'input';
+my $out_directory = 'expected';
+my $result;
+opendir (DIR, $in_directory) or die "Could not open input files directory";
+my @files = readdir(DIR);
+@files = sort(@files);
+foreach (@files) {
+	if ($_ =~ m/([0-9]+)\.in/) {
+		# New test running, test number stored in $1
+		$result = `../solution <${in_directory}/${1}.in >tmp.out; diff tmp.out ${out_directory}/${1}.out`;
+		`rm -f tmp.out`;
+		if ($result ne "") {
+			# Failed test
+			print "Test " . $1 . " failed, showing obtained and expected output:\n" . $result . "\n";
+		}
+	}
+}

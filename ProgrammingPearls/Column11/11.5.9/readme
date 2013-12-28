@@ -1,0 +1,29 @@
+11.5.9
+Write a program for finding the k-th smallest element in the array x[0..n-1] in O(n) expected time. Your algorithm may permute the elements of x.
+--
+C. A. R. Hoare developed an algorithm for this, it is a quicksort modification that only makes the recursive call in the subarray with the k-th smallest element. You can see the pseudo-code in the solutions section:
+
+void select1(l, u, k)
+	if (l >= u
+		return
+	swap(l, randint(l, u))
+	t = x[l]; i = l; j = u+1
+	loop
+		do i++; while i <= u && x[i] < t
+		do j--; while x[j] > t
+		if (i > j)
+			break
+		temp = x[i]; x[i] = x[j]; x[j] = tmp
+	swap(l,j)
+	if (j < k)
+		select1(j+1, u, k)
+	else if j > k
+		select1(l, j-1, k)
+		
+It is expected that swap(l, randint(l, u)) chooses an appropriate pivot element, the best case is when it chooses the median value. We can assume that the array will be partitioned around a close to optimal value such
+that x[l] will be placed around the middle of l and u. In that case, the time T(n) needed to solve a problem of size n is given by:
+
+T(n) = T(n/2) + cn
+
+Refer to columns 8 and 9 (and my solutions) to learn how to interpret this type of recurrence. Either way, expanding it makes it easy to derive a general expression, and we can see that T(n) belongs to O(n). Thus,
+the algorithm's expected run time is proportional to O(n).

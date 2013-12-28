@@ -1,0 +1,32 @@
+3.7.8
+[S. C. Johnson] Seven-segment devices provide an inexpensive display of the ten decimal digits:
+          __        __   __        __   __   __   __   __ 
+		 |  |    |  __|  __| |__| |__  |__     | |__| |__|
+		 |__|    | |__   __|    |  __| |__|    | |__|    |
+		 
+The seven segments are usually numbered as
+
+  _2_
+3|_1_|4
+5|_0_|6
+
+Write a program that displays a 16-bit positive integer in five seven-segment digits. The output is an array of five bytes; bit i of byte j is one if and only if the i-th segment of digit j should be on.
+--
+A seven-segment display will be represented inside a char. A char is typically 8-bits, though it can be 7-bits in some older systems (the tendency is to grow to 16 bits anyway...). As usual, bits are counted right to left,
+and counting begins at 0. So, in a char with 8 bits, here's how bit counting works:
+
+Most significant ---------------------------> Least significant
+(Bit 7) (Bit 6) (Bit 5) (Bit 4) (Bit 3) (Bit 2) (Bit 1) (Bit 0)
+
+The best, portable, maintainable way to make this program is to define a mask for each bit. The mask for the upper left segment, for example, is 0x8, because that's a value where only bit 3 is enabled.
+Defining masks for each of the seven segments makes it easy to create an array of 10 elements, one for each of the digits 0-9, where array[i] holds a value where bit j is set to 1 if and only if segment j is on for that
+number representation. Initializing this array is easy if we have the masks, because we can use a bitwise OR to represent a number quickly. For example, number 0 is represented as:
+UP | DOWN | UPPER_LEFT | UPPER_RIGHT | LOWER_LEFT | LOWER_RIGHT
+Bitwise OR makes sure we are turning on all of the required bits. The whole array is initialized like that, with different combinations for each number.
+
+My implementation reads a number from stdin, and prints that number in 5 virtual seven-segment displays. To know which display holds which number, the function get_representation() is called. Each digit from the number
+is read right to left; the rightmost digit representation is copied to the last segment, and the leftmost is copied to the first. This program is easily extensible to add more segments and support larger values.
+
+NOTE: there's a bug in scanf that doesn't set errno to ERANGE when the value read doesn't fit in an unsigned short but would fit into an int. I've came across this bug when developing the code for this exercise, and reported it
+here: https://sourceware.org/bugzilla/show_bug.cgi?id=15929 
+However, as you can see through the comments, they won't admit it, so don't expect it to be fixed. I've made an article about this specific situation in my blog at http://codinghighway.com/?p=790

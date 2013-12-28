@@ -1,0 +1,15 @@
+Exercise 4-14
+Define a macro swap(t,x,y) that interchanges two arguments of type t. (Block structure will help).
+
+Brief explanation:
+--
+This is a simple macro definition. We will just declare a temporary variable of type t and swap x and y.
+Note, however, that we must declare our temporary variable inside a block enclosed in braces. Otherwise, there
+could be naming conflicts with possible variables in the current block with the same name. When you define macros,
+you have to pay attention to these small details because you're not defining a function - you must remember that macros
+are processed and replaced inline before the actual code is compiled.
+We will call our temporary variable __z. It is not very likely that x or y are named __z in the program that uses this macro.
+If that happens, the swap macro will obviously not work properly.
+
+GCC command:
+gcc -o solution solution.c -Wall

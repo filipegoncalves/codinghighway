@@ -1,0 +1,20 @@
+Exercise 5-8
+There is no error checking in day_of_year or month_day. Remedy this defect.
+
+Brief explanation:
+--
+When you need to add error checking to a function, it basically means you have to look at the input arguments and imagine the most awkward, strange
+values that someone could have passed it that would break your code. We will return -1 if we found an error.
+In day_of_year, we have 3 parameters, and we implicitly expect it to obey to the following rules:
+	a) year is a positive number
+	b) month is something >=1 and <= 12
+	c) day is > 0 and <= number of days of its own month
+These checkings will make sure we will never index the array off its limits with mal-formed input.
+As for month_day, we will change the return type from void to int, so that we can return -1 if an error was found.
+This time, we expect the following conditions to be met:
+	a) year is a positive number
+	b) yearday is > 0 and <= 366 if it's a leap year, or 365 otherwise
+	c) pmmonth and pday are not NULL-pointers
+
+GCC command:
+gcc -o solution solution.c -Wall

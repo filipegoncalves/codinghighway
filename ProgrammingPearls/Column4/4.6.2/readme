@@ -1,0 +1,9 @@
+4.6.2
+If the original binary search was too easy for you, try the variant that returns in p the position of the first occurrence of t in the array x (if there are multiple occurrences of t, the original algorithm returns an
+arbitrary one). Your code should make a logarithmic number of comparisons of array elements; it is possible to do the job in log(n) such comparisons.
+--
+The secret, as described in Section 9.3, is to use the invariant x[l] < t <= x[u]. The invariant is initialized by setting l = -1 and u = n, thus, we must assume that x[-1] < t and x[n] >= t. In order
+to find the first element that is equal to t, we want l and u such that l+1 = u, because this means that the first occurrence of t is in position u due to the invariant definition. Thus, the loop condition is
+while (l+1 != u).
+This version of the binary search algorithm not only solves a harder problem, but it solves it faster, because only one comparison with x[m] is performed in each iteration. 
+For more informations about this, refer to Section 9.3.

@@ -1,0 +1,43 @@
+1.6.3
+Run-time efficiency was an important part of the design goal, and the resulting program was efficient enough. Implement the bitmap sort on your system and
+measure the run time; how does it compare to the system sort and to the sorts in Problem 1? Assume that n is 10,000,000, and that the input file contains 1,000,000 integers.
+--
+The bitmap sort was implemented as described in the pseudo code section of this column. Code developed in the previous exercise was used as the implementation for the bit vector.
+
+In problem 1, we were pretty close to the time limit. The bit vector implementation is slightly faster for the same 10,000,000 numbers input:
+
+$ time ./solution <numbers.in >result.out
+real    0m7.444s
+user    0m7.410s
+sys     0m0.015s
+
+$ time ./solution <numbers.in >result.out
+real    0m7.485s
+user    0m7.410s
+sys     0m0.061s
+
+$ time ./solution <numbers.in >result.out
+real    0m7.446s
+user    0m7.332s
+sys     0m0.093s
+
+It is very fast for a 1,000,000 integer input file (numbers2.in, in the root folder of this column)
+
+$ time ./solution <numbers2.in >out
+real    0m0.784s
+user    0m0.779s
+sys     0m0.000s
+
+$ time ./solution <numbers2.in >out
+real    0m0.776s
+user    0m0.763s
+sys     0m0.000s
+
+$ time ./solution <numbers2.in >out
+real    0m0.780s
+user    0m0.764s
+sys     0m0.015s
+
+
+Note that there is no sorting procedure at all; our program's bottleneck is the time it spends reading from the input and writing to the output. It is nearly impossible to become any faster than this. 
+We definitely gained time and space efficiency with this approach.

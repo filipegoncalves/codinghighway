@@ -1,0 +1,12 @@
+Exercise 1-18
+Write a program to remove trailing blanks and tabs from each line of input, and to delete entirely blank lines.
+
+Brief explanation:
+--
+One approach would be to go all the way up to the end of the line, and then move backwards writing \n on every blank position untill find a character that is not a blank is found.
+There is, however, a few extra unnecessary work with this: it is not needed to go all the way to the end just to go back again some positions. In order to avoid unnecessary work,
+everytime we read a blank, we will update a variable i to the current position and keep on reading more and more characters untill eventually a non-blank or newline is reached. 
+If newline was reached, then i will hold the index of the position that will now be the last one. Otherwise, we resume to normal processing.
+
+GCC command:
+gcc -o solution solution.c -Wall

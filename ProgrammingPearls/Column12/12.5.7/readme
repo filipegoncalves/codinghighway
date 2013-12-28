@@ -1,0 +1,28 @@
+12.5.7
+[V. A. Vyssotsky] Algorithms for generating combinatorial objects are often profitably expressed as recursive functions. Knuth's algorithm can be written as
+	void randselect(m, n)
+		pre 0 <= m <= n
+		post m distinct integers from 0..n-1 are
+			printed in decreasing order
+		if m > 0
+			if (bigrand() % n) < m
+				print n-1
+				randselect(m-1, n-1)
+			else
+				randselect(m, n-1)
+This program prints the random integers in decreasing order; how could you make them appear in increasing order? Argue the correctness of the resulting program. How could you use the basic recursive structure of this
+program to generate all m-element subsets of 0..n-1?
+--
+Printing the random integers in increasing order is a matter of playing with the recursion: we just need to place the print after making a recursive call. Thus, this piece of code:
+
+if (bigrand() % n) < m
+	print n-1
+	randselect(m-1, n-1)
+
+Turns into:
+
+if (bigrand() % n) < m
+	randselect(m-1, n-1)
+	print n-1
+
+The algorithm is still the same, we just print the numbers later in time, after the recursion winds back. Because the logical and semantic ways the algorithm works were not changed, the resulting program is still correct.

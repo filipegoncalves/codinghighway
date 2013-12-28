@@ -1,0 +1,9 @@
+Exercise 4-5
+Add access to library functions like sin, exp, and pow. See <math.h> in Appendix B, Section 4.
+
+Brief explanation:
+--
+This is just another set of cases in our main switch. We will use s for sin, e for exp and p for pow.
+
+GCC command:
+gcc -o solution getch.c getop.c main.c stack.c -Wall

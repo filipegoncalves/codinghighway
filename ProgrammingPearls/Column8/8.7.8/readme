@@ -1,0 +1,7 @@
+8.7.8
+Modify Algorithm 3 (the divide-and-conquer algorithm) to run in linear worst-case time.
+--
+After reading this column, you're probably biased and brainwashed to think about the linear, simple non-recursive solution. It can be pretty hard to think outside of the box and change this recursive
+algorithm to run in linear time.
+
+I've devoted an entire article in my blog about it, you can read a fully detailed description of my solution at http://codinghighway.com/?p=850 (or search for "Programming pearls exercise 8, Column 8" at codinghighway.com)

@@ -1,0 +1,13 @@
+Exercise 1-13
+Write a program to print a histogram of the lengths of words in its input. It is easy to draw the histogram with the bars horizontal;
+a vertical orientation is more challenging.
+
+Brief explanation:
+--
+To do this, we need an array to store how many times an i-length word appeared in our input. We will assume there's a known upper bound MAXLENGTH.
+So, the solution is to change the word count program to keep track of how many letters where read since the last time it entered the IN state.
+When it is time to switch to OUT, we increment the value of the aray in the position refered by the length.
+Because it makes no sense to count 0-length words, position i of the array will refer to the number of words with length i+1 seen in the input.
+
+GCC command:
+gcc -o solution solution.c -Wall

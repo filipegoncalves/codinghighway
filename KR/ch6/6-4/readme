@@ -1,0 +1,20 @@
+Exercise 6-4
+Write a program that prints the distinct words in its input sorted into decreasing order of frequency of occurrence. Precede
+each word by its count.
+
+Brief explanation:
+--
+We will keep using a binary tree for having O(log(n)) checking time. However, we will need an additional structure to keep
+the ordered counts. We will use a double linked list wrapped in a structure with a pointer to its head and tail. This will allow us to insert new
+elements in the end in O(1) time. The head will provide easy access to the beginning of the list when we need to print the final output.
+Everytime a new leaf is created in our tree, we add that leaf to the end of the list.
+Everytime an existing node has its count incremented, it will go up in the list, in the direction of head, untill he finds someone
+with greater count, or untill he reaches the head of the list. This works because we only increment counts.
+To implement the list, each tree node will have 2 more pointers; one to the next element (towards tail) in the list, and one to the previous element.
+This allows us to easily change each node's location in the list.
+This is a rather important exercise, because it deals with very important concepts with someone who is learning about structures. It uses a tree, a double linked
+list, and it has pointers and recursion.
+
+
+GCC command:
+gcc -o solution solution.c -Wall

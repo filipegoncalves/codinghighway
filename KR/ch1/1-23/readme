@@ -1,0 +1,21 @@
+Exercise 1-23
+Write a program to remove all comments from a C program. Don't forget to handle quoted strings and character constants properly. C comments do not nest.
+
+Brief explanation:
+--
+This is a compilers related exercise.
+The only detail we have to be careful about, as the book suggests, is with quoted strings. That means we cannot blindly search for the openning and closing
+comment tags, because if they're inside a quoted string, they do not have their normal meaning inside the language. This might actually be a little more harder than
+you imagined, because of the escape sequences. We can have the string "hello". That's fine, and we have to ignore all the comments tags inside that string enclosed in double quotes.
+What if you have \"hello\"? Or \\"hello\"\\"? The first one is not a string, so instead of hello you could actually open and close comment tags between those two escaped quotes, and our parser
+must understand that. The second one is a little trickier: the resulting string (without the enclosing quotes that delimit it) is hello"\. Nice, huh? ;)
+Basically, when we are inside a double quoted or single quoted string, everytime a backslash is read, it means we can ignore the next character, no matter what it is. 
+We will not make any considerations about the input program's meaning or if it makes sense, of if it is even syntatically correct. So, I will allow for things like 'abcd'.
+We can implement it like this: there's a variable that is set to 1 when we know we're inside a comment. We have a similar variable to know when we're inside a string and
+a character constant. The input program is read char by char. If the char read is a backslash, the next char is ignored. Everytime an opening double or single quote is read,
+we know that we're inside a string, and we will literally ignore everything untill the corresponding close quote (if not escaped) is read.
+When we read a comment opening tag, we set the variable indicating it, so that we can ignore everything untill we read the closing tag.
+Final note: it is really awesome to see this working! Try it! From all the tests I've done, one of them was to parse the program with itself. Funny, heh?
+
+GCC command:
+gcc -o solution solution.c -Wall

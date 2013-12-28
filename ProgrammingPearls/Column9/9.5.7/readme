@@ -1,0 +1,16 @@
+9.5.7
+Given a very long sequence (say, billions or trillions) of bytes, how would you efficiently count the total number of one bits? (That is, how many bits are turned on in the entire sequence?)
+--
+K&R gives a good example of how to count bits without iterating through every bit in an integer. In exercise 2.9 (chapter 2), it is said that:
+	In a two's complement number system, x &= (x-1) deletes the rightmost 1-bit in x
+You can read the reasoning behind this in my solutions to K&R exercises at https://codinghighway.kilnhg.com/Code/Repositories/Group/KR/Files (go to chapter 2, exercise 2-9, and give a look at the readme file)
+
+This C code uses this method to count the number of 1 bits in an unsigned integer:
+
+int bitcount(unsigned x) {
+        int i;
+        for (i = 0; x; i++, x &= (x-1));
+        return i;
+}
+
+To apply this to billions or trillions of bits, we have to break them into a known size - perhaps the size of an integer (normally 32 bits) - and use this function.

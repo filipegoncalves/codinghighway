@@ -1,0 +1,13 @@
+Exercise 2-10
+Rewrite the function lower, which converts upper case letters to lower case, with a conditional expression instead of if-else.
+
+Brief explanation:
+--
+This exercise follows a small introduction to a ? b : c conditional expression.
+We will assume the input is well-formed, i.e., either it is an upper case character from A-Z or a lower case one from a-z.
+This is a direct conversion from the function presented in page 43. Note, however, that this will only work for ASCII, as you hopefully read on page 43.
+Portable versions of this kind of functions (upper, lower, isdigit, isspace, etc) are defined in ctype.h. If you want to learn more about it, read my article about
+ctype.h at http://codinghighway.com/?p=307, or search for "ctype.h, gcc warnings, and other char issues" in my blog (codinghighway.com).
+
+GCC command:
+gcc -o solution solution.c -Wall

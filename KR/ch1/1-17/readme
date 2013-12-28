@@ -1,0 +1,9 @@
+Exercise 1-18
+Write a program to remove trailing blanks and tabs from each line of input, and to delete entirely blank lines.
+
+Brief explanation:
+--
+Very easy. We just use getline's return value, and will only print the line if it's > 80.
+
+GCC command:
+gcc -o solution solution.c -Wall

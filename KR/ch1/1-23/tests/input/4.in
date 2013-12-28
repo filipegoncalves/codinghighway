@@ -1,0 +1,11 @@
+/** 
+  * Java doc comments are lke this
+  * They start with /**
+  * and end with:
+  **/
+  
+ /* C does not allow nested comments.
+ 
+ 
+ */
+int main() { return 0; }

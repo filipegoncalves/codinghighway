@@ -1,0 +1,46 @@
+Exercise 2-1
+Write a program to determine the ranges of char, short, int, and long variables, both signed and unsigned, by printing appropriate values from standard headers and
+by direct computation. Harder if you compute them: determine the ranges of the various floating-point types.
+
+Brief explanation:
+--
+Let's start by talking about the standard headers. There is not much to say, in fact, the whole fun of the exercise is to do it without the standard headers help.
+Using constants defined in the headers is really not a big deal, nor it improves your mental capabilities as a programmer. All we have to do is to include the limits.h
+header and read the appropriate values defined in there. If you don't know the constants names, just look them up in the manpage (man limits.h in your terminal).
+A quick side note: the limits for floating point types such as double and float are not defined in limits.h. Instead, they are defined in float.h
+
+Now, for the best part (computing it by yourself), we will have a bit-arithmetic party in here! I love bits. BITS RULE THE WORLD!!! :)
+Let's start with normal integer representation (that is, let's exclude floats for now). As you probably know, integers can be signed and unsigned. In an n-bit architecture,
+an unsigned integer uses all of the n bits to represent numbers, so you can represent anything between 0 and (2^n)-1. (2^n)-1 is the same as setting all of the n-bits to 1,
+which corresponds to the max. value that can be stored with n bits. Signed integers work exactly like an unsigned integer, except that the interpretation of the meaning of the
+most significant bit changes: it represents the number signal.
+So, for unsigned integers, all we have to do is to create a number filled with 1's in every bit position.
+For signed integers, we also start with every position set to 1. But now, for computing the max. positive value that can be represented in a signed integer, we must shift
+this all-1's-number one position to the right, to make it positive. Otherwise, the machine would just interpret it as a negative number because it starts with a 1. Shitfting it
+right 1 position will insert a 0 in the rightmost position, making it positive. Then, after computing this value, we can easily compute the maximum negative value that can be
+stored, by computing the negative of the number and subtracting one (in a signed n-bit number, we can go from -(2^n) to (2^n)-1 - remember that 0 is also a number!).
+Please note that all the shift operations are first performed in unsigned integers, and then, if that's the case, the result is converted to signed integers. This is because
+right-shift operations behaviour is implementation defined when you do it in a signed int with the first bit set to 1: some machines can shift it right by extending the sign bit
+and inserting 1's on the left, while others can simply insert 0's.
+
+What about floating-point numbers? Let's assume our architecture stores floats according to the techniques described in IEEE-754 standard (which is very common).
+If you're not comfortable with the standard, you can read about it in my blog article, "Floating Points 101", at http://codinghighway.com/?p=40
+First, we are representing the floats in an unsigned char array. Why? Because there's no way to manipulate the internal bit representation of floats or doubles in C.
+So, we are forced to represent the float or double in an array to be able to mess with the bits that represent it. Later, we trick the compiler into interpreting our array as a
+float number, with the pointer trick (pointers are only covered in chapter 5, if you're not familiar with it, just ignore the code with *, like *f, *d, etc).
+Assuming you're comfortable with IEEE 754 standard, all we have to do now is to think about the lowest possible digits that can be represented using the standard representation.
+Without losing precision, the lowest exponent we can have is every bit set to 0 except for the rightmost one, which will be set to 1. For the mantissa part, every bit will be 0.
+And what is the max. value we can represent inside a float with this standard? It turns out that it corresponds to the negation of the bits we had before, that is, every mantissa bit set to 1
+and all the exponent bits set to 1 except for the rightmost bit, because if we set every bit to 1 in the exponent we are representing infinity. Oh, and we can't forget about the sign bit.
+The sign bit should be set to 0, so, after applying 1's complement on the represenation of the minimum float we computed before, we also have to set the first bit to 0.
+
+This explanation is getting rather long, but there's not much left to say. Doubles work the same way, except we have presumably more mantissa bits and more exponent bits (the standard talks about
+11 exponent bits and 52 mantissa bits).
+
+This exercise is explained in great detail in my article named "K&R exercise 2-1 – Computing float ranges directly". You can read about it at http://codinghighway.com/?p=505
+
+GCC command:
+- Read ranges from header files:
+	gcc -o solution solution.c -Wall
+- Compute everything:
+	gcc -o solution solution.c -Wall -DCOMPUTE_DIRECTLY

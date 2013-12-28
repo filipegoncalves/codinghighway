@@ -1,0 +1,14 @@
+Exercise 2-5
+Write the function any(s1,s2), which returns the first location in the string s1 where any character from the string s2 occurs, or -1 if s1 contains no characters
+from s2. (The standard library function strpbrk does the same job but returns a pointer to the location).
+
+Brief explanation:
+--
+We will use a similar approach to exercise 2-4. The first step will be to parse s2 and store each character that is in s2 in an array buffer.
+Then, we will scan s1, and we return as soon as we find a character that is in our buffer.
+The same issues wth signed and unsigned char machines arises, so we will use the same method that we used above to avoid trouble.
+
+If you want to read more about this and learn great stuff, read my article at http://codinghighway.com/?p=307, or simply search for "<ctype.h>, gcc warnings, and other char issues" in the search box on the main page.
+
+GCC command:
+gcc -o solution solution.c -Wall

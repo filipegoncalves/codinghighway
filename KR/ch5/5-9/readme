@@ -1,0 +1,12 @@
+Exercise 5-9
+Rewrite the routines day_of_year and month_day with pointers instead of indexing.
+
+Brief explanation:
+--
+Everything is basically the same, except that instead of indexing like this:
+daytab[i][j]
+We will index like this:
+*(*(daytab+i)+j)
+
+GCC command:
+gcc -o solution solution.c -Wall

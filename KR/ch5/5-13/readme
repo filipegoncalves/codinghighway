@@ -1,0 +1,31 @@
+Exercise 5-13
+Write the program tail, which prints the last n lines of its input. By default, n is 10, let us say, but it can be changed by an optional
+argument, so that
+	tail -n
+prints the last n lines. The program should behave rationally no matter how unreasonable the input or the value of n. Write the program so it makes
+the best use of available storage; lines should be stored as in the sorting program of Section 5.6, not in a two-dimensional array of fixed size.
+
+Brief explanation:
+--
+This is an interesting exercise. A naive implementation would look like this:
+	1. read every line and store it in a char *lines[]
+	2. start with a pointer to the end, and decrement it n-1 times
+	3. print every line where our pointer points to, moving our pointer untill the end
+This is the most inefficient way to solve this exercise. What if the file is 16 GB? Are you going to read it and store EVERY single line in memory?
+We don't need to keep every line in memory. In fact, we only want to keep n lines, that's all we want to print.
+So, we will use an array of char *, called lines, where we will store all we need - the last n lines of input. We will also have a position p that will tell us,
+when we finish processing input, what's the first line to be printed. In each step the program overwrites the oldest line, that is, the line stored in p, and advances p by one unit (to
+the next oldest line). For this to work, we will have to work in modulo N arithmetic, where N is the number of lines to print.
+This is easier to understand if you draw it on a paper: when you read the nth line, you just start overwriting the oldest line with the new line, but to maintain a consistent order of lines,
+you have to move p down one unit everytime you overwrite the oldest line. It's easy to understand on paper.
+
+We will assume that the last line does not terminate with a \n character, but rather, it terminates with EOF. This is the behaviour of the official tail program in linux.
+So, for example, running tail -3 on this:
+line1\nline2\nline3\n\n
+
+Gives you line2\nline3\n\n. If, however, our input was:
+line1\nline2\nline3
+Then the output would be line1\nline2\nline3.
+
+GCC command:
+gcc -o solution solution.c -Wall

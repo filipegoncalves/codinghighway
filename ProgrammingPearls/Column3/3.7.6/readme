@@ -1,0 +1,49 @@
+3.7.6
+Build a "form-letter generator" that can prepare a customized document for each record in a database (this is often referred to as a "mail-merge" feature). Design small schemas and input files to test the correctness of your
+program.
+--
+To do this, we need to define the input format, and how the schemas work. For the schema, we will take the approach mentioned in this column: $n, with n >= 0, is used to refer to field n+1 inside the current record. However, a 
+literal $ is written by escaping it with a backslash, like this: \$. A literal backslash can be inserted by escaping it with another backslash.
+This will make our parser easier to code, because it doesn't need to worry about lookahead characters.
+The program skeleton is comprised of a function that reads and parses the schema, another one that reads the records from the database, and another that prints the schema with $n replaced by the value of variable n.
+Thus, we can describe the resulting program with a few lines of pseudo-code:
+
+Parse the schema input file
+While there are records left to read
+	Read next n-tuple record
+	Print the schema with $n replaced by the n-th variable value
+	
+An alternative approach is not to parse the schema, but instead, every time a new record is retrieved, the schema file is read from beginning to end and copied to the output, replacing $n with each appropriate value. This is a bad
+solution because it forces the program to read the schema file X times if there are X record entries in the database. I/O is slow, that's a huge efficiency penalty. A more intelligent approach is to read the schema file once,
+and collect the necessary information to print it with different values for $0, $1, etc., without having to go through the schema file lots of time. In my implementation, there's a structure, schema_block, that is used to store
+a "block" of a schema. A block is a piece of text that goes up to the next variable. For example, in this schema:
+
+Hello, $0. This is a sample schema with $1 variables.
+
+The first block text is "Hello, ", the second is ". This is a sample schema with ", and the third and final one is " variables." Notice that we're splitting the text in such a way that we can print the text of each block
+followed by the current variable value. A schema block structure holds a pointer to the text inside that block, and an integer specifying which variable comes after that block. In the above example, the first block
+structure text would be "Hello, ", and its variable would be 0. To glue it all together, we just need an array of struct schema_block. In my implementation, the last block in that array holds a value of -1 in the "variable"
+field to signalize that it's the last element of the array.
+The array is dynamically allocated, but we don't know how much blocks we will need until we read the whole schema file. So what do we do? We could read the schema file twice; the first time just to count the blocks and allocate
+the array, and the second time to actually store each block information in the array. However, at the cost of using a little bit more memory, we can avoid reading the file twice. Instead, we read it once, but the parsing function
+buffers each block's text, and when it reads $n, it calls itself recursively until end-of-file is reached. Reaching end-of-file is the base case of the recursion. A counter is incremented every time the next recursive call takes
+place, so the last one in the recursion knows how many recursive calls are active - and that's the number of blocks in the file. With this value, the last call allocates exactly the necessary space to store every schema block,
+and as the recursion winds back, each call that was "on hold" will store its own block in that array. The array is written right-to-left, because of the LIFO nature of recursion. This ensures that array[0] has the first block
+rather than the last one.
+At a given time, every variable value is stored in an array (variables) that is indexed by the variable number ($0 is variables[0], etc). To print the schema, all we have to do it print each block's text, followed by
+variables[i], where i is the variable number stored in that block. The number of variables is known in runtime by reading the database file (its format is explained below).
+This recursive solution uses O(n) memory to parse an n-length schema file - when EOF is reached, every recursive call that is active holds a little piece of the schema file in a local buffer. As usual, we could have saved memory
+by increasing runtime, but I decided not to because of the slow I/O performance.
+
+The database file format includes a line with the number of records, and the number of fields inside each record (which is the number of variables). Records are split with ';', a literal ';' can be inserted in a record field by
+escaping it with backslash (and a backslash is also inserted by escaping it with another backslash). Record fields can have any character, including newlines. The last field in a record must be terminated with ';' and a newline
+character. Everything after that newline character, and up to the next ';', is considered part of the first field of the next record (thus, record fields can start and end with spaces, newlines, and any other character).
+This file is read by a function called read_next_record(), it knows how many fields are inside a record, and it stores each field text in the array "variables". After calling read_next_record(), variables[0] holds the textual
+representation of $0; variables[n] holds the value for $n.
+
+Printing the schema with the variables' values is a matter of going through the schema_blocks array and printing each block text, followed by variables[i], where i is the variable number stored in that block entry.
+This job is done by dump_schema() in my implementation.
+
+There are two arguments that must be passed to the program when executed; they are the name of the input file with the database, and the name of the file that contains the schema definition.
+
+A sample schema and database file are provided (respectively, schema and entries.db). Both of them use escaping sequences to show you how it works. The correct command to run the program is ./solution entries.db schema

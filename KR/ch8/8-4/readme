@@ -1,0 +1,15 @@
+Exercise 8-4
+The standard library function
+	int fseek(FILE *fp, long offset, int origin)
+is identical to lseek except that fp is a file pointer instead of a file descriptor and the return value is an
+int status, not a position. Write fseek. Make sure that your fseek coordinates properly with the buffering done for the
+other functions of the library.
+
+Brief explanation:
+--
+There really is nothing special about this. We just have to make sure to flush the buffer before seeking to another position in the file.
+This is as simple as setting cnt to 0 and ptr to base if the file is in READ mode. If it's in WRITE mode, we call fflush to do the job for us.
+After doing that, all we are left with is calling lseek.
+
+GCC command:
+gcc -o solution solution.c -Wall

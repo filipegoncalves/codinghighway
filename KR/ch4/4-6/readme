@@ -1,0 +1,20 @@
+Exercise 4-6
+Add commands for handling variables. (It's easy to provide twenty-six variables with single-letter names.) Add a variable for the most recently printed value.
+
+Brief explanation:
+--
+We will follow the suggestion. The syntax will be: if you want to access the variable value, just use the letter that corresponds to it. If you want to store the
+current result on the top of the stack to a variable, use the variable name prefixed with an ampersand (&).
+For this, getop() must be modified accordingly, we will insert a new return token, ASSIGN, that is returned when there's an assignment request, and the target string s
+will contain "&v", where v is the variable name to assign to.
+So, for example, the expression
+2 3 + 6 - &x 1 + x -
+Would start by storing the value -1 in x, yielding:
+-1 1 + x -
+Where x = -1. So, the final result would be 1.
+The variable for the last printed value will be '_', so that we don't have to steal any letter for special variables. The user is free to use any lower case variable in the range a-z.
+Everytime something new is printed, a local variable (last_printed) will be updated. Thus, last_printed contains the value for '_'.
+We will assume that the user will not attempt to make use of a non-initialized variable. The variables current values will be stored inside an array.
+
+GCC command:
+gcc -o solution getch.c getop.c main.c stack.c -Wall

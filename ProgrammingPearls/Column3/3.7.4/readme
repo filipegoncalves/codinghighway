@@ -1,0 +1,22 @@
+3.7.4
+Write functions for the following date problems: given two dates, compute the number of days between them; given a date, return its day of the week; given a month and year, produce a calendar for the month as an
+array of characters.
+--
+Let's go through one function at a time. Starting with the function to compute the number of days between them, we will initially assume that both dates are within the same year. If this is true, we can compute the
+number of days between them with the help of a function, day_of_year(), that determines the day number of a date. The 1st of January is always the 1st day. With this function, we just have to subtract the earlier day
+value from the later and we're done. So, for example, 25th February is the 56th day of a year, and 14th January is the 14th, so we have 56-14 = 42 days between them. When we allow for different years to show up, we have
+to be careful with leap years. If every year were 365 days long, we could easily see how many days are between two dates by subtracting day_of_year(earlier_date) from day_of_year(later_date) and multiply it by the amount of
+years that go from one to the other. Note that this subtraction yields a negative result every time the earlier date corresponds to a later day in the year when compared to the later date. This is no problem, it basically
+gives us the guarantee that we will not count the day difference twice. Because some of the years are 366 days long, those have to count with 366 days instead of 365.
+A leap year is one that is dividable by 400, or dividable by 4 but not by 100. day_of_year() was implemented as shown in K&R section 5.7, page 111.
+
+Returning the day of the week given a date is very easy. Weeks are 7 days long, so we basically have to use modulus 7 arithmetic. We need a reference point, that is, a known date with a corresponding day of the week.
+A universal known date is January 1, 1800, it was Wednesday. A standard rule is to use 0 for Sunday, 1 for Monday, 2 for Tuesday, etc. We will store a character string array with the names of each day of the week, where
+array[0] is "Sunday". To know the day of the week for a given date, we just have to use the function developed before to get the difference between January 1, 1800 and the given date in days, and then use modulus 7 arithmetic
+to arrive at the correct array position. If the date is earlier than January 1, 1800, then we want to go back in the array for days_diff() days instead of going forward. Going back one position in the array is the same as going
+forward 6 positions, so in this case, we need to multiply days_diff by 6 before applying modulus 7 arithmetic. Note that this solution only works for new style dates; the output will be wrong for any date prior to 
+January 1, 1752 (see http://en.wikipedia.org/wiki/Old_Style_and_New_Style_dates).
+
+It is now easy to produce a calendar for a given month inside a year. We use the function developed above, day_of_week(), to compute the day of week of the first day in the month. Then, we just have to iterate in the
+weekdays array in modulus 7 arithmetic to know every week day for the next days in the month, and we keep doing this until the last day of the month is reached. For the same reasons posed before, this function will not
+work properly for dates earlier than January 1, 1752.

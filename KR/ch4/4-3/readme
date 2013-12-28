@@ -1,0 +1,13 @@
+Exercise 4-3
+Given the basic framework, it's straightforward to extend the calculator. Add the modulus (%) operator and provisions for negative numbers.
+
+Brief explanation:
+--
+The modulus operator is just one more case inside the main switch that we have to consider. However, we need to cast both operands to int, because modulus operations
+are only valid for integers. On the other hand, the final result, even though it's an int, will be pushed as double to the stack, meaning we will need 3 casts: 2 to int, and 1 to double.
+To add negative number support, we have to modify getop(). The first if test must be modified: if the first non-blank character detected was a '-', we have to go and pick the next character.
+If the next char is not a digit and is not '.', then we push it back to the input, and we return '-'. Otherwise, we re-use the rest of the function, by cheating and saying that the first non-blank
+character read was the one after '-'. This allows us to re-use the whole code without any other changes. Remember that strings with leading '-' are accepted by atof().
+
+GCC command:
+gcc -o solution getch.c getop.c main.c stack.c -Wall

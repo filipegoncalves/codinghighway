@@ -1,0 +1,5 @@
+2.6.2
+Given a sequential file containing 4,300,000,000 32-bit integers, how can you find one that appears at least twice?
+--
+This is very similar to problem A; instead of looking for the missing integers, we are looking for repeated integers. Thus, a binary search can be performed in exactly the same way, but we just have to 
+choose the range half that includes more numbers.

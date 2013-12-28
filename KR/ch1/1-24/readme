@@ -1,0 +1,18 @@
+Exercise 1-24
+Write a program to check a C program for rudimentary syntax errors like unbalanced parentheses, brackets and braces. Don't forget about quotes, both single
+and double, escape sequences, and comments. (This program is hard if you do it in full generality.)
+
+Brief explanation:
+--
+We can reuse the solution from the previous exercise, except that this time we will not output the program without comments. Instead, we will warn the programmer
+about syntax errors on his code. 
+This will be a very, very, very rudimentary compiler with no lexical or semantical analysis (and, of course, with no code generation, which happens to be the main reason
+for it to exist...). All we have to do is make sure that parentheses, brackets and braces are correctly balanced. To do this, we will keep 3 separate counters to remember 
+how many parentheses, brackets and braces were opened previously. Everytime we're outside of a comment and outside of a string, we increment the respective counter when we 
+see one of the mentioned chars, and we do the opposite when we read a closing one. If the decrement operation yields a negative counter at some point, then there's a syntax error, 
+and we warn our user. Also, we SHOULD keep a stack with the currently opened chars, because you must always close them in the reverse order. E.g., if we read ([[{, then, at 
+some point in the code, first we must read }, then we must read ]], and finally we can read ). However, we will not do this because stacks have not been covered yet in this chapter 
+(this is supposed to be an introductory level exercise). However, we will keep a line counter, to produce verbose, informative outputs about where the error is inside the source file.
+
+GCC command:
+gcc -o solution solution.c -Wall

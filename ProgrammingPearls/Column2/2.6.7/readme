@@ -1,0 +1,61 @@
+2.6.7
+In the early 1960's, Vic Vyssotsky worked with a programmer who had to transpose a 4000-by-4000 matrix stored on magnetic tape (each record had the same format in several dozen bytes). The original program his colleague
+suggested would have taken fifty hours to run; how did Vyssotsky reduce the run time to half an hour?
+--
+The solution is not very intuitive, but the author describes it briefly in the hints section. Every record shall be prefixed with column and row number. Then, the system sorting function is called, and as a final step,
+the row and column prefixes are removed.
+This is a very cool idea. My implementation reads a file from stdin where an N by N matrix is represented as one record per line; records are printed line by line. So, for example, the matrix
+
+1  2  3  4
+5  6  7  8
+9  10 11 12
+13 14 15 16
+
+Corresponds to the input
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+
+There are two programs that must be compiled to get the whole system working. Both of them are coded in this exercise's solution file, you must choose which one you want by using compile-time flags. First, you must
+compile the encoder program. This program will read each input line and output it prefixed with column and row number of that record. Then, you need to compile the decoder. The decoder reads a sorted input with the encoded 
+format and removes each record's column and row prefix that was previously inserted by the encoder. Column, row and record values are split with spaces so that both programs can easily isolate each kind of entry in the same
+record. In the example above, the encoder would output this:
+0 0 1
+1 0 2
+2 0 3
+3 0 4
+0 1 5
+1 1 6
+2 1 7
+3 1 8
+0 2 9
+1 2 10
+2 2 11
+3 2 12
+0 3 13
+1 3 14
+2 3 15
+3 3 16
+
+To compile the encoder, type in this command: gcc -o encoder solution.c -Wall
+To compile the decoder, type in this command: gcc -o decoder solution.c -Wall -DDECODE_VERSION
+
+The whole system can be executed with this command: ./encoder <matrix.in | sort -k 1n -k 2n | ./decoder >matrix.out
+matrix.out will hold the transpose of matrix.in. To check for program correctness, we can go further and execute the whole system twice on the same matrix, because of the identity ((A)_t)_t = A, where _t means "transposed".
+We can run this test with the command: ./encoder <matrix.in | sort -k 1n -k 2n | ./decoder >matrix.out; ./encoder <matrix.out | sort -k 1n -k 2n | ./decoder >matrix.orig; diff matrix.in matrix.orig
+If the program is correct, the command above should print no output.
+
+Remember to update the value for N in solution.c if you change the matrix size when you test this code.

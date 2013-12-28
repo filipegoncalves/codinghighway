@@ -1,0 +1,17 @@
+Exercise 5-11
+Modify the programs entab and detab (written as exercises in Chapter 1) to accept a list of tab stops as arguments. Use the default
+tab settings if there are no arguments.
+
+Brief explanation:
+--
+We will define a new function, get_next_tab_stop, that returns the number of characters that can be read until the next tab stop. The structure and logic of both programs
+remains exactly the same, but now, instead of reading NDETAB to know how many positions are left until NDETAB, we must keep track of that in a new variable, next_stop, that is updated
+everytime the position is reset. get_next_tab_stop will use a static variable to maintain some internal state; in particular, it will use a variable that holds the last value read from argv, so that
+it can subtract it in the next call. This is necessary to make sure it retunrs the number of positions until the next tab stop.
+
+Also, we will adopt the convention that if the text is longer than the max. column number given, the program will insert tab stops every NDETAB (5) positions, which is also the default value if no
+arguments are given to main().
+
+GCC command:
+For entab, use: gcc -o entab entab.c -Wall
+For detab, use: gcc -o detab detab.c -Wall

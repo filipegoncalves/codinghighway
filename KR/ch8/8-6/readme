@@ -1,0 +1,16 @@
+Exercise 8-6
+The standard library function calloc(n,size) returns a pointer to n objects of size <size>, with the storage initialized to zero.
+Write calloc, by calling malloc or by mnodifying it.
+
+Brief explanation:
+--
+calloc is very easy to write. calloc uses malloc() to allocate a pointer of size n*size, and after that, every memory block shall be initialized to 0.
+We do this with a for loop.
+Note that the pointer returned by malloc will be casted to char *, because n*size yields the number of bytes allocated, and because sizeof(char) is always 1,
+we can safely initialize every "unit" of the allocated memory region to 0 by using chars. However, before returning, we must cast it to void *.
+
+NOTE: If you're wondering about naming conflicts (note that I named it my_calloc, my_malloc, etc), you can read about the issues that can arise in my blog
+at http://codinghighway.com/?p=468 or by searching "The magic of wrappers" in my blog.
+
+GCC command:
+gcc -o solution solution.c base.c -Wall

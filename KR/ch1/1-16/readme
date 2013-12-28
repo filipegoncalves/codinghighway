@@ -1,0 +1,10 @@
+Exercise 1-16
+Revise the main routine of the longest-line program so it will correctly print the length of arbitrarily long input lines, and as much as possible of the text.
+
+Brief explanation:
+--
+To do this, the getline function just needs to keep counting the chars untill the end, even if it reached the limit of the buffer (in which case it counts but it
+obviously doesn't write the text to the buffer). In the end, we just have to return the total computed length, and print the returned value in the main function.
+
+GCC command:
+gcc -o solution solution.c -Wall

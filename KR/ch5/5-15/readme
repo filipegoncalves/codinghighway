@@ -1,0 +1,12 @@
+Exercise 5-15
+Add the option -f to fold upper and lower case together, so that case distinctions are not made during sorting; for example, 'a' and 'A' compare equal.
+
+Brief explanation:
+--
+For a generic explanation of the approach taken, please refer to the readme file of exercise 5-14.
+Assuming you've read it, this is really simple. We will use strcasecmp, part of string.h, to make the case insensitive comparison. When we read -f, we change the order function to a wrapper 
+for strcasecmp.
+
+
+GCC command:
+gcc -o solution solution.c -Wall

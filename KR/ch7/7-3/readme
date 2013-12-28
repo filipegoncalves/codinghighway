@@ -1,0 +1,20 @@
+Exercise 7-3
+Revise minprintf to handle more of the other facilities of printf.
+
+Brief explanation:
+--
+The other facilities that are missing are:
+	- minus sign
+	- minimum field width, period and precision digit 
+	- returning number of printed chars
+	- Final "h" or "l" to indicate short or long digit
+	- modifiers like p, c, u, g, e, x, o, ...
+We will not care about h or l in the end for short and long, and we will not implement new
+modifiers, such as p, e, u, etc., because they are only used for conversions.
+minprintf is assumed to receive a valid fmt string. The facilities that were implemented in this exercise include left and right alignment with
+the appropriate padding (padding is made by adding spaces), minimum width and precision, and returning number of characters printed.
+Inside minprintf, we parse fmt, looking for precision, width and alignment modifiers. We then pass this to prettyprint, who uses
+sprintf to make the necessary conversions and pads the output properly.
+
+GCC command:
+gcc -o solution solution.c -Wall

@@ -1,0 +1,15 @@
+Exercise 5-12
+Extend entab and detab to accept the shorthand
+	entab -m +n
+to mean tab stops every n columns, starting at column m. Choose convenient (for the user) default behaviour.
+
+Brief explanation:
+--
+The same approach as the exercise before is taken (using get_next_tab_stop). We will adopt the convention that before column m, there are tabstops every NDETAB (5) columns. This is the default behaviour
+if no arguments are given.
+This time, a new variable is needed to count the total columns read so far, so that get_next_tab_stop can know whether we passed column m. 
+Remember that pos is always reset when a tab stop is reached, so we can't use it for that.
+
+GCC command:
+For entab, use: gcc -o entab entab.c -Wall
+For detab, use: gcc -o detab detab.c -Wall

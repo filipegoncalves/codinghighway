@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+/* This is our final test.
+
+Yay!
+
+ */
+
+int main(int argc, char *argv[]) {
+	int a[30];
+	int f(char);
+	a[f('x')] = 14;
+	printf("%d\n", a[f('x')]);
+	return 0;
+}
+
+int f(char x) {
+	if (x == 'a')
+		return 0;
+	return f(--x)+1;
+}

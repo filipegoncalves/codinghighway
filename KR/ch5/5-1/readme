@@ -1,0 +1,11 @@
+Exercise 5-1
+As written, getint treats a + or - not followed by a digit as a valid representation of zero. Fix it to push such a character back on the input
+
+Brief explanation:
+--
+When we test whether c is '+' or '-', if the test succeeds, we will try and get another char. If it's a digit, we store it and we can go
+out of the "if" block and continue with normal processing. If it's not a digit, we will signalize this by returning 0 and pushing back whatever was
+read after the + or -. Note that we must do this in order to allow things like +-5 to be correctly processed.
+
+GCC command:
+gcc -o solution solution.c getch.c -Wall

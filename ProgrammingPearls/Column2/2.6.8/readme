@@ -1,0 +1,21 @@
+2.6.8
+[J. Ullman] Given a set of n real numbers, a real number t, and an integer k, how quickly can you determine whether there exists a k-element subset of the set that sums to at most t?
+--
+A subset of the set that sums to at most t exists if an only if the subset of the k smallest elements sums to at most t (and, in which case, that subset can be used as our final answer).
+To determine the k smallest elements, we can sort the original set in O(n*log(n)) time, and then we just have to sum the first k elements, and see if the result is less than or equal to t.
+The solutions for this exercise report that when Ullman presented this problem in class, students designed algorithms with running times in O(n*log(k)), O(nk), O(n^2) and O(n^k). Below, I list examples of such
+algorithms.
+
+O(n*log(k)): sort the array, but stop after the first k elements are in its final position. This is slightly better than sorting the whole array, and since we're only interested in the first k elements, it makes no difference.
+This can easily be implemented with some changes in quicksort. Each recursive call to quicksort places an element in its final position, thus, we could use a counter and increment it every time quicksort places the pivot
+in a final position with index lower than k. When our counter hits k, there are k elements in its final position, all of them placed in a position lower than k, so we have the k smallest elements and we didn't have to sort
+everything.
+
+O(nk): Iterate through the whole set k-times to find the i-th smallest number in iteration i. For example, in the first iteration, i = 1, so we go through all the set to find the smallest number. With i = 2, we are
+looking for the 2nd smallest number in the whole set again. We keep doing that for k times, by the end of iteration k, we have determined the k smallest elements in O(nk) time.
+
+O(n^2): The same as the previous algorithm, but instead of iterating k times, iterate n times. This method finds the n smallest elements in time O(n^2), but it does a lot of unnecessary work and it's not particularly interesting.
+
+O(n^k): the brute force approach - test every possible combination of k-elements subsets until either we test them all, or we find one with a sum lower than or equal to t. 
+Because we have a set of size n, there are n!/(k!*(n-k)!) different subsets of size k, or, if we count permutations inside the same subset, n!/(n-k)!. Both of these values are bounded by n^k, so the algorithm is O(n^k). 
+This is a very inefficient solution.

@@ -1,0 +1,10 @@
+Exercise 4-4
+Add commands to print the top element of the stack without popping, to duplicate it, and to swap the top two elements. Add a command to clear the stack.
+
+Brief explanation:
+--
+We will use 'p' to print the top of the stack, 'd' to duplicate it, and 's' to swap. We will use 'c' to clear. For 'c', we will need to add a new function in stack.c, clear(),
+that sets sp back to 0.
+
+GCC command:
+gcc -o solution getch.c getop.c main.c stack.c -Wall

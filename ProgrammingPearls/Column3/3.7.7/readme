@@ -1,0 +1,10 @@
+3.7.7
+Typical dictionaries allow one to look up the definition of a word, and Problem 2.1 describes a dictionary that allows one to look up the anagrams of a word. Design dictionaries for looking up the proper spelling of a word and
+for looking up the rhymes of a word. Discuss dictionaries for looking up an integer sequence (such as 1, 1, 2, 3, 5, 8, 13, 21, ...), a chemical structure, or the metrical structure of a song.
+--
+This exercise is about signatures. A dictionary is defined by sorting a word according to a signature function. So, basically this exercise is about finding a good signature for each of the kind of dictionaries.
+Looking up the proper spelling of a word is the most common use of a words dictionary. Hence, the signature is the identity function, meaning, a word's signature is itself. Sorting alphabetically will allow anyone to
+sequentially look up (or even using binary search) the proper spelling of any word, provided they know how to write at least part of the beginning of the word.
+Rhymes are a little different; two words rhyme if they are terminated with the same letters. It can be a little hard to define how many letters from right to left are required to match up between two words to consider them a
+rhyme, but the generic idea is that a good signature would be the reverse of a word, because sorting would place words that end up with the same letters next to each other.
+Every dictionary exercise is about choosing the right signature. Integer sequences can be stored with an identity signature as well, so that sorting them alphabetically makes it easy to find a particular sequence.

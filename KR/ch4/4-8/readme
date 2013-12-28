@@ -1,0 +1,10 @@
+Exercise 4-8
+Suppose that there will never be more than one character of pushback. Modify getch and ungetch accordingly.
+
+Brief explanation:
+--
+This is a very simple tweak. If there is at most one char of pushback, there is no need to keep buf and bufp. We just need
+an external char variable to hold the pushback.
+
+GCC command:
+gcc -o solution solution.c -Wall

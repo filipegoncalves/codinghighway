@@ -1,0 +1,87 @@
+4.6.9
+As exercises in program verification, precisely specify the input/output behavior of each of the following program fragments and show that the code meets its specification. The first program implements the vector
+addition a = b + c.
+	i = 0
+	while i < n
+		a[i] = b[i] + c[i]
+		i = i+1
+(This code and the next two fragments expand the "for i = [0,n)" loop to a while loop with an increment at the end.) The next fragment computes the maximum value in the array x.
+	max = x[0]
+	i = 1
+	while i < n do
+		if x[i] > max
+			max = x[i]
+		i = i+1
+This sequential search program returns the position of the first occurrence of t in the array x[0..n-1].
+	i = 0
+	while i < n && x[i] != t
+		i = i+1
+	if i >= n
+		p = -1
+	else
+		p = i
+This program computes the n-th power of x in time proportional to the logarithm of n. This recursive program is straightforward to code and to verify; the iterative version is subtle, and is left as an additional problem.
+	function exp(x, n)
+			pre n >= 0
+			post result = x^n
+		if n = 0
+			return 1
+		else if even(n)
+			return square(exp(x, n/2))
+		else
+			return x*exp(x, n-1)
+--
+Program1:
+	i = 0
+	while i < n
+		/* invariant: a[0..i-1] = b[0..i-1]+c[0..i-1] */
+		a[i] = b[i] + c[i]
+		/* assert: a[0..i] = b[0..i] + c[0..i] */
+		i = i+1
+		/* assert: a[0..i-1] = b[0..i-1] + c[0..i-1] */
+The code meets the specification: the loop invariant is initialized by setting i to 0, meaning that a is not b+c in any position, and it is preserved in each iteration because of the commented assertions inserted in the code.
+The loop terminates because each iteration increments i by one unit, thus, i will eventually reach n and stop. Due to the loop invariant, when i == n, we know that a[0..n-1] = b[0..n-1] + c[0..n-1], which is exactly what
+the specification asks for.
+
+Program2:
+	max = x[0]
+	i = 1
+	while i < n do
+		/* invariant: max = max(x, 0, i-1) */
+		if x[i] > max
+			max = x[i]
+		/* assert: max = max(x, 0, i) */
+		i = i+1
+		/* assert: max = max(x, 0, i-1)
+This program is very easy to verify. The virtual function max(x, y, z) represents the maximum of array x in the interval [y, z]. It can be seen that the loop invariant is preserved as the program runs, and the loop terminates
+because i is incremented one unit per iteration, so it will eventually reach n and stop. When it does, we know that i == n, and the invariant tells us that max = max(x, 0, n-1), so the program is correct.
+
+Program3:
+	i = 0
+	while i < n && x[i] != t
+		i = i+1
+	/* assert: i >= n || x[i] == t */
+	if i >= n
+		p = -1
+	else
+		/* assert: i < n && (i >=n || x[i] == t) => x[i] == t */
+		p = i
+In this program, the loop stops when either it reaches the end of the array x, or it finds t in the array x. So, after the loop breaks, we are guaranteed to know that i >= n || x[i] == t. The code then makes appropriate
+tests to see which of these situations holds, and it meets the specification.
+
+Program4:
+	function exp(x, n)
+			pre n >= 0
+			post result = x^n
+		if n = 0
+			return 1
+		else if even(n)
+			/* assert: x^n = (x^(n/2))^2 */
+			return square(exp(x, n/2))
+		else
+			/* assert: even(n-1) && x^n = x*x^(n-1) */
+			return x*exp(x, n-1)
+Nice piece of code! The base case of the recursion is when n = 0, and it it always reached because the original n is always greater than or equal to 0, and each recursive call reduces n by n/2 (or by 1, depending on n's parity).
+Mathematically, we know that (x^n)^y = x^(n*y), so x^n = (x^(n/2))^2, but we can only use this for values of n such that n%2 == 0, or, equivalently, when n is even (we want to avoid fractional exponents). 
+It can be seen in the code above that it is guaranteed that the rule is only applied when n is even. If n is odd, then n-1 must be even, and that's what happens in the final test.
+Thus, the program conforms to its specification.

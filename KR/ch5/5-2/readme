@@ -1,0 +1,13 @@
+Exercise 5-2
+Write getfloat, the floating-point analog of getint. What type does getfloat return as its function value?
+
+Brief explanation:
+--
+The return type can be the same - int. Note that we're not returning the value we read, we are simply returning a code to indicate what happened: EOF for end of file,
+0 if it's not a number, and something > 0 if the input contains a valid number. We will keep it like that.
+We just have to modify the previous code to search for an optional decimal part, and for each digit after the '.' we read, we update an exponent accordingly, and in the end we
+use it to place the decimal point in the correct place in our float (this is how we did it for atof()).
+It is also necessary to receive a float * as argument instead of an int *.
+
+GCC command:
+gcc -o solution solution.c getch.c -Wall

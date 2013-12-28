@@ -1,0 +1,9 @@
+Exercise 1-5
+Modify the temperature conversion program to print the table in reverse order, that is, from 300 degrees to 0.
+
+Brief explanation:
+--
+This change consists of using a for loop that instead of incrementing the index, it starts at the upper bound and decrements it.
+
+GCC command:
+gcc -o solution solution.c -Wall

@@ -1,0 +1,14 @@
+Exercise 2-8
+Write a function rightrot(x,n) that returns the value of the integer x rotated to the right by n bit positions
+
+Brief explanation:
+--
+To do this, we want to:
+1. Store the rightmost n bits of x. The mask for this is ~(~0 << n)
+2. Shift x n bits to the right
+3. Shift the bits from step 1 sizeof(int)*CHAR_BIT (the number of bits in an int) bits to the left
+4. Return the result of step 2 ORed with the result of step 3.
+Note: in this function, to avoid problems with sign extensions in right shifts, we use unsigned quantities. 
+
+GCC command:
+gcc -o solution solution.c -Wall

@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main() {
+	/* We're inside a comment,
+	so we can have invalid code in here, like:
+	if (((((((x)
+		printf("owned!""));
+	else
+		printf("Not owned....");
+	}}
+	
+	*/
+	printf("It's a string, so no (counting(should be made)]]]]]]]\"right?)))))))))))))))))))))))\"");
+	return (((0)));
+}

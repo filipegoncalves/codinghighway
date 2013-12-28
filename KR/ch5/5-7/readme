@@ -1,0 +1,13 @@
+Exercise 5-7
+Rewrite readlines to store lines in an array supplied by main, rather than calling alloc to maintain storage. How much faster is the program?
+
+Brief explanation:
+--
+This is a simple tweak. readlines must receive the array as an argument, as well as its size. We do not call alloc anymore, and if the number of lines is greater
+than the array length received, -1 is returned.
+We will also receive a new parameter as an argument that will be a big array where every line can be stored. This array can be a local variable in main, allocated in stack automatically, and passed
+to readlines(). lineptr array will then make each position point to the appropriate position in this array where the line begins.
+The code is faster because we do not use dynamic allocation, everything is allocated in stack because we're dealing with local variables.
+
+GCC command:
+gcc -o solution solution.c -Wall

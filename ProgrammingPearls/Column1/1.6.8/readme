@@ -1,0 +1,46 @@
+1.6.8
+When the programmer faced the problem, all toll-free phone numbers in the United States had the 800 area code. Toll-free codes now include 800, 877 and 888, and the list is growing.
+How would you sort all of the toll-free numbers using only a megabyte? How can you store a set of toll-free numbers to allow very rapid lookup to determine whether a given toll-free number is available or
+already taken?
+--
+This is a hard problem to solve. First of all, we will assume that every toll-free area code is a number greater than or equal to 800 and less than or equal to 899. Because all of them start with an 8, we don't
+have to bother about it. So, now, our input can be seen as a set of numbers composed of 9 digits, so we have 10^9 = 1000 million possible numbers. This is way too much, and we are out of luck with only
+1 megabyte (8 million) bits available.
+
+So what can we do? There are several approaches we can take. 
+
+First, we can use the same method, a bitmap vector, to map every number between 0 and 10^9-1. Because we can only use 1 megabyte, this requires that our
+algorithm be a multiple-pass algorithm; in particular, we would need 10^9/(8*10^6) = 125 passes. Reading the input file 125 times is not affordable, that would take a lot of time.
+
+Second, we could try to change our implementation so that each number in 0..10^7-1 maps to a list of numbers between 0..99. That list of numbers could itself be a 100-bits bit-vector, where each bit
+represents a number between 0 and 99. However, this solution uses 100 bits per number, so we would need 100*10^7 = 10^9 bits, so we're back to our 1000 million possible numbers problem.
+
+A third solution would be to split the numbers across different files. Every number with the same prefix would be written to the same file, and then we would have to go through every file and sort it individually without
+worrying about area codes. This is a good solution, but the output is decentralized and scattered all around a set of files. This is not the expected behaviour; output should be centralized in one single file. We could, of course,
+concatenate every file as a final step, but then we would have to sort them by area code. The overall solution would be too complex and not very efficient.
+
+A more intelligent approach is to scan the file several times for each different area code. First, we read the input file, and count how many numbers are associated with each area code. We can store this information
+in an array of 100 ints, where array[0] says how many numbers where read with area code 800, array[1] refers to area code 801, etc. After that, we iterate through that array, and for each counting greater than 0, we read
+and sort the input file considering only the numbers with the area code of that array position. Because we know how many of them there are, we can stop as soon as all of them are read, so we don't necessarily have to read the
+whole file.
+As of this writing, there are 5 area codes: 800, 855, 866, 877 and 888. Future additions will be 844, 833 and 822, so that leaves us with a total of 8 possible area codes. If there are x distinct area codes, this algorithm
+will read the whole input file x+1 times in a worst case scenario. With 8 area codes, in the worst case, we read the input 9 times, which is acceptable so far. It is much, much better than the 125-pass algorithm we considered before.
+What about memory usage? Considering that there are no toll-free numbers beginning with 0 or 1, we will use 8*10^6 = 8,000,000 bits for the bitmap vector, and 100*32 = 3200 bits for the area-code counting array
+(assuming an int is 32 bits). That leaves us with a total of 8,003,200 bits, which is about 977 KB. We are really, really reaching our memory limit!
+With this in mind, our algorithm can be described like this:
+
+Initialize numbers[100] to 0
+For each number in input
+	Let x be its area code
+	increment numbers[x-800]
+For i = 0..99
+	Clear bitmap vector
+	Go to the beginning of input
+	while (numbers[i] > 0)
+		Read next number from input
+		If area-code == i
+			numbers[i]--
+			Store the number without area code in bitmap vector
+	Print bitmap vector results
+	
+Obviously, the program performance is not as good as our former solution that didn't use areacodes. A sample input file which uses areacodes in the range 800-899 is provided in numbers3.in (1,000,000 unique numbers).

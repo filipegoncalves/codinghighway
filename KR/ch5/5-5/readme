@@ -1,0 +1,14 @@
+Exercise 5-5
+Write versions of the library functions strncpy, strncat, and strncmp, which operate on at most the first n characters of their argument strings.
+For example, strncpy(s,t,n) copies at most n characters of t to s. Full descriptions are in Appendix B.
+
+Brief explanation:
+--
+Read the appendix if you're not sure how the function is supposed to work in some cases.
+This is an easy exercise, we just have to make sure to include the "at most n" condition in our loop tests. 
+Note that, according to Appendix B:
+	a) in strncpy, "at most n" includes the string terminator \0, so, if the limit is reached and \0 was not written, bad luck - whoever called it must be aware of that
+	b) in strncat, at most n chars are copied, but s is always terminated with a single \0
+
+GCC command:
+gcc -o solution solution.c -Wall

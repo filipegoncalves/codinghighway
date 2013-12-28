@@ -1,0 +1,35 @@
+4.6.7
+A colleague faced the following problem in a program to draw lines on a bit-mapped display. An array of n pairs of reals (a_i, b_i) defined the n lines y_i = a_(i)*x + b_i. The lines were ordered in the x-interval
+[0, 1] in the sense that y_i < y_(i+1) for all values of i between 0 and n-2 and all values of x in [0, 1].
+
+Less formally, the lines don't touch in the vertical slab. Given a point (x,y), where 0 <= x <= 1, he wanted to determine the two lines that bracket the point. How could he solve the problem quickly?
+--
+The key to find something in an ordered set quickly is almost always binary search. In this particular example, however, we don't want to find an element, we want to find a pair of elements that brackets a point.
+
+The principle is the same, but instead of stopping the search when we hit the element we were looking for, we will stop the search when our range consists of 2 adjacent neighbors in the ordered array. The general idea
+is that in the beginning we know that if x is between any two lines in the array, then it must be between a pair of lines in the range array[0]..array[n-1]. We then make a traditional binary search, and we stop as soon as
+the lower bound is greater than or equal to the upper bound minus 1. There's a subtle point to keep in mind here, which is to protect the method against values that are not bracketed between any two lines in the array. For this,
+the lower limit is initialized to -1, and the upper limit is initialized to n; if we perform a binary search and one of the range limits remains -1 or n in the end, then the value is off bounds.
+Notice that it also might be the case that the point (x,y) lies exactly in one of the lines in the array. In this case, the result is not a pair of lines, but instead it is just one position.
+
+This method is described by the following pseudo-code:
+
+l1 = -1
+l2 = n
+while l1 < l2-1
+	m = (l1+l2)/2
+	if x is below line m
+		l2 = m
+	else if x is above line m
+		l1 = m
+	else
+		l1 = l2 = m
+if (l1 == -1 || l2 == n)
+	l1 = l2 = -1;
+
+l1 is the lower bound (as in "line1"), and l2 (as in "line2") is the upper. In the end, one of three cases can happen: l1 and l2 are -1, meaning that it is not possible to bracket x between 2 lines; l1 and l2 are different,
+meaning that x is between l1 and l2, or l1 and l2 are the same, meaning that x lies exactly in that line.
+
+The algorithm is O(log(n)) because it uses a modified binary search version. It is nearly impossible to make it more efficient.
+
+In the real implementation, l1 and l2 are pointers passed by the caller, where the result will be stored.

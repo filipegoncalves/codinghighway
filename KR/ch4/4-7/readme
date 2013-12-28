@@ -1,0 +1,16 @@
+Exercise 4-7
+Write a routine ungets(s) that will push back an entire string onto the input. Should ungets know about buf and bufp, or should
+it just use ungetch?
+
+Brief explanation:
+--
+The purpose of writing getch and ungetch in the first place was to create a kind of layer abstraction between the rpn calculator processor
+and the way that the input is handled. So, getch and ungetch define an abstraction layer that allows you go get the next input character, and
+to unget some previously read character. That's all ungets needs - there is no reason for ungets to know about buf and bufp. It will merely
+use ungetch() and hope that it works.
+However, we have to keep in mind that the string must be pushed into the input in reverse order. This makes sense. When you read "hello" char by char,
+you get h, e, l, l and o. It makes sense that getchar behaves in a FIFO manner, so, if you unget h, e, l, l, and o in order, if you call getchar() next,
+you will get o, and then l, l, e, h. This means that we will have to insert each character in the string in reverse order back into the input.
+
+GCC command:
+gcc -o solution solution.c -Wall

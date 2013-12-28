@@ -1,0 +1,45 @@
+1.6.7
+[R. Weil] The program as sketched has several flaws. The first is that it assumes that no integer appears twice in the input. What happens if one does show up more than once?
+How could the program be modified to call an error function in that case? What happens when an input integer is less than zero or greater than or equal to n? What if an input is not numeric?
+What should a program do under those circumstances? What other sanity checks could the program incorporate?
+Describe small data sets that test the program, including its proper handling of these and other ill-behaved cases.
+--
+The answers to these questions will be according to the program developed in exercise 1.6.3.
+When an integer shows up more than once, nothing special happens. setbit() will be called again for a bit that is already set, so the final result is that the integer only shows up once in the sorted
+output, regardless of how many times it showed up in the input. It is easy to modify the program to print a warning when a number is read more than once. We just have to modify the while loop that reads
+the input to check if that integer has already been inserted, and print an appropriate warning in that case. Thus, this piece of code:
+
+/* Read and store every number */
+while (scanf("%d", &n) == 1)
+	setbit(arr, n);
+		
+becomes
+
+/* Read and store every number */
+while (scanf("%d", &n) == 1) {
+	if (isset(arr, n))
+		fprintf(stderr, "Warning: duplicate entry read (%d)\n", n);
+	else
+		setbit(arr, n);
+}
+		
+Errors are printed to stderr to make sure the user reads it even if stdout was redirected to a file (as it probably was).
+
+When an integer is less than 0, the progam behavior is implementation defined because of the way we make the divisions. Our code that determines the array position:
+
+(a)[(x) >> CHAR_BIT_LOG]
+
+Uses a right shift instead of a division. If x is negative, it means the most significant bit is set to 1 (2's complement notation uses the first bit to indicate the sign), and when that happens, it is implementation
+defined whether the sign is extended or new positions are filled with 0's. If the sign is extended, (x) >> CHAR_BIT_LOG will result in a negative number, so we will be indexing the array in a negative position. The
+program will most likely crash with a segfault, or read garbage values (depending on the resulting number, it can hit a valid memory location inside the process' addressing space). If the sign is not extended, it will
+either overwrite an arbitrary position belonging to another valid number, or it will index a position that goes besides the array limit. Again, it depends on the result. We can easily prevent these errors by using a 
+more robust check inside the while() loop that reads input.
+
+If an integer is greater than or equal to n, it depends on how big it is. If it is so big that it wouldn't fit in a normal int, scanf reports it by setting errno to ERANGE. If it fits an int but it is greater than or equal to n,
+an off-the-limits position is indexed in our array. Again, we can fix both of these situations by placing appropriate tests inside the while loop.
+
+If an input is not numeric, scanf will return 0, and the program will stop reading input, print the sorted numbers that have been read so far, and exit. We can change this by using feof() function provided by stdio.h. It
+tests whether EOF has been reached for a file. A good approach is to test for EOF after breaking out of the main while loop. If EOF was read, then the input was well-formed and we can print the result. Otherwise,
+non-numeric input was read, and the program warns the user and aborts.
+
+That's pretty much all there is to it. As far as I'm concerned, we've covered every ill-formed input cases. The solution file included for this exercise implements all of the above error checks.

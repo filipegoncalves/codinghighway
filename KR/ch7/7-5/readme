@@ -1,0 +1,29 @@
+Exercise 7-5
+Rewrite the postfix calculator of Chapter 4 to use scanf and/or sscanf to do the input and number conversion.
+
+Brief explanation:
+--
+This is a pretty straightforward task, we just have to make sure that we use scanf in a good way.
+The function to update is our old getop(). We will call scanf to match either the next number in the input, or an operation (+, -, etc).
+Note that the scanf call with %c in getop() has a leading blank; this is crucial, because we want %c to match the next non-blank character.
+With the use of scanf, input conversion is much easier, so our new getop() function is not as complex as the one we had to write back in chapter 4.
+Also, because we use scanf, negative numbers are automatically allowed, and it is easy to extend it to use floats (with %f instead of %d).
+However, using scanf has its drawbacks as well, and one of them is that we are unable to match newlines. Instead, the user has to explicitly inform where the current
+operation ends. We will do this with a ';'. For example, 
+3 4 5 + 9 - +;
+Means that we are expecting the program to print us the result of (4 + 5) - 9 + 3. If, instead, we used
+3 4 5 + -;
+2 1 - ;
+We would be asking for 4 + 5 - 3 and then 2 - 1. On the other hand, this small change can bring advantages as well: we now support multi-line expressions, which might become
+handy for someone with complicated expressions. We also allow for multiple expressions in the same line, as in 3 4 + ; 2 2 + ;
+I also implemented a special "quit" instruction to end the program. It is recognized by the character q. So, if we input
+3 2 + ; q
+It will print 5 and then terminate the program. If, instead of that, we had
+3 2 + q
+The program would terminate without printing the result. We will assume the input is well-formed, and that it fits in our stack capacity.
+
+Alternatively, we could use a different approach similar to that described in the book: read a line with getline(), and then parse it with sscanf. I just didn't do it because I had
+this idea for multi-line expressions and end-of-statement character ';' and I wanted to implement it :)
+
+GCC command:
+gcc -o solution getch.c getop.c stack.c main.c -Wall

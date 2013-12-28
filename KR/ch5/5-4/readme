@@ -1,0 +1,20 @@
+Exercise 5-4
+Write the function strend(s,t), which returns 1 if the string t occurs at the end of the string s, and zero otherwise
+
+Brief explanation:
+--
+This is equivalent to asking if t is a suffix of s. We can start with a pointer to the end of t and another to the end of s. We will compare each
+position from the end with the equivalent position in s untill a different char is found or until we reach the beginning of p or t.
+In the end, we just have to see if the characters matched brought our pointer to the beginning of t - meaning that all the characters in t were matched.
+
+Side note:
+Our loop condition is
+	while (q > t && s > p && *q-- == *p--);
+instead of
+	while (q >= t && s >= p && *q-- == *p--);
+because pointer comparison is only guaranteed to be portable for pointers to elements in the same array (this is explained throughout the book).
+Therefore, in the case that either q or p reached t-1 (or s-1), the test q >= t and s >= p can be semantically invalid for some machines.
+However, this forces us to explicitly test for the last position before returning.
+
+GCC command:
+gcc -o solution solution.c -Wall

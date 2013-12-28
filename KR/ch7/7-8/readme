@@ -1,0 +1,14 @@
+Exercise 7-8
+Write a program to print a set of files, starting each new one on a new page, with a title and a running page count for
+each file.
+
+Brief explanation:
+--
+This is an easy task. The program layout will be pretty similar to the one developed in the previous exercise, with the only
+difference being in the equivalent of search_file. We will call it print_file, and what it does is it starts a new page count,
+and prints every line in that file; the title will be "<FILE NAME> - PAGE <pageNumber>". I will assume each page can hold up to
+PAGELIM (60 in my solution) lines.
+The files names are passed as an argument to main().
+
+GCC command:
+gcc -o solution solution.c -Wall

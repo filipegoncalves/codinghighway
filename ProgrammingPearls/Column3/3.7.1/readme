@@ -1,0 +1,28 @@
+3.7.1
+As the second edition of this book goes to press, individual income in the United States is taxed at five different rates, the maximum of which is around forty percent. The situation was formerly more complicated, and more
+expensive. A programming text gave the following twenty-fixe if statements as a reasonable approach for calculating the 1978 United States Federal Income Tax. The rate sequence .14, .15, .16, .17, .18, ... exhibits jumps
+larger than 0.01 later in the sequence. Any comments?
+if income <= 2200
+	tax = 0
+else if income <= 2700
+	tax = .14 * (income - 2200)
+else if income <= 3200
+	tax = 70 + .15 * (income - 2700)
+else if income <= 3700
+	tax = 145 + .16 * (income - 3200)
+else if income <= 4200
+	tax = 225 + .17 * (income - 3700)
+	...
+else
+	tax = 53090 + .70 * (income - 102200)
+--
+The system is obviously doomed to fail. Everything is basically hardcoded, and the resulting program is difficult to read and a nightmare for maintenance. A better approach is to use an array where each entry consists of
+a structure with the income threshold, the base value, and the increment. The array must be guarded with an initial 0-income entry, so that a general rule can be applied even for boundary condition cases like income <= 2200.
+For the same reason, the end of the array must be guarded with an infinity value that applies the largest tax.
+
+A problem that must be solved is how to determine the array position of an income x. If we keep the array sorted (as we naturally will anyway), we can perform a binary search, but with 25 different salary ranges, that's not
+worth the work to implement it. My implementation, provided as this exercise's solution file, uses an ordinary sequential search. It receives a list of salaries as arguments, separated by a space, and outputs the value that
+must be paid for each one of them.
+
+NOTE: Even though I used wide enough types to represent numbers, in a real-world implementation, and given the importance of this matter, it would be wise to use errno.h and test for overflow conversions after calling scanf()
+and printf().

@@ -1,0 +1,20 @@
+8.7.14
+Given integers m and n and the real vector x[n], find the integer i (0 <= i < n-m) such that the sum x[i] + ... + x[i+m] is nearest to zero.
+--
+This is basically asking to make an algorithm to find the subarray of size equal to m+1 with sum closest to 0. It can be done in O(n) time by testing every possible subvector of size m+1. Initially, we compute 
+the subarray sum for x[0..m], and store it in "sum". Then, for every value i in [1,n-m), we know that its sum is given by sum-x[i-1]+x[i+m]. We just need to keep track of the best match seen so far and return it when
+the loop ends.
+
+Here's some pseudocode:
+
+sum = 0
+for i=[0,m]
+	sum += x[i]
+bestmatch = abs(sum)
+besti = 0
+for i=[1,n-m)
+	sum = sum - x[i-1] + x[i+m]
+	if (abs(sum) < bestmatch)
+		bestmatch = abs(sum)
+		besti = i
+return besti

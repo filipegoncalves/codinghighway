@@ -1,0 +1,26 @@
+4.6.6
+[C. Scholten] David Gries calls this the "Coffee Can Problem" in his Science of Programming. You are initially given a coffee can that contains some black beans and some white beans and a large pile of "extra" black beans.
+You then repeat the following process until there is a single bean left in the can.
+	Randomly select two beans from the can. If they are the same color, throw them both out and insert an extra black bean. If they are different colors, return the white bean to the can and throw out the black.
+Prove that the process terminates. What can you say about the color of the final remaining bean as a function of the numbers of black and white beans originally in the can?
+--
+The process can be broken down in pseudo-code like this:
+	x = number of beans in the can (black + white)
+	while there are beans in the can
+		pick 2 beans x and y
+		if x.color == y.color
+			throw x and y away
+			x -= 2
+			insert extra black bean
+			x++
+		else
+			Let z be the black bean
+			throw z away
+			x--
+
+Notice that both of the 2 possible branches decrement x, the total number of beans in the can, by 1. Thus, a loop invariant is that the total number of beans in the can is equal to x. Because x is decremented by 1 in
+each iteration, the process always terminates. 
+Another loop invariant is that either we threw away 2 white beans, or we threw away 0 white beans; this means that white beans parity is always preserved. Thus, if there's an odd number of white beans, we will eventually
+get to a point where only 1 white bean remains in the can, and it's impossible to remove it because if we pick this white bean and another black one, the rule says to throw the black one away and keep the white. So we will
+always keep it to the end. If there's an even number of white beans, the last bean is black: eventually, we will pick 2 white beans and throw them both away. This will happen for every pair of white beans, until we pick
+the last 2 white beans and replace it with one of the extra black beans.

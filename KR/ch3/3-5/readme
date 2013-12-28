@@ -1,0 +1,12 @@
+Exercise 3-5
+Write the function itob(n,s,b) that converts the integer n into a base b character representation in the string s. In particular, itob(n,s,16) formats n as a hexadecimal
+integer in s.
+
+Brief explanation:
+--
+This function works exactly the same way as the previous one, but instead of using modulo 10 arithmetic, we will be using modulo b.
+However, we have to handle the case in which our current digit is greater than 9, to format it as a valid letter representation. So, we will assume that b is at most 36.
+Read more about base-b arithmetic at my blog in http://codinghighway.com/?p=60, or by searching for "Formatting your mind for base b"
+
+GCC command:
+gcc -o solution solution.c -Wall

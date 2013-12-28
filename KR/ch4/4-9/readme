@@ -1,0 +1,17 @@
+Exercise 4-9
+Our getch and ungetch do not handle a pushed-back EOF correctly. Decide what their properties ought to be if an EOF is pushed back,
+then implement your design.
+
+Brief explanation:
+--
+The problem is that the buffer array, buf, was declared as an array of char. However, EOF is represented as a negative value (typically -1).
+If we try to store EOF (-1) in our char array, a conversion from int to char will occur. This is fine, because we will only be trimming some bits
+on the left. However, when someone calls getch() in the next step, we will pop off our EOF from the char array, and because getch() returns an int, 
+a conversion from char to int must occur. The ANSI C standard doesn't specify what happens when an int is converted to a char. If the leftmost bit of the char
+is 1, the architecture may simply assume it's a negative number (because of 2's complement), and extend the sign untill it fills the whole word length with 1's,
+or it can simply add 0's on the left positions untill word length is reached. If EOF was -1, this would work if the sign was extended, but it would depend on the architecture.
+If EOF is not -1, then nothing would work.
+The solution is to declare the buffer array as an int array instead of char, which will avoid any type conversions.
+
+GCC command:
+gcc -o solution solution.c -Wall

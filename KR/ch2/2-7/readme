@@ -1,0 +1,12 @@
+Exercise 2-7
+Write a function invert(x,p,n) that returns x with the n bits that begin at position p inverted (i.e., 1 changed into 0 and vice versa), leaving the others unchanged.
+
+Brief explanation:
+--
+We will assume n > 0, and p >= 0, i.e., p = 0 is the rightmost position. invert(x,p,n) will invert bits that go from position p down to p-n+1.
+We just have to create a mask that is 1 for every bit position on x that will be changed. This mask is given by ~(~0 << n) << p-n+1 - this should be a recognized pattern if you
+looked at the previous exercises.
+To invert the bits, we just need to XOR the mask with x.
+
+GCC command:
+gcc -o solution solution.c -Wall

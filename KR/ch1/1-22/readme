@@ -1,0 +1,15 @@
+Exercise 1-22
+Write a program to "fold" long input lines into two or more shorter lines after the last non-blank character that occurs before the n-th column of input. Make sure your program
+does something intelligent with very long lines, and if there are no blanks or tabs before the specified column.
+
+Brief explanation:
+--
+For this exercise, we will have a buffer of size MAXLINE+2, where MAXLINE denotes the n-th column where a line will broken. The line is broken at most after MAXLINE characters, if there
+are trailing blanks, the line will be broken after the last non-blank character that occurs before the MAXLINE'th column. Trailing blanks are ignored forever.
+To do this, our buffer will hold the line characters read so far, and there will be 2 variables, pos and i, denoting, respectively, the next position to write in our buffer, and
+the position after the last known non-blank character that was written to the buffer. The buffer is MAXLINE+2 long so that we have time to store \n and \0 in the worst case (when
+MAXLINE characters have been read and there are no trailing blanks).
+When newline is read or the buffer limit is reached, the buffer is terminated with a \n if it is needed, and finally with a NULL byte (\0). We then print this line.
+
+GCC command:
+gcc -o solution solution.c -Wall

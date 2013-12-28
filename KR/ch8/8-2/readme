@@ -1,0 +1,47 @@
+This solution file solves exercises 8-2 and 8-3.
+NOTE: When testing this code, I ran into a small creepy "bug" that you may get when using stdin and stdout (thus,
+it involves getchar() and putchar()). Remember that both stdin and stdout are buffered, so you need to close the file
+or flush its buffer if you want to actually see what you wrote. For example, putchar('A') will not print anything in your terminal
+untill you fclose(stdout) or fflush(stdout).
+
+Exercise 8-2
+Rewrite fopen and _fillbuf with fields instead of explicit bit operations. Compare code size and execution speed.
+--
+Fields were introduced back in chapter 6, section 9. They allow for more clear flags tests, and avoid bit operations.
+To do this, _flags will be declared as a structure of bit fields, each field uses only 1 bit. We then have to change every
+place that used bitwise ANDs and ORs to make a direct comparison with the structure flags.
+When converting bitwise operations to use bit fields, careful must be taken not to change the semantic meaning of the code.
+The most tricky one in this exercise is in the function _fillbuf. This piece of code:
+if ((fp->flag&(_READ|_EOF|_ERR)) != _READ)
+Will be converted to:
+if (!fp->flags._READ || fp->flags._EOF || fp->flags._ERR)
+Since the original version will evaluate the IF condition to true only when the _READ bit is enabled among _READ, _EOF and _ERR. This
+is equivalent to saying that the IF is true when any of _EOF or _ERR is set, or when _READ is not set. The other conversions are relatively
+straightforward.
+The code is a little bit longer than the original version, and bit fields are implementation dependent and are not as fast as bitwise operations.
+
+Exercise 8-3
+Design and write _flushbuf, fflush, and fclose.
+--
+First of all, we have to analyze what _flushbuf will behave like. _flushbuf behaves in pretty much the same way as _fillbuf, except that it writes the file
+instead of reading it. When _flushbuf is called, it means that a putc request was called either with a recently opened file for which no buffer was allocated yet,
+or the buffer has run out of space and needs to be flushed to the file. In the latter case, flushing will call the system function write() and will set the flag _ERR
+if write() returns something that is different from the number of characters in the buffer. Either way, we will always end up with a fresh new buffer, where we have to insert
+the new comer character, thus taking one of BUFSIZ positions, so we set fp->cnt to bufsize-1, and fp->ptr will point to fp->base+1.
+Note that we can make some checking before proceeding further in _flushbuf; in particular, we need to be sure that EOF and ERR have not occurred in the file before starting
+our work.
+
+For fflush, after checking that the file is opened for writing, we will call _flushbuf, and return 0 on success, and EOF otherwise, as specified by the manpage. Note that
+_flushbuf receives a character as the first argument that will be pushed to the buffer after flushing. We can call _flushbuf(0, fp), but this will insert a NULL byte into
+the buffer after flushing; if the flush function is called again, this byte will incorrectly be written to the file - we can't "create" file contents like this.
+The way we will fix this will be by calling _flushbuf(0, fp), but then forcing fp to "think" that the buffer is empty by changing fp's ptr and cnt accordingly.
+
+Finally, fclose will ensure that everything is flushed and that the structure is freed in _iob array. This is signaled by setting both READ and WRITE flags to 0.
+The correct order is:
+	a) flush the buffer by calling fflush
+	b) Freeing fp->base
+	c) Setting READ and WRITE flags to 0
+b) and c) can be swaped, but we can never touch the file flags before flushing the buffer, because fflush() will check these flags.
+
+GCC command:
+gcc -o solution solution.c -Wall

@@ -1,0 +1,17 @@
+Exercise 8-5
+Modify the fsize program to print the other information contained in the inode entry.
+
+Brief explanation:
+--
+This is an easy exercise. All we have to do is add a few more prints in the end of fsize() to dump some more of the fields
+inside stat structure. I chose to print the inode number, the number of links to the file, and owner and group id.
+
+A few important notes:
+On my machine, there's no Dirent type, apparently, my operating system didn't make a typedef struct dirent Dirent. So I had to replace Dirent with struct dirent.
+The final instruction in the function fsize (the printf instruction) throws a warning when you compile K&R's code with -Wall; it says that stbuf.st_size type doesn't match
+the modifier %8ld, which is used for a long. Because stbuf.st_size is of type off_t, and thus implementation dependent, I simply casted it to long, and it worked on my machine, but
+be warned that it may give some weird results in your machine. If it does, you might want to dig inside sys/types.h to figure out the real type of off_t. The same happens with the rest
+of the information that was accessed as part of this exercise.
+
+GCC command:
+gcc -o solution solution.c -Wall

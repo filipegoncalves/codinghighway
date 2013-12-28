@@ -1,0 +1,10 @@
+9.5.6
+C and C++ libraries provide character classification functions such as isdigit, isupper and islower to determine the types of characters. How would you implement those functions?
+--
+These functions are typically implemented as macros, to avoid function call overhead, and their definition is inside the system file ctype.h
+
+You can look at an article where I write about it in my blog at http://codinghighway.com/?p=307
+
+Assume that we call ctype's functions with an argument x. An efficient implementation that is common is to use an array that is indexed by x, where each position holds an integer, and each bit in that integer describes
+a property of x. Because we use x to index an array, ctype.h macros require that x is an integer that represents an unsigned char, or EOF (EOF is guaranteed to be a negative constant so that it is not mixed up with
+an existing character). There are various masks to test for isolated interesting bits. For example, array[x]&DIGIT will test if x is a digit. The implementation is system dependent.

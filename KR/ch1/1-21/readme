@@ -1,0 +1,24 @@
+Exercise 1-21
+Write a program entab that replaces strings of blanks by the minimum number of tabs and blanks to achieve the same spacing. Use the same tab stops as for detab. When either
+a tab or a single blank would suffice to reach a tab stop, which should be given preference?
+
+Brief explanation:
+--
+We will need to keep track of how many blanks and tabs we should write to the output if we read a non-tab in the next iteration. When the position number reaches 
+a multiple of NDETAB, that means we can replace all white spaces with a tab, so we never have more than NDETAB-1 spaces to print. We keep updating those counters as long as we don't
+read another char that is not a tab or a blank.
+When we read a char that is not tab or blank, we print all the tabs and blanks that we have accumulated so far before printing the new char. When we read a tab, because we don't have more
+than NDETAB-1 space, we can safely throw away those blanks and print the tab we just read.
+When we read the newline character, we can't forget that we need to reset the counters.
+The resulting program just chooses to use a tab when both a tab or a blank would fit the space to the next tab stop.
+For testing purposes, it is clever to use some replacement characters for space and tabs, so that it is easy to distinguish them. Assume that a space is represented by _ and a tab by |.
+If we have a tab stop every 5 columns, that is, NDETAB == 5, then for this input:
+Now__________is____the______time
+The expected output is:
+Now||___is____the|___time
+With this trick, it is easier to debug your code if you fail any of my sample tests.
+This is a rather complex in exercise, in the sense that it can go terribly wrong if you don't fully understand what is asked. My hint is to go through some examples on paper first, and develop
+your initial version in pseudo-code by hand. Don't rush into coding.
+
+GCC command:
+gcc -o solution solution.c -Wall

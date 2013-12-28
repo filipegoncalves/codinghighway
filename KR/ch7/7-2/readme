@@ -1,0 +1,15 @@
+Exercise 7-2
+Write a program that will print arbitrary input in a sensible way. As a minimum, it should print non-graphic characters in octal or hexadecimal according
+to local custom, and break long text lines.
+
+Brief explanation:
+--
+Our program will use getchar() to read input char by char. The function isgraph(), from ctype.h, is the perfect and portable way to know whether a character has a graphical
+representation. If it doesn't have, we will print it using a hexadecimal notation, with the help of printf. We will have a default max. line length, LINELENGTH, to know when we
+should break the current line. In order to know when to break a line, we will count the characters read so far. If we read LINELENGTH characters, we break the line. 
+Everytime we print a newline character, the current line characters counter is set back to 0. Note that when we use printf() to print hexadecimal representation of
+characters, we will use its return value to know how many characters were printed. This is necessary because if we have very long lines with non-graphical characters, we would end
+up printing more than LINELENGTH characters per line, since we would count "0x20" as 1 char instead of 4.
+
+GCC command:
+gcc -o solution solution.c -Wall

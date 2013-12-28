@@ -1,0 +1,14 @@
+Exercise 6-5
+Write a function undef that will remove a name and definition from the table maintained by lookup and install.
+
+Brief explanation:
+--
+To do this, first we have to call the hash function to determine the initial position in the array.
+Then, we have to go through the list in that array position and search for the specific name.
+Note that this is a single linked list, meaning we don't have pointers to the previous element. This means that we have to use 2
+pointers in our function, one to the previous element in the list, and one to the current element. This allows us to easily remove
+the name from the list by simply changing the previous element's next pointer to the next element of the current node. Also, after removing
+pointer references, we are required to call free() for name, defn, and finally for the list member.
+
+GCC command:
+gcc -o solution solution.c -Wall

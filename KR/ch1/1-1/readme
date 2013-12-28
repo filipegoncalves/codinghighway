@@ -1,0 +1,9 @@
+Exercise 1-1
+Run the "hello, world" program on your system. Experiment with leaving out parts of the program, to see what error messages you get.
+
+Brief explanation:
+--
+To run the program, we have to:
+1 - Copy the code, write it in some file, and store it, normally with .c extension (e.g. hello.c)
+2 - Compile it: $ gcc -o hello hello.c -Wall
+3 - Run it: $ ./hello

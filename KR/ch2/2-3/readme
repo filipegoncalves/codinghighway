@@ -1,0 +1,13 @@
+Exercise 2-3
+Write the function htoi(s), which converts a string of hexadecimal digits (including an optional 0x or 0X) into its equivalent integer value. The allowable
+digits are 0 through 9, a through f, and A through F.
+
+Brief explanation:
+--
+The algorithm is pretty simple. Assuming that the input string is always well-formed, we start off by ignoring a leading '0x' or '0X', if it exists.
+Then we start computing our number. We have an accumulator n, which is initialized to 0. Everytime we read a new char from the string, we set our
+accumulator like this: n = n*16 + new-number-read. We just have to be carefull to handle a-f values. If the char read is in the range 0-9, nothing is
+to be done, but if it is in the range a-f, the equivalent numerical value is (char_read)-'a'+10 (because A = 10).
+
+GCC command:
+gcc -o solution solution.c -Wall

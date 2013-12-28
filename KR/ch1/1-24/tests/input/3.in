@@ -1,0 +1,8 @@
+#include <stdio.h>
+
+int main()/*let's include some invalid code*/{
+	int a[100] = { 0 ];
+	a[[4] = 59;
+	printf("It's a string, so no (counting(should be made)]]]]]]]\"right?)))))))))))))))))))))))\"");
+	return (((0));
+}

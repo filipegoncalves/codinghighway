@@ -1,0 +1,14 @@
+Exercise 8-7
+malloc accepts a size request without checking its plausibility; free believes that the block it is asked to free contains a valid size field.
+Improve these routines so they take more pains with error checking.
+
+Brief explanation:
+--
+There's not much error checking we can make. Because the argument type is already defined as unsigned, we are guaranteed that malloc and free are not called
+with negative values. We can, however, check against 0 sizes, and we can also keep track of the max. number of bytes allocated so far - this imposes an upper bound
+on the parameter passed to free(). The max number of bytes allocated so far is updated inside morecore(), and is stored in a global variable.
+free() will also crash if it is called with a NULL pointer, this error condition is easy to detect, so we will add it.
+Aside from that, there's really nothing more we can do to prevent errors.
+
+GCC command:
+gcc -o solution solution.c -Wall

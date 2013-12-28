@@ -1,0 +1,18 @@
+Exercise 6-6
+Implement a simple version of the #define processor (i.e., no arguments) suitable for use with C programs, based on the
+routines of this section. You may also find getch and ungetch helpful.
+
+Brief explanation:
+--
+Because this is a simple version, we will not allow arguments and line splitting (that is, \ does not escape newline to extend the
+macro to the next line), and we won't provide for definitions dependent on other definitions (like #define A 1 and #define B A+1). 
+The processor works like this: we have a function, getnexttoken(), that reads the next token from the input. getnexttoken() is the same as getword() that we developed before, but now it doesn't
+ignore spaces. A token obeys the earlier definition for token we had in getword() (tokens can start with #).
+#define names can only hold alphanumeric characters, and a #define spans until the end of the current line.
+The main routine calls getnexttoken() repeatedly. If it gets a "#define" token, it calls a function to process a define declaration. Alternatively, it may
+get a "#undef" token, in which case the behaviour is similar, but instead of defining a new name, process_undef is called (which in turn calls undef() from the previous exercise).
+If none of the above happens, we must check if current token is some non-alphanumeric character - in which case we simply echo that to the output, or, on the other hand, if we have a token consisting of
+a set of alphanumeric characters, we must call lookup() and see if this token is a defined name. If it is, we print the replacement text. Otherwise, we merely print the same token back to the output.
+
+GCC command:
+gcc -o solution solution.c getch.c -Wall

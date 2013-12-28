@@ -1,0 +1,11 @@
+Exercise 4-10
+An alternate organization uses getline to read an entire input line; this makes getch and ungetch unnecessary. Revise the calculator to use this approach.
+
+Brief explanation:
+--
+getch() and ungetch() are used by getop(). So, our rpn main function will be the same, but we will change getop() structure. Instead of reading char by char,
+we will call getline() to obtain the whole line input and then process this line in a similar way as the old getop() version. Note that it is necessary to store
+the current line index and the line itself in an external variable to preserve the value between calls.
+
+GCC command:
+gcc -o solution getop.c main.c stack.c -Wall

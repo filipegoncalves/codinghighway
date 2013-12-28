@@ -1,0 +1,4 @@
+8.7.5
+For simplicity, Algorithm 2b accessed cumarr[-1]. How would you deal with that issue in C?
+--
+By declaring a pointer p to point to array[1], and using it in the rest of the code. Thus, p[0] would refer to array[1], and p[-1] to array[0]. In general, p[i] refers to array[i+1].

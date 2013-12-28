@@ -1,0 +1,16 @@
+Exercise 1-8
+Write a program to count blanks, tabs and newlines.
+
+Brief explanation:
+--
+We will have 3 separate counters - one for blanks, another for tabs and another for newlines.
+Everytime we read a character, untill we do not reach the end of file, we just test it to see whether it is a blank, a tab or a newline,
+and we increment the right counter in case one of these conditions is met.
+
+GCC command:
+gcc -o solution solution.c -Wall
+
+How to test:
+cd tests
+./runtests
+If there's no output, every test was successfull.

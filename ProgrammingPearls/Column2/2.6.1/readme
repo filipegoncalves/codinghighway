@@ -1,0 +1,9 @@
+2.6.1
+Consider the problem of finding all the anagrams of a given input word. How would you solve this problem given only the word and the dictionary? What if you could spend some time and space to process the dictionary before
+answering any queries?
+--
+We will use the signature technique to identify the word. The signature is a sorted version of the word. If we can't preprocess the dictionary, there is nothing we can do besides iterating through every word and comparing
+its signature to the word's signature.
+
+Allowing a preprocessing step makes it easier because we could create a hash table indexed by a word's signature that stored a list of words that have the same signature. Thus, after processing the dictionary,
+the word's anagrams would all be stored in the hash table position of the word's signature.

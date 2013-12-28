@@ -1,0 +1,17 @@
+1.6.9
+One problem with trading more space to use less time is that initializing the space can itself take a great deal of time. Show how to circumvent this problem by designing a technique to initialize an entry of a
+vector to zero the first time is it accessed. Your scheme should use constant time for initialization and for each vector access, and use extra space proportional to the size of the vector. Because this method
+reduces initialization time by using even more space, it should be considered only when space is cheap, time is dear and the vector is sparse.
+--
+This technique is thoroughly described in The Design and Analysis of Computer Algorithms, by Aho, Hopcroft and Ullman. Given a vector v of size n, we allocate two additional vectors, x and y, of size n, and also 
+an integer called "top". "top" can be seen as time counting, and it belongs to the range [0, n]. Vector x stores, for each index j, the "time" when v[j] was initialized, and vector y stores, for each index position k,
+which position in v was initialized in time k. Thus, v[i] (0 <= i < n) has been initialized if and only if x[i] < top and y[x[i]] == i. x[i] denotes the time for when v[i] was initialized, so, if it has been initialized,
+it's initialization time must be less than the actual time. Similarly, if v[i] was initialized in time t, then y[t] == i. Why do we use two vectors, x and y? Because it provides safer conditions; we can't rely on what x
+holds because it wasn't initialized as well, so it would be pretty easy that the condition x[i] < top holds. Also, we couldn't access y[x[i]] without being sure that x[i] < top, otherwise we would be accessing an off-the-limits
+position in y.
+top is initialized to 0, and the array element i is first accessed by the code
+
+v[i] = 0;
+x[i] = top;
+y[top] = i;
+top++;

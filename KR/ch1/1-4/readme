@@ -1,0 +1,11 @@
+Exercise 1-4
+Write a program to print the corresponding Celsius to Fahrenheit table.
+
+Brief explanation:
+--
+The program is exactly the same as the original one, except that it computes the temperatures the other way around.
+We just have to make some math manipulation to end up with:
+Fahrenheit = (9.0/5.0)*celsius + 32.0
+
+GCC command:
+gcc -o solution solution.c -Wall

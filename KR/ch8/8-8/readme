@@ -1,0 +1,13 @@
+Exercise 8-8
+Write a routine bfree(p,n) that will free an arbitrary block p of n characters into the free list maintained by malloc and free.
+By using bfree, a user can add a static or external array to the free list at any time.
+
+Brief explanation:
+--
+We can write bfree with the help of free. bfree will be responsible for checking if the new block has a plausible size, that is, if it's got enough
+space to hold at least a Header element. If it does, then the new pointer's size field is initialized to the correct number of nunits, where nunits
+is n/sizeof(Header), and then it calls free() to insert it in the free list. Simple and easy.
+Our bfree function will return the new pointer stored, or NULL if it was discarded.
+
+GCC command:
+gcc -o solution solution.c -Wall

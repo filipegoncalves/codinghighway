@@ -1,0 +1,8 @@
+2.6.9
+Sequential search and binary search represent a tradeoff between search time and preprocessing time. How many binary searches need to be performed in an n-element table to buy back the preprocessing time required to sort
+the table?
+--
+Mathematically speaking, we want to know the number i for which n*log(n)+i*log(n) <= i*n. i represents how many binary searches have to be made to start taking advantage of time savings when compared with i sequential searches.
+Binary search requires that the array be sorted, this takes n*log(n) time. We only need to sort the array once, so, i binary searches will take n*log(n)+i*log(n) time, and i sequential searches take i*n time.
+Solving the inequality n*log(n)+i*log(n) <= i*n, we get i >= (n*log(n))/(n-log(n)). This means that after (n*log(n))/(n-log(n)) binary searches, the overall spent time starts decreasing when compared to the alternative
+solution of doing sequential search.

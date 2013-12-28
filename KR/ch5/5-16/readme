@@ -1,0 +1,13 @@
+Exercise 5-16
+Add the -d ("directory order") option, which makes comparisons only on letters, numbers and blanks. Make sure it works in conjuction with -f.
+
+Brief explanation:
+--
+For a generic explanation of the approach taken, please refer to the readme file of exercise 5-14.
+Assuming you've read it, we have to build two functions, dcmp, and dcasecmp. The first one is for normal case sensitive matching, the other one is case insensitive.
+It basically consists of strcmp's implementation, but with a new pair of loops to ignore positions that are not blanks, digits or letters.
+For the case insensitive match, we will convert everything to lowercase before comparing with the help of tolower() from ctype.h
+
+
+GCC command:
+gcc -o solution solution.c -Wall

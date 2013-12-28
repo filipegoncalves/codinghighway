@@ -1,0 +1,28 @@
+int
+const int
+int x
+unsigned int x
+unsigned long long *const*xpto
+void (*(*(*(*(*(*(*(*(*(*(*(*)())())())())())())())())())())(int (*(*)[])(char (*)(double [], int *const b))))
+void (*(*(*(*(*(*(*(*(*(*(*(*())())())())())())())())())())(int (*(*)[])(char (*)(double [], int * const volatile)))))
+char **a
+char **(*(*(*x)[100])(int))[50]
+char **(*(*(*x)[100])(int, char *, double *const**, void (*)(int **, char [])))[50]
+char **(*(*(*)[100])(int, char *, double *const**, void (*)(int **, char [])))[50]
+void (*signal(int, void (*)(int)))(int)
+unsigned const * const x
+const int a
+int volatile * const x[100][200]
+int volatile * const [100][200]
+char (*(*x())[])()
+char (*(*())[])()
+int (*daytab)[13]
+int *daytab[13]
+void *comp()
+void (*comp)()
+char (*(*x[3])())[5]
+char (*(*(*a)(int (*)(char, int, float), char **))[12])(int)
+int *(**const*a)[50][100][200]
+int *(**const*)[50][100][200]
+unsigned const char volatile (*const(*volatile(*volatile const a)(unsigned int (*const)(const char, int, float), char *const*))[12])(int (**)[50])
+unsigned const char volatile (*const(*volatile(*volatile const)(unsigned int (*const)(const char, int, float), char *const*))[12])(int (**)[50])

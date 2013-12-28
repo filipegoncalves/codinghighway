@@ -1,0 +1,12 @@
+1.6.4
+If you face Problem 3 seriously, you will face the problem of generating k integers less than n without duplicates. The simplest approach uses the first k positive integers.
+This extreme data set won't alter the run time of the bitmap method by much, but it might skew the run time of a system sort. How could you generate a file of k unique random integers
+between 0 and n-1 in random order? Strive for a short program that is also efficient.
+--
+Here, we are faced with the challenge of avoiding duplicates. Column 12 is a must-read to solve this exercise the good way. It introduces very important concepts and algorithms to efficiently
+generating a set of m unique random integers in [0, n-1], with m <= n.
+
+Because we don't want the set to be ordered, we cannot use Knuth's Algorithm S. Instead, we opt for Knuth's Algorithm P, in which we shuffle an n-element array that contains the numbers 0..n-1.
+To implement Algorithm P, we need a randint() function. We will learn more about it in column 13; for now, it simply adds a random quantity to the lower bound that doesn't exceed the upper bound.
+
+The resulting file, numbers2.in, is provided in this column's root folder.

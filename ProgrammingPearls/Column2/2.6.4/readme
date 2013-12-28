@@ -1,0 +1,10 @@
+2.6.4
+Several readers pointed out that while all three rotation algorithms require time proportional to n, the juggling algorithm is apparently twice as fast as the reversal algorithm: it stores and retrieves each element
+of the array just once, while the reversal algorithm does so twice. Experiment with the functions to compare their speeds on real machines; be especially sensitive to issues surrounding the locality of memory references.
+--
+The algorithms take approximately the same time, there is no significant difference between them. The program used to benchmark each algorithm is stored in this exercise's solution file. Note that it contains a
+150,000 characters array. For further information, I advice you to read an article about this specific exercise in my blog at http://codinghighway.com/?p=726
+While both algorithms take the same time, the reversal algorithm has several advantages. Refer to my blog article for further information.
+
+Please be aware that the 150,000 characters array may be too much for your computer to deal with. If you're getting segfaults with the juggling algorithm, reduce the string size (recursion will easily exceed
+the call stack size). 

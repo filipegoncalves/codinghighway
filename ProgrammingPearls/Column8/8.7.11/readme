@@ -1,0 +1,14 @@
+8.7.11
+A turnpike consists of n-1 stretches of road between n toll stations; each stretch has an associated cost of travel. It is trivial to tell the cost of going between any two stations in O(n) time using only an array
+of the costs or in constant time using a table with O(n^2) entries. Describe a data structure that requires O(n) space but allows the cost of any route to be computed in constant time.
+--
+You can view the problem like this:
+
+ __                     __                     __                     __
+|__|___________________|__|___________________|__|___________________|__|
+toll      road1                  road2                  road3
+
+In this example, n = 4, so we have 3 stretches of road. What's the cost of going from road1 to road3? It's the cost of going to road3 since the beginning minus the cost of going to road1 in the first place (we're already
+in road1). What's the cost of going from roadN to roadM (M > N)? It's the cost of going to roadM since the beginning minus the cost of going to roadN.
+We can use a cumulative array with n positions, where array[i] = cost(0) + cost(1) + ... + cost(i). To build the array, we use O(n) time. The cost of going from roadN to roadM, M > N, can be determined in constant time
+by the expression array[M] - array[N-1].

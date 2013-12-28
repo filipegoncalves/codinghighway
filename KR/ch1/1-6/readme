@@ -1,0 +1,14 @@
+Exercise 1-6
+Verify that the expression getchar() != EOF is 0 or 1.
+
+Brief explanation:
+--
+To test this, we will just print the two possible values of the test, by setting a char to EOF and printing the test value,
+and then by setting it to something else and printing the test value again.
+When executed, the solution code printed: 
+0
+1
+So, indeed, the value of the test is either 0 or 1.
+
+GCC command:
+gcc -o solution solution.c -Wall

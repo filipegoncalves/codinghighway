@@ -1,0 +1,14 @@
+Exercise 1-14
+Write a program to print a histogram of the frequencies of different characters in its input.
+
+Brief explanation:
+--
+We will take a similar approach: there will be an array indexed by char that will tell us how many times that char has appeared in the input.
+This version is way simpler than the exercise before, since we don't need to keep track of the word length to increment the array when we get out
+of the word, because we're just counting single char occurences.
+Please note that the getchar() result is of type int, and that you should iterate on the arrays always with ints (or an unsigned type). 
+A previous version of my solution used char to iterate through the arrays and it randomly threw misterious bugs. 
+This is because of the well known char to int conversion issues. Also, it is convenient to manually show common used escape sequences that would be difficult to read like \n and \t.
+
+GCC command:
+gcc -o solution solution.c -Wall

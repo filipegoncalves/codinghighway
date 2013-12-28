@@ -1,0 +1,21 @@
+Exercise 1-11
+How would you test the word count program? What kinds of input are most likely to uncover bugs if there are any?
+
+Brief explanation:
+--
+We can make a set of exhaustive tests to ensure program correctness. After testing the normal case, i.e., lines with sentences with more than 1 word,
+we should also test some boundary cases. Boundary conditions are where normally you find bugs, since the human mind often ignores or forgets about
+those cases and tries to find a general simple rule.
+Boundary cases that can uncover some bugs are:
+1. A line with only 1 word;
+2. A line with no words;
+3. A line with several words splitted by more than one blank (by blank I mean a tab or a space);
+4. A line with no words and ending with EOF instead of newline;
+5. A line with 1 word ending with EOF instead of newline;
+6. A line with several words ending with EOF instead of newline;
+7. A line ending with a blank before the newline character;
+8. A line ending with several blanks before the newline character;
+9. A line ending with 1 blank followed by EOF instead of newline;
+10. A line ending with more than 1 blank followed by EOF instead of newline;
+As you can see, there are multiple boundary conditions that can uncover hidden bugs.
+The code provided in the book resisted all of those boundary cases. It looks like it is bug free.

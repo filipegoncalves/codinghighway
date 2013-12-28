@@ -1,0 +1,23 @@
+Exercise 6-2
+Write a program that reads a C program and prints in alphabetical order each group of variable names that are identical in the first
+6 characters, but different somewhere thereafter. Don't count words within strings and comments. Make 6 a parameter that can be set from the command line.
+
+Brief explanation:
+--
+Let's assume that n denotes the required number of equal characters in the beginning. If n is not passed as an argument, the default will be 6.
+The exercise statement is not clear enough to mention what happens to strings with less than n characters. Because it mentions "... in the first n characters, but different
+somewhere thereafter", we will simply ignore strings with length < n. Also, the "group" definition is a bit ambiguous. What happens if there's only 1 variable inside a group?
+I will assume it's a group with only 1 element. If the authors explicitly required that a group requires at least 2 variables, then we just needed to add some flag in the tree nodes
+telling whether there are other group elements, and we only printed nodes with this flag set to TRUE.
+With these assumptions, we can use the same program developed for the binary tree example in the book, except that we only add new strings to the tree if their size is >=n, 
+and if they're not there already.
+Note that this solution can be inefficient when a group has lots of elements. A new string joining that group will be compared to lots of elements in the same group, and even
+though the first n characters are the same, we keep comparing them in every node. We could make a custom comparison function that discards the first n characters when we already
+compared them, or we could choose to implement a more complex structure: a binary tree where each node represents a group, and each group is represented by a structure with 
+the group prefix (n characters), and a binary tree with the elements inside that group, with their first n characters removed.
+We must also allow for identifiers starting with '_', and we don't want to identify types (int, char, etc) as variables, so we will try to exclude them as well.
+Note that this solution is still pretty limited; in particular, things like "struct tnode *a" identifies struct, tnode and *a as variables.
+
+
+GCC command:
+gcc -o solution solution.c getch.c -Wall

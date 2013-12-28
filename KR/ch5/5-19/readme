@@ -1,0 +1,22 @@
+Exercise 5-19
+Modify undcl so that it does not add redundant parentheses to declarations.
+
+Brief explanation:
+--
+This is definitely a useful and interesting exercise. When presented with this input:
+x *** char
+The original code prints:
+char (*(*(*x)))
+Much harder to read than char ***x.
+We must be able to know when parentheses are not needed. Or, put it another way, we need to know when parentheses ARE needed.
+The dcl grammar is simple, and we can see that the parentheses issues are related to functions and arrays. Because the * operator has lower
+precedence than function calling or array indexing, something like *x[] means that x is an array of pointers, while (*x)[] means that x is a pointer
+to an array. So, in fact we just need to add parentheses when there is a need to override the default behaviour. In other words, parentheses are needed
+when dealing with pointers to arrays or pointers to functions (because *x() means that x is a function returning a pointer).
+We can do the following: when we read a PARENS or BRACKETS, we need to know if, before that, we have read *. If we did, we have to insert parentheses.
+In order to do this, we have to keep track of the previous token in a new variable, prev_type.
+Sounds easy? It is. Convince yourself that this works. Again, see it this way: you just need 2 cases where parentheses are needed:
+when you have a pointer to a function, or when you have a pointer to an array.
+
+GCC command:
+gcc -o solution main.c getch.c -Wall

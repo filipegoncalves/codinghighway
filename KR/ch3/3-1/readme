@@ -1,0 +1,15 @@
+Exercise 3-1
+Our binary search makes two tests inside the loop, when one would suffice (at the price of more tests outside). 
+Write a version with only one test inside the loop and measure the difference in run-time.
+
+Brief explanation:
+--
+Instead of considering the 2 cases when x > v[mid] and x < v[mid], we will just consider one of them, and include
+the equality test in the while condition. Then, when the while loop stops, we just have to figure out if it stopped
+because it found x, or if it stopped because there's no position with x in the array.
+The tests I've ran show that the original version in the book is twice as fast, as it would be expected, because we end up
+doing more tests outside of the loop, and we moved one of the tests to the while condition, so it's executing on every iteration
+as well. So, it's no big deal, we just moved code around, it's no optimization at all!
+
+GCC command:
+gcc -o solution solution.c -Wall

@@ -1,0 +1,27 @@
+4.6.3
+Write and verify a recursive binary search program. Which parts of the code and proof stay the same as in the iterative version, and which parts change?
+--
+The code is very similar, and the invariant is the same, but instead of a loop, we have a chain of recursive calls. Here's a verification of the recursive function line by line:
+
+int binsrch_aux(int x[], int t, int l, int u) {
+	/* invariant: mustbe(l, u) */
+	int m;
+	if (l > u)
+		return -1;
+	/* assert: l <= u */
+	m = (l+u)/2;
+	/* assert: l <= u && l <= m <= u */
+	if (x[m] < t)
+		/* assert: mustbe(l, u) && l <= u && l <= m <= u && x[m] < t */
+		return binsrch_aux(x, t, m+1, u);
+	else if (x[m] > t)
+		/* assert: mustbe(l, u) && l <= u && l <= m <= u && x[m] > t */
+		return binsrch_aux(x, t, l, m-1);
+	else
+		/* assert: mustbe(l, u) && l <= u && l <= m <= u && x[m] == t */
+		return m;
+}
+
+Every recursive call holds the invariant that if t is in the array, then it must be between l and u. The invariant is initialized by the top root caller, binsrch(), which calls this with l = 0 and u = n-1. The following 
+assertions are similar to the ones showed in the iterative version; in fact, the code is almost the same.
+It can be seen that the recursion stops when l > u, and this condition is always met, because each recursive call shrinks the size of the range by at least one.

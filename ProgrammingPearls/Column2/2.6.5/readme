@@ -1,0 +1,5 @@
+2.6.5
+Vector rotation functions change the vector ab to ba; how would you transform the vector abc to cba? (This models the problem of swapping nonadjacent blocks of memory.)
+--
+This is very easy to do if we think about the reversal algorithm. cba is the same as ((a_r)(b_r)(c_r))_r, so we begin by reversing a, b and c, and then we reverse the whole string.
+My implementation uses a rotate() function that receives the vector to be rotated, the number of elements in the "a" block, the number of elements in the "c" block, and the number of total elements in v.

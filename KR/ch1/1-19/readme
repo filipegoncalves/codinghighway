@@ -1,0 +1,16 @@
+Exercise 1-19
+Write a function reverse(s) that reverses the character string s. Use it to write a program that reverses its input a line at a time.
+
+Brief explanation:
+--
+The idea is to call reverse() with our last line, and then print the line. Reverse will just reverse the string in place using the following procedure:
+- Initalize two indexes: one to 0 (the beginning of the string), and another to the end of the string (that is, strlen(s)-2)
+- While the lower index is lower than the higher index, swap the lower index position with the higher one.
+In Chapter 4, we will solve a very nice exercise which asks us to rewrite this function using recursion. It is a nice alternative, but uses more memory because of
+the function call overhead (uses more stack space).
+Note that care must be taken to avoid some weird behaviour. If we reverse the whole line, \n will be treated as any other char, so it will place \n at the beginning of the line. This means
+that when you read the output, you'd have a blank line followed by the reverse of what you wrote in input, and the cursor will be at the end of your sentence. When you're dealing with a computer, you get what you ask for!
+Therefore, before calling reverse, the newline character must be removed.
+
+GCC command:
+gcc -o solution solution.c -Wall

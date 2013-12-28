@@ -1,0 +1,17 @@
+Exercise 5-10
+Write the program expr, which evaluates a reverse Polish expression from the command line, where each operator or operand is a separate argument.
+For example,
+expr 2 3 4 + *
+evaluates 2 x (3+4)
+
+Brief explanation:
+--
+This is very similar to the RPN calculator developed before. This time we will parse the arguments using argc and argv.
+Note that this method doesn't require the use of getch() and ungetch(), so it will be easier!
+The program structure is the same, but getop() will now receive argv[i], and will only inform main() whether argv[i] is a number or an operation.
+Note: When I tested this, I ran through a meticulous funny "bug". If you run this in bash shell (which is very likely), the operator * will not do what
+you expect. This is because bash matches * as a wildcard for all the files on the current working directory. Very funny "bug", but it's not my fault. 
+So, you have to escape * to use it in our RPN calculator (e.g., the example in the book becomes 2 3 4 + \*).
+
+GCC command:
+gcc -o solution getop.c main.c stack.c -Wall

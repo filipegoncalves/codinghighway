@@ -1,0 +1,23 @@
+Exercise 3-4
+In a two's complement number representation, our version of itoa does not handle the largest negative number, that is, the value of
+n equal to -(2^(wordsize-1)). Explain why not. Modify it to print that value correctly, regardless of the machine on which it runs.
+
+Brief explanation:
+--
+The problem is the assignment inside the first if block (n = -n).
+When using n bits signed integers in 2 complements, we normally split all the values we can represent in half, and because the representation of 0 must count,
+we say that positive numbers go up to 2^(n-1)-1 and negative go down to -2^(n-1). What is the most negative number we can represent in an n bit architecture using
+2's complement? Well, the maximum positive integer will be everything 1's except for the 1st position, which must be 0. For example, in an 8 bit architecture, INT_MAX
+would be 01111111. So, -INT_MAX would be 10000001. Because -INT_MAX = INT_MIN + 1, then INT_MIN = -INT_MAX - 1, which in this example would give us 10000000.
+So, in an n bit architecture, the largest negative number we can represent in 2's complement is represented by a 1 bit followed by n-1 0 bits. When we try to compute the
+negative of this number, that is, -INT_MIN, we basically get the same number! Just try it in the 8 bit example: the negative of 10000000 is 10000000. This happens because INT_MAX
+is equal to INT_MIN+1, so when you compute -INT_MIN, it will overflow because -INT_MIN = INT_MAX + 1, so you can't represent it.
+So, the body inside the do while block will be computing n % 10 with a negative n, and so will throw unexpected results. In particular, (n%10) will be negative, and thus (n%10)+'0' will
+be some character before 0 - it will print garbage.
+We can fix this by storing the sign either as 1 or -1, removing the n = -n assignment, and multiply each n % 10 operation by the original number sign, which ensures that we always get
+positive results.
+We will assume that the char array holds enough space for our computation to proceed.
+Finally, there's a small optimization I made inside the reverse() call. I pass it i as a 2nd argument to avoid traversing the whole string again inside reverse.
+
+GCC command:
+gcc -o solution solution.c -Wall

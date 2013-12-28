@@ -1,0 +1,19 @@
+1.6.6
+What would you recommend to the programmer if, instead of saying that each integer could appear at most once, he told you that each integer could appear at most ten times?
+How would your solution change as a function of the amount of available storage?
+--
+Instead of storing numbers in a bit vector, we can, instead, store an array that maps each integer into how many times it occurred in the input. To count up to 10, we need 4 bits.
+This implies that our new version will use an array that uses 4 bits for each integer representation. The first 4 bits (bits 0 - 3) represent how many times 1 was read, 
+the second 4 bits (4 - 7) represent how many times 0 was read, etc (same representation as before, but now each number uses 4 bits instead of 1). 
+Consequently, every number representation starts in a location that is a multiple of 4.
+
+Assuming there are N bits in a char, and that N is a multiple of 4, we need an array of (MAXINT*4-1)/N+1 chars (this forces the integer division to round up). 
+Given an integer x, we can determine its array index by computing x/(N/4). In theory, we can then grab the set of 4 bits that corresponds to x inside that position by ANDing it with 0xF << (((x%N)/4)*4), but if x
+was not in a 0-position, we would end up with a right-shifted version of the intended number. Therefore, we will instead shift it right by ((x%N)/4)*4 and AND it with 0xF.
+To increment the value for x, we simply shift a "1" into the right least significant position of that digit with a left shift, and add it to whatever is already stored in there.
+
+In practice, note that I used an array of unsigned char. This is to avoid sign problems with the increment operations.
+
+This version of our program uses 10,000,000*4 bits of space, which is about 4.77 MB. When compared with the previous solutions, where no duplicates were allowed, this is a high price to pay
+for allowing up to 10 repetitions of the same number. There is not much more we can optimize, though. If space was at a premium, we would need to sacrifice run time by saving some space. This
+could be done by developing an algorithm with several passes, like we did in the previous exercise.

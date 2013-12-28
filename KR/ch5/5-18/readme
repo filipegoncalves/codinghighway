@@ -1,0 +1,27 @@
+Exercise 5-18
+Make dcl recover from input errors
+
+Brief explanation:
+--
+To make error recovery in dcl, let's see what can go wrong with out input. dcl() only processes possible leading *, and defers the rest of the job to dircl().
+So, we will change dirdcl() function. Because the only terminal symbols in the grammar are the parentheses and 'name', after processing optional *'s for dcl,
+then we HAVE to read either a name or an opening parentheses (think of it like this: the only way to stop the recursion in direct-dcl is to produce a ( dcl ) or
+a name, so, our input file must necessarily have a name or '(' after optional *'s).
+So, what can go wrong with the input? Well, we can have something that is not a name nor a '('. That's an error. You may notice that dirdcl() already has error checking
+for this case. Yes, it checks for the error, but it doesn't actually RECOVER from that error. That's our job now. There can be different approaches to error recovering.
+In this exercise, I chose to make it so that whatever garbage comes before a name or a '(' is ignored. So, when we detect the error, we will keep asking for more
+tokens untill something useful (a name or an opening parentheses) shows up (or untill the input is over). For this to work properly, I will also define the concept of 
+"fatal error" as an error that was impossible to recover from. In this case, the program should not print anything else besides reporting errors to the user. This means
+that we have to stop every recursive call from printing anything at all. I will do this by creating and using a new global variable called dclferror. It is set to true when
+dirdcl() can't find a name or a '(' when recovering from the error, and every function that calls another recursively must test this variable when the recursion unwinds back.
+Other kinds of errors can appear. For example, gettoken() is optimistic and assumes that everything inside the array brackets are valid numbers. We will add a case for this;
+if anything other than a number is detected inside brackets, we will warn the user and ignore those characters.
+Also, when we notice a missing ')', we may have reached the end of line ('\n'). If that happens, we must return; otherwise, the while() loop that follows will be blocked waiting
+for the next line, and will join the processing of the next line to the previous line - general confusion!
+Type declaration (char, int, short, etc) must be checked to ensure that it is valid. This is done in the main routine. Type qualifiers (unsigned, long, etc) are not allowed.
+Something can go wrong in gettoken(). It assumes that somewhere after reading an opening bracket, there will be a closing bracket. If the end of line is reached without
+a matching close bracket, the newline is pushed back and gettoken() simulates a closing bracket was read. Of course, the error recovery mechanism in dirdcl() will ignore everything
+that is not a digit after the opening bracket.
+
+GCC command:
+gcc -o solution main.c getch.c -Wall

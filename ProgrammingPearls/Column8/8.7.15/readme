@@ -1,0 +1,63 @@
+8.7.15
+What is the solution of the recurrence T(n) = 2T(n/2) + cn when T(1) = 0 and n is a power of two? Prove your result by mathematical induction. What if T(1) = c?
+--
+Let's expand the recurrence to see what is happening:
+(Note: the notation sum(j,k,expr) means "the sum of expr with i going from j up to k (including j and k), and log_2(n) means "the logarithm of base 2 of n")
+
+T(n) = 2T(n/2)+cn =
+= 2(2T(n/4)+cn/2)+cn =
+= 2(2(2T(n/8)+cn/4)+cn/2)+cn =
+= 2(2(2(2T(n/16)+cn/8)+cn/4)+cn/2)+cn =
+= ... = 2^log_2(n)*T(1) + log_2(n)*cn =
+= n*T(1) + c*n*log_2(n)
+
+With T(1) = 0, we have T(n) = c*n*log_2(n)
+With T(1) = c, we have T(n) = n*c + c*n*log_2(n)
+
+The "strongest" term in the expression is c*n*log_2(n), so our expression asymptotically approaches n*log(n), as expected.
+
+For the induction proof, it is convenient to rewrite n as 2^k (since n is a power of two, this is valid), so now we have:
+
+T(2^k) = 2T(2^(k-1)) + c*2^k
+which we believe to be the same as
+T(2^k) = c*2^k*log_2(2^k) + c*2^k = k*c*2^k + c*2^k
+and the base case, n = 1, is equivalent to k = 0,
+T(2^0) = c
+
+We are now ready to make a proof by induction. Generally speaking, a proof by induction includes two major phases: first, we prove that something is true for a base case (for example, n = 1).
+Then, we prove that if it's true for n, then it is also true for n+1, and that's basically it.
+
+Induction hypothesis: The recurrence T(2^k) = 2T(2^(k-1)) + c*2^k, where T(2^0) = c, is equivalent to T(2^k) = k*c*2^k + c*2^k
+
+Base case: k = 0
+For k = 0, we know that T(2^0) = c
+The general expression T(2^k) = k*c*2^k + c*2^k evaluates to c when k = 0: 0*c*2^0 + c*2^0 = c*2^0 = c
+Thus, the induction hypothesis is correct for the base case k = 0.
+
+General case: the hypothesis is that T(2^k) = k*c*2^k + c*2^k. If that's correct, then we must show that:
+
+T(2^(k+1)) = (k+1)*c*2^(k+1) + c*2^(k+1)
+
+Applying the general formula for the recurrence, T(2^k) = 2T(2^(k-1)) + c*2^k, in the left hand side, turns our equation into:
+
+2T(2^k) + c*2^(k+1) = (k+1)*c*2^(k+1) + c*2^(k+1)
+
+We can subtract c*2^(k+1) in both sides to simplify:
+
+2T(2^k) = (k+1)*c*2^(k+1)
+
+[Inductive step]: again, because we assumed the hypothesis to be correct, then we can replace T(2^k) in the left hand side with k*c*2^k + c*2^k
+
+2*(k*c*2^k + c*2^k) = (k+1)*c*2^(k+1)
+
+Applying the distributive property in both sides yields:
+
+k*c*2^(k+1) + c*2^(k+1) = k*c*2^(k+1) + c*2^(k+1)
+
+Both sides are the same; we now know that the original equality, T(2^(k+1)) = (k+1)*c*2^(k+1) + c*2^(k+1), is true as long as T(2^k) = k*c*2^k + c*2^k (because we used that in the inductive step).
+This means that if the formula is correct for T(2^k), then it is also correct for T(2^k+1). Because we manually saw that it works for k = 0, then it will work for every k > 0.
+
+--
+Curiosity: there is a theorem, known as the Master theorem, that allows you to quickly derive the asymptotic bound
+for recurrences of the form T(n) = aT(n/b) + f(n), where a >=1 and b > 1. The recurrence in this exercise falls into
+case 2 of that theorem. More info. at http://en.wikipedia.org/wiki/Master_theorem

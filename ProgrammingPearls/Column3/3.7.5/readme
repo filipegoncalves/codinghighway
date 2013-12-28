@@ -1,0 +1,26 @@
+3.7.5
+This problem deals with a small part of the problem of hyphenating English words. The following list of rules describes some legal hyphenations of words that end in the letter "c":
+	et-ic al-is-tic s-tic p-tic -lyt-ic ot-ic an-tic n-tic c-tic at-ic h-nic n-ic m-ic l-lic b-lic -clic
+	l-ic h-ic f-ic d-ic -bic a-i -mac i-ac
+The rules must be applied in the above order; thus the hyphenations "eth-nic" (which is caught by the rule "h-nic") and "clinic" (which fails that test and falls through to "n-ic"). How would you represent such rules
+in a function that is given a word and must return suffix hyphenations?
+--
+A good way to organize such rules is to use a 2-dimensional array that for each letter indexes an array with the hyphenation rules. In my implementation, I only included the hyphenation rules for the letter 'c'.
+A function to return a suffix hyphenation must grab the array of rules according to the last letter of the word, and then iterate through that array until the suffix matches with any rule. To attempt the match,
+we will define an auxiliary function, suffix_match(), that grabs a rule, such as "h-nic", and matches it right-to-left with the end of the word, skipping the '-' hyphenation character. When a match is found, we stop looking
+for further matches.
+Note that my implementation could be more efficient. strlen() is called too many times, it would be a good optimization to:
+	a) store the suffix rules reversed, so that position 0 of a suffix is the last letter;
+	b) pass a pointer to the end of the word in the call to suffix_match(), because the caller already knows the string length
+
+The rules for letter 'c' were directly hardcoded in the program. In a real implementation, we could read them from a file for each letter. A good structure would be an input file with the letter, the number of rules for that
+letter, and then the rules. For example, for letter c, we have 24 rules, so the input would look like:
+
+c 24
+et-ic
+al-is-tic
+...
+i-ac
+
+The array of rules is declared as an array of char **, so that we can dynamically allocate only the required space, no more, no less, for each set of rules for each letter. This ensures that no space is wasted, and it
+gets along with the input format I mentioned above. Every array of rules is terminated by a null pointer, thus, we can easily know when to stop attempting a match.
