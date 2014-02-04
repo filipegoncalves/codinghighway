@@ -1,0 +1,9 @@
+1.1
+getword increments linenum in <scan forward to a nonspace or EOF 6> but not after <copy the word into buf[0..size-1] 7> when a word ends at a new-line character. Explain why. What would happen if linenum were incremented in this case?
+--
+getword() makes sure to push back c into the input (as long as it's not EOF). This means that the next call to getc() will return this same character. 
+
+This is needed because we can't know that we've read too much until we actually read too much. The first character in getword() that is not part of a word (that is, the character that breaks the loop condition c != EOF && !isspace(c)) is brought back to the input through ungetc(). This includes newline characters. Therefore, if a word ends with a newline character, linenum will be incremented in the next call to getword().
+
+If linenum were incremented when a word ends with newline, then we would increment linenum twice for every word ending with a newline (assuming getword() is called subsequently), and we would mess up line counting. In particular, given that in a multi-line document, every line with at least one word includes one word terminating with newline, we would be stepping through lines 2 by 2.
+
