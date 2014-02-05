@@ -1,0 +1,33 @@
+2.3
+Like all ADTs in this book, the Stack interface omits the specification "It is an unchecked runtime error to pass a foreign Stack_T to any routine in this interface." A foreign Stack_T is one that was not manufactured by Stack_new. Revise stack.c so that it can check for some occurrences of this error. One approach, for example, is to add a field to the Stack_T structure that holds a bit pattern unique to Stack_Ts returned by Stack_new.
+--
+Unique bit patterns seems like a good and usable idea. We could include an element, "magic", in the structure:
+
+struct T {
+  int count;
+  unsigned magic; /* Identify foreign stacks */
+  struct elem {
+    void *x;
+    struct elem *link;
+  } *head;
+};
+
+The magic field will hold a unique bit pattern that is initialized in Stack_new(), for example:
+
+T Stack_new(void) {
+  T stk;
+
+  NEW(stk);
+  stk->count = 0;
+  stk->head = NULL;
+  stk->magic = 0xa0a0 /* MAGIC! */
+  return stk;
+}
+
+The other functions could use assert(stk->magic == 0xa0a0); to check if the stack passed is valid.
+
+Note that the bit pattern is no longer than 16 bits. This is because the C standard allows integers to be 16 bits wide (it's the minimum required), so we can't safely assume that an unsigned integer can hold anything larger than 16 bits (although in most cases it can).
+
+However, this does not solve the problem per se. Anyone passing a foreign stack is still able to set this field to 0xa0a0 and bypass our checks. But if they don't touch this field, and leave it uninitialized, then our program will invoke undefined behavior, because it is undefined behavior to use an uninitialized variable for anything other than writing to it. The statement assert(stk->magic == 0xa0a0); will fall into undefined behavior if stk is indeed a foreign stack.
+
+We ignore this fact and assume that reading stk->magic will yield a garbage value (as it often does, in nearly every C implementation) when a foreign stack is passed. Just keep in mind the limitations of this solution.

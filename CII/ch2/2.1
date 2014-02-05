@@ -1,0 +1,6 @@
+2.1
+A preprocessor macro and conditional compilation directives, such as #if, could have been used to specify how division truncates in Arith_div and Arith_mod. Explain why the explicit test -13/5 == -2 is a better way to implement this test.
+--
+It is a better way for the reasons described before: it makes the code harder to read, and the supposed performance enhancements are negligible, to say the least.
+
+It sounds reasonable to perform the test in runtime rather than at compile-time because the code is straightforward and is not littered with conditional compilation macros. I promise, you won't see a difference in execution time.

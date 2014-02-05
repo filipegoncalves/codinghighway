@@ -1,0 +1,10 @@
+2.4
+It's often possible to detect certain invalid pointers. For example, a nonnull pointer is invalid if it specifies an address outside the client's address space, and pointers are often subject to alignment restrictions; for example, on some systems a pointer to a double must be a multiple of eight. Devise a system-specific macro isBadPtr(p) that is one when p is an invalid pointer so that occurrences of assert(ptr) can be replaced with assertions like assert(!isBadPtr(p)).
+--
+Assuming that every pointer to a type T has an alignment restriction such that it must be a multiple of sizeof(T), we could use something like:
+
+#define isBadPtr(p) (!(p) || ((uintptr_t) (p))%sizeof(*(p)) != 0)
+
+This says that a pointer is invalid if it is a NULL pointer or if its address is not a multiple of the size of the object pointed. Whether this is correct is platform dependent, since it relies on alignment restrictions that are not universally true. It also requires <stdint.h> header because of uintptr_t. uintptr_t, from C99, is an unsigned integer type guaranteed to be wide enough to hold a pointer's value. We use it everytime integer arithmetic must be performed on a pointer. It is commonly an alias for unsigned long.
+
+As for the boundary check to see if the pointer is within the client's address space: I don't think this would be of much use, and it is not trivial. Some architectures may partition the memory addresses around 0 (allowing negative addresses); others don't. Furthermore, valid memory positions depend on the format of the executable.

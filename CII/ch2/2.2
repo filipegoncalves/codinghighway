@@ -1,0 +1,10 @@
+2.2
+The -13/5 == -2 test used in Arith_div and Arith_mod works as long as the compiler used to compile arith.c does arithmetic the same way as Arith_div and Arith_mod do when they are called. This condition might not hold, for example, if arith.c were compiled by a cross-compiler that runs on machine X and generates code for machine Y. Without using conditional compilation directives, fix arith.c so that such cross compilations produce code that is guaranteed to work.
+--
+The problem with -13/5 == -2 is that it is a constant expression in C, which means that the compiler is free to evaluate it at compile time. Constant expressions in C have no variables in it. If we don't want this to be a constant expression, then we must use at least one variable. A possible workaround is something like:
+
+int a = -13;
+if (...
+    && a/5 == -2 && ...) { ... }
+
+This ensures that the expression is always evaluated at runtime, i.e., the compiler deliberately generates code that will fetch the value of "a" and perform the desired arithmetic at runtime.
