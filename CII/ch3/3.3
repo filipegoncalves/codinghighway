@@ -1,0 +1,4 @@
+3.3
+Explain why Atom_new doesn't use the standard C library function strncmp to compare sequences.
+--
+Because there may be NULL bytes (bytes equal to 0) in the byte sequence. strncmp would return prematurely.

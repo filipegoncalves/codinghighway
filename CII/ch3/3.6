@@ -1,0 +1,23 @@
+3.6
+Atom_length is slow. Revise Atom's implementation so that Atom_length's running time is approximately the same as that of Atom_new.
+--
+It is slow because it traverses the whole hash table looking for an entry. If we want a running time comparable to Atom_new, we have to use a similar approach: compute the hash of the string and look only at that bucket.
+
+However, unfortunately, we can't hash, because we don't know its length. After all, that's what our function is supposed to do!
+
+There's a hacky way to get the length of an atom in constant time, regardless of where it is stored in the hash table:
+
+int Atom_length(const char *str) {
+  assert(str); 
+  return ((struct elem *) (str - offsetof(struct elem, str)))->len;
+}
+
+This is handy, but there is no way we can check that str is an atom that was produced by Atom_new. Thus, passing something that is not an Atom to Atom_length is now an unchecked runtime error, and the original specification claimed that this was a checked runtime error.
+
+The question asks to revise the implementation. One possible approach would be to hash the pointer values instead of hashing what they point to. This can be done by converting pointers to an integer type (for example, uintptr_t), and then use that value to calculate the hash accordingly. In other words, elements would be hashed by their memory location, not by their contents. After all, if Atom_length only receives a pointer to a sequence of bytes of unknown size, all we can do to speed up our search is to somehow rely on this pointer's value. Relying on the pointer's value means hashing it, and then start searching for the atom in the bucket defined by this hash. That would make both Atom_new and Atom_length run in approximately the same time.
+Also, this approach has the advantage that Atom_length could still obey the specification about the checked runtime error mentioned before: if a pointer to something that is not an atom is passed, it is hashed, just like the other pointers, but then searching on the bucket will be unsuccessful.
+Note that the pointers to be stored and hashed are those created by Atom_new, which hold copies of the original elements.
+
+Other alternatives include caching recent pointers by associating them with bucket indexes, or make 2 or more parallel searches on buckets - for example, have 2 loop indexes, one that starts on buckets[0], another that starts on buckets[NELEMS(buckets)-1], and in each iteration search both buckets. But still, I would go for the pointer-hash solution.
+
+Just be creative!
