@@ -174,7 +174,7 @@ void output_ray(int line, int col, int vx, int vy, char *pos) {
     if (!strcmp(str, pos))
       printf("R\n");
     else
-      printf("%s\n", convert_to_str(py, px, vx, vy));
+      printf("%s\n", str);
   }
 }
 
