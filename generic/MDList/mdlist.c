@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -20,25 +21,24 @@ struct mdl_token {
 
 void next_token(void) {
   int c;
-  if ((c = getchar()) == EOF)
-    token.type = END;
+  c = getchar();
   if (c == '(')
     token.type = OPEN_P;
   else if (c == ')')
     token.type = CLOSE_P;
   else if (c == '>')
     token.type = PTR;
-  else {
+  else if (isdigit(c)) {
     ungetc(c, stdin);
     scanf("%d", &token.n);
     token.type = NUMBER;
   }
+  else
+    token.type = END;
 }
 
 struct mdl_node *md_node(void);
 struct mdl_node *md_list(void) {
-  if (token.type == END)
-    return NULL;
   struct mdl_node *n = md_node();
   if (token.type == PTR) {
     next_token();
@@ -77,9 +77,43 @@ void print_list(struct mdl_node *h) {
   printf("END");
 }
 
+/* The magical piece of code */
+struct mdl_node *flatten_aux(struct mdl_node *);
+struct mdl_node *flatten(struct mdl_node *h) {
+  flatten_aux(h);
+  return h;
+}
+
+struct mdl_node *flatten_aux(struct mdl_node *head) {
+  struct mdl_node *n = head;
+  struct mdl_node *last, *prev;
+  while (n) {
+    if (n->child) {
+      last = flatten_aux(n->child);
+      last->next = n->next;
+      n->next = n->child;
+      n = last->next;
+      prev = last;
+    }
+    else {
+      prev = n;
+      n = n->next;
+    }
+  }
+  return prev;
+}
+
 int main(void) {
   next_token();
-  print_list(md_list());
-  printf("\n");
+  struct mdl_node *head = md_list();
+  printf("Read md_list:\n");
+  print_list(head);
+  fflush(stdout);
+  head = flatten(head);
+  printf("\nFlattened version:\n");
+  /* Degenerated md_list now, can't use regular print */
+  for (struct mdl_node *n = head; n; n = n->next)
+    printf("%d->", n->val);
+  printf("END\n");
   return 0;
 }
