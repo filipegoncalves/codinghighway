@@ -92,6 +92,7 @@ struct mdl_node *flatten_aux(struct mdl_node *head) {
       last = flatten_aux(n->child);
       last->next = n->next;
       n->next = n->child;
+      n->child = NULL;
       n = last->next;
       prev = last;
     }
@@ -111,9 +112,7 @@ int main(void) {
   fflush(stdout);
   head = flatten(head);
   printf("\nFlattened version:\n");
-  /* Degenerated md_list now, can't use regular print */
-  for (struct mdl_node *n = head; n; n = n->next)
-    printf("%d->", n->val);
-  printf("END\n");
+  print_list(head);
+  printf("\n");
   return 0;
 }
