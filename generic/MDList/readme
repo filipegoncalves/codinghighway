@@ -1,0 +1,62 @@
+Given a multi-dimensional list structure, where each node can have a pointer to a child and a pointer to the next node,
+write a function, flatten(), that receives a pointer to the head node, and flattens the list, making it possible to print
+every element on the list starting on the head and just following "next" pointers.
+
+Example (| denotes child pointer; - denotes next pointer):
+
+For this structure, where head = 1,
+
+1 - 2 - 3 - 4
+    |       |
+    5 - 6   7
+
+The result should be
+
+1 - 2 - 3 - 4 - 5 - 6 - 7
+
+Or any other convenient order, as long as every node is printed by traversing the list using only "next" pointers.
+
+struct mdl_node {
+  int val;
+  struct mdl_node *child;
+  struct mdl_node *next;
+};
+
+void flatten(struct mdl_node *head) {
+  /* TODO implement this */
+}
+
+--
+
+The program provided in mdlist.c solves this problem. It reads one multi-dimensional list per line, where each line is a sequence of characters describing the list
+followed by a newline character ('\n'). The end of input is indicated by EOF.
+
+A multi-dimensional list node can have a child, as well as a next node. Next nodes are indicated by the symbol '>' followed by the identifier of that node.
+Children are wrapped by a pair of parentheses, (), where another multi-dimensional list of arbitrary complexity is wrapped, describing the multi-dimensional list where the child is the head.
+
+So, for the example above, the textual representation would be: 1>2(5>6)>3>4(7)
+
+For this structure:
+
+1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9
+|                               |
+10                              22
+|
+11 - 12 - 13 - 17 - 18 - 19 - 20
+           |                  |
+          14 - 15 - 16        21
+
+The textual representation would be:
+
+1(10(11>12>13(14>15>16)>17>18>19>20(21)))>2>3>4>5>6>7>8>9(22)
+
+For compilers aficionados, the parser routines that handle this input are a direct implementation of the following grammar, 
+where the starting rule is "mdlist", and terminal symbols are enclosed within single quotes:
+
+mdlist -> node
+        | node '>' mdlist
+
+node -> id
+      | id '(' mdlist ')'
+
+id -> integer (..., -2, -1, 0, 1, 2, ...)
