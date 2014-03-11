@@ -28,7 +28,7 @@ void next_token(void) {
     token.type = CLOSE_P;
   else if (c == '>')
     token.type = PTR;
-  else if (isdigit(c)) {
+  else if (isdigit(c) || c == '-') {
     ungetc(c, stdin);
     scanf("%d", &token.n);
     token.type = NUMBER;
@@ -67,14 +67,13 @@ void print_list(struct mdl_node *h) {
   while (h) {
     printf("%d", h->val);
     if (h->child) {
-      printf("(");
+      putchar('(');
       print_list(h->child);
-      printf(")");
+      putchar(')');
     }
-    printf("->");
-    h = h->next;
+    if ((h = h->next))
+      putchar('>');
   }
-  printf("END");
 }
 
 /* The magical piece of code */
@@ -106,13 +105,12 @@ struct mdl_node *flatten_aux(struct mdl_node *head) {
 
 int main(void) {
   next_token();
-  struct mdl_node *head = md_list();
-  printf("Read md_list:\n");
-  print_list(head);
-  fflush(stdout);
-  head = flatten(head);
-  printf("\nFlattened version:\n");
-  print_list(head);
-  printf("\n");
+  while (token.type != END) {
+    struct mdl_node *head = md_list();
+    head = flatten(head);
+    print_list(head);
+    printf("\n");
+    next_token();
+  }
   return 0;
 }
