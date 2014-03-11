@@ -28,7 +28,7 @@ void flatten(struct mdl_node *head) {
 
 --
 
-The program provided in mdlist.c solves this problem. It reads one multi-dimensional list per line, where each line is a sequence of characters describing the list
+The program provided in mdlist.c solves this problem. It reads one multi-dimensional list per line from stdin, where each line is a sequence of characters describing the list
 followed by a newline character ('\n'). The end of input is indicated by EOF.
 
 A multi-dimensional list node can have a child, as well as a next node. Next nodes are indicated by the symbol '>' followed by the identifier of that node.
@@ -60,3 +60,5 @@ node -> id
       | id '(' mdlist ')'
 
 id -> integer (..., -2, -1, 0, 1, 2, ...)
+
+A sample input file is provided in mdlist.in, and the output from mdlist.c is stored in mdlist.expected.

@@ -78,9 +78,9 @@ void print_list(struct mdl_node *h) {
 
 /* The magical piece of code */
 struct mdl_node *flatten_aux(struct mdl_node *);
-struct mdl_node *flatten(struct mdl_node *h) {
-  flatten_aux(h);
-  return h;
+void flatten(struct mdl_node *h) {
+  /* return flatten_aux(h) would give us access to the new tail - neat! */
+  (void) flatten_aux(h);
 }
 
 struct mdl_node *flatten_aux(struct mdl_node *head) {
@@ -91,7 +91,7 @@ struct mdl_node *flatten_aux(struct mdl_node *head) {
       last = flatten_aux(n->child);
       last->next = n->next;
       n->next = n->child;
-      n->child = NULL;
+      n->child = NULL; // Delete this line if child references are to be kept.
       n = last->next;
       prev = last;
     }
@@ -107,7 +107,7 @@ int main(void) {
   next_token();
   while (token.type != END) {
     struct mdl_node *head = md_list();
-    head = flatten(head);
+    flatten(head);
     print_list(head);
     printf("\n");
     next_token();
