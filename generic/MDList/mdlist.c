@@ -85,7 +85,7 @@ void flatten(struct mdl_node *h) {
 
 struct mdl_node *flatten_aux(struct mdl_node *head) {
   struct mdl_node *n = head;
-  struct mdl_node *last, *prev;
+  struct mdl_node *last, *prev = NULL;
   while (n) {
     if (n->child) {
       last = flatten_aux(n->child);
