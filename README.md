@@ -1,6 +1,4 @@
----------------------
-| CodingHighway.com |
----------------------
+# CodingHighway.com code repository
 
     Copyright (C) 2015 Filipe Gonçalves
 
