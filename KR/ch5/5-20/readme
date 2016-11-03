@@ -1,5 +1,5 @@
 Exercise 5-20
-Modify undcl so that it does not add redundant parentheses to declarations.
+Expand dcl to handle declarations with function argument types, qualifiers like const, and so on.
 
 Brief explanation:
 --
